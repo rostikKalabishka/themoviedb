@@ -61,7 +61,7 @@ class _HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 16, color: Colors.black);
-
+    final navigator = Navigator.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -77,8 +77,10 @@ class _HeaderWidget extends StatelessWidget {
           const SizedBox(height: 5),
           TextButton(
               style: AppButtonStyle.linkButton,
-              onPressed: () {},
-              child: Text('Register')),
+              onPressed: () {
+                navigator.pushNamed('/sign_up');
+              },
+              child: const Text('Register')),
           const SizedBox(height: 25),
           const Text(
             'If you signed up but didn`t get your verification email, click here to have it resent.',
@@ -86,7 +88,9 @@ class _HeaderWidget extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              navigator.pushNamed('/resend_email');
+            },
             style: AppButtonStyle.linkButton,
             child: const Text('Verify Email'),
           ),
