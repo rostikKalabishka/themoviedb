@@ -134,7 +134,7 @@ class _FormWidgetState extends State<_FormWidget> {
   }
 
   void _resetPassword() {
-    print('reset password');
+    _passwordController.clear();
   }
 
   @override

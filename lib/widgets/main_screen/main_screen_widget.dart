@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Theme/app_bar_style.dart';
+
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
 
@@ -12,7 +14,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TMDB'),
+        title: const Text(
+          'TMDB',
+          style: textAppBar,
+        ),
       ),
     );
   }

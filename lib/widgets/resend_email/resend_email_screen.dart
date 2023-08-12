@@ -21,7 +21,7 @@ class _ResendEmailScreenState extends State<ResendEmailScreen> {
           style: textAppBar,
         ),
       ),
-      body: ResendActivationEmail(),
+      body: const ResendActivationEmail(),
     );
   }
 }
@@ -60,8 +60,8 @@ class _ResendActivationEmailState extends State<ResendActivationEmail> {
               contentPadding: EdgeInsets.symmetric(horizontal: 10),
             ),
           ),
-          SizedBox(height: 25),
-          ButtonsWidget()
+          const SizedBox(height: 25),
+          const ButtonsWidget()
         ],
       ),
     );
@@ -80,18 +80,18 @@ class _ButtonsWidgetState extends State<ButtonsWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         ElevatedButton(
           onPressed: () {},
-          child: const Text('Send'),
           style: AppButtonStyle.eventButton,
+          child: const Text('Send'),
         ),
         TextButton(
           onPressed: () {},
-          child: const Text('Cancel'),
           style: AppButtonStyle.linkButton,
+          child: const Text('Cancel'),
         )
       ],
     );
