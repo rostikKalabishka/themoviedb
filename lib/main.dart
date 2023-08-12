@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/routes/routes.dart';
 import 'package:themoviedb/widgets/auth/auth_widget.dart';
 
+import 'Theme/thema.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,11 +18,7 @@ class MyApp extends StatelessWidget {
       routes: routes,
       initialRoute: '/auth',
       title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme:
-            const AppBarTheme(backgroundColor: Color.fromRGBO(3, 37, 65, 1)),
-        useMaterial3: true,
-      ),
+      theme: theme,
       // home: AuthWidget(),
     );
   }

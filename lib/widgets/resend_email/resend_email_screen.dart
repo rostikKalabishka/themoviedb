@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Theme/app_bar_style.dart';
+
 class ResendEmailScreen extends StatefulWidget {
   const ResendEmailScreen({super.key});
 
@@ -12,7 +14,10 @@ class _ResendEmailScreenState extends State<ResendEmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-      title: Text('Resend email'),
+      title: const Text(
+        'Resend email',
+        style: textAppBar,
+      ),
     ));
   }
 }

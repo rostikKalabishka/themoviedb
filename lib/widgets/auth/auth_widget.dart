@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
 
 class AuthWidget extends StatefulWidget {
@@ -43,7 +44,7 @@ class _AuthWidgetState extends State<AuthWidget> {
         // backgroundColor: const Color.fromARGB(255, 1, 20, 48),
         title: const Text(
           'Login to your account',
-          style: TextStyle(color: Colors.white),
+          style: textAppBar,
         ),
       ),
       body: ListView(
