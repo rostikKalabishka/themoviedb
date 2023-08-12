@@ -19,6 +19,22 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           style: textAppBar,
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'News',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie),
+            label: 'Films',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.tv),
+            label: 'TV series',
+          ),
+        ],
+      ),
     );
   }
 }
