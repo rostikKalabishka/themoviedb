@@ -16,7 +16,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
           title: const Text(
         'Sing up',
-        style: textAppBar,
+        style: AppColors.textAppBar,
       )),
     );
   }

@@ -18,7 +18,7 @@ class _ResendEmailScreenState extends State<ResendEmailScreen> {
       appBar: AppBar(
         title: const Text(
           'Resend activation email',
-          style: textAppBar,
+          style: AppColors.textAppBar,
         ),
       ),
       body: const ResendActivationEmail(),

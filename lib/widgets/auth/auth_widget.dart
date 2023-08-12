@@ -45,7 +45,7 @@ class _AuthWidgetState extends State<AuthWidget> {
         // backgroundColor: const Color.fromARGB(255, 1, 20, 48),
         title: const Text(
           'Login to your account',
-          style: textAppBar,
+          style: AppColors.textAppBar,
         ),
       ),
       body: ListView(

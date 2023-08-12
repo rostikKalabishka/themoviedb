@@ -6,6 +6,8 @@ final theme = ThemeData(
       backgroundColor: Color.fromRGBO(3, 37, 65, 1),
       iconTheme: IconThemeData(color: Colors.white)),
   textTheme: const TextTheme(titleMedium: TextStyle(color: Colors.white)),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Color.fromRGBO(3, 37, 65, 1)),
   useMaterial3: true,
 );
 
