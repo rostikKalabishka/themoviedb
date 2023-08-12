@@ -120,6 +120,8 @@ class _FormWidgetState extends State<_FormWidget> {
         errorText = 'Error password';
         print('error');
       } else {
+        final navigator = Navigator.of(context);
+        navigator.pushNamed('/main_screen');
         errorText = null;
       }
     });
