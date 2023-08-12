@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
+import '../../Theme/thema.dart';
 
 class AuthWidget extends StatefulWidget {
   const AuthWidget({super.key});
@@ -140,11 +141,7 @@ class _FormWidgetState extends State<_FormWidget> {
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
     const color = Color(0xFF01B4e4);
-    const textFieldStyle = InputDecoration(
-      focusColor: color,
-      border: OutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-    );
+    const textFieldStyle = textFormFieldStyle;
     final errorText = this.errorText;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,15 +180,7 @@ class _FormWidgetState extends State<_FormWidget> {
           children: [
             ElevatedButton(
               onPressed: _auth,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(color),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                minimumSize: MaterialStateProperty.all(const Size(80, 30)),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-              ),
+              style: AppButtonStyle.eventButton,
               child: const Text('Login'),
             ),
             TextButton(

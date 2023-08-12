@@ -5,4 +5,11 @@ abstract class AppButtonStyle {
   static final ButtonStyle linkButton = ButtonStyle(
     foregroundColor: MaterialStateProperty.all(Colors.blue),
   );
+  static final ButtonStyle eventButton = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(color),
+      foregroundColor: MaterialStateProperty.all(Colors.white),
+      minimumSize: MaterialStateProperty.all(const Size(80, 30)),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      ));
 }
