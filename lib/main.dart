@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/routes/routes.dart';
-import 'package:themoviedb/widgets/auth/auth_widget.dart';
 
 import 'Theme/thema.dart';
 

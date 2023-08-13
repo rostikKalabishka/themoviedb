@@ -89,7 +89,9 @@ class _ButtonsWidgetState extends State<ButtonsWidget> {
           child: const Text('Send'),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           style: AppButtonStyle.linkButton,
           child: const Text('Cancel'),
         )

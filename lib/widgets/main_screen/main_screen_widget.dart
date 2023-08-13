@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/thema.dart';
+import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
@@ -15,7 +16,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
   static const List<Widget> _widgetOptions = [
     Text('1 news'),
-    Text('2 films'),
+    MovieListWidget(),
     Text('3 series')
   ];
 
