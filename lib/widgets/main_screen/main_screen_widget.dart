@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/resources/resources.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/thema.dart';
 import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
-  const MainScreenWidget({super.key});
+  MainScreenWidget({super.key});
 
   @override
   State<MainScreenWidget> createState() => _MainScreenWidgetState();
@@ -13,12 +14,6 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
-
-  static const List<Widget> _widgetOptions = [
-    Text('1 news'),
-    MovieListWidget(),
-    Text('3 series')
-  ];
 
   void onSelectTab(int index) {
     if (_selectedTab == index) return;
@@ -30,8 +25,13 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions[_selectedTab],
+      body: IndexedStack(
+        index: _selectedTab,
+        children: [
+          const Text('1 news'),
+          MovieListWidget(),
+          const Text('3 series')
+        ],
       ),
       appBar: AppBar(
         centerTitle: true,
