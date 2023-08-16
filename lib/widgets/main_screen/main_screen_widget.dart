@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
+import 'package:themoviedb/widgets/main_screen/series_list/series_list_widget.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/thema.dart';
@@ -30,7 +31,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         children: [
           const Text('1 news'),
           MovieListWidget(),
-          const Text('3 series')
+          SeriesListWidget(),
         ],
       ),
       appBar: AppBar(

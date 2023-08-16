@@ -116,14 +116,17 @@ class _FormWidget extends StatefulWidget {
 class _FormWidgetState extends State<_FormWidget> {
   final _loginTextController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _loginFocus = FocusNode();
+  final _passwordFocus = FocusNode();
+
   String? errorText = null;
   void _auth() {
     final login = _loginTextController.text;
     final password = _passwordController.text;
     print(login);
     setState(() {
-      if (password.length < 5) {
-        errorText = 'Error password';
+      if (password.length < 5 || login.isEmpty) {
+        errorText = 'Error password or username';
         print('error');
       } else {
         final navigator = Navigator.of(context);
@@ -131,6 +134,12 @@ class _FormWidgetState extends State<_FormWidget> {
         errorText = null;
       }
     });
+  }
+
+  void _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   void _resetPassword() {
@@ -161,6 +170,11 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         const SizedBox(height: 5),
         TextFormField(
+          focusNode: _loginFocus,
+          autofocus: true,
+          onFieldSubmitted: (_) {
+            _fieldFocusChange(context, _loginFocus, _passwordFocus);
+          },
           controller: _loginTextController,
           decoration: textFieldStyle,
         ),
@@ -171,6 +185,7 @@ class _FormWidgetState extends State<_FormWidget> {
         ),
         const SizedBox(height: 5),
         TextFormField(
+          focusNode: _passwordFocus,
           controller: _passwordController,
           decoration: textFieldStyle,
           obscureText: true,
