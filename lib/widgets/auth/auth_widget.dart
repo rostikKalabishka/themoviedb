@@ -149,7 +149,6 @@ class _FormWidgetState extends State<_FormWidget> {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
-    const color = Color(0xFF01B4e4);
     const textFieldStyle = textFormFieldStyle;
     final errorText = this.errorText;
     return Column(

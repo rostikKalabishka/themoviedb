@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/widgets/main_screen/movie_list/movie_details/movie_detail_main_info_widgets.dart';
 
 import '../../../../Theme/app_bar_style.dart';
-import '../../../../resources/resources.dart';
 
 class MovieDetails extends StatefulWidget {
   const MovieDetails({super.key, required this.mivieId});

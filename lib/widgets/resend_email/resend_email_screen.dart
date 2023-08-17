@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
-import '../../Theme/thema.dart';
 
 class ResendEmailScreen extends StatefulWidget {
   const ResendEmailScreen({super.key});

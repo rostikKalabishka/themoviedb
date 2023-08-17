@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
-import 'package:async/async.dart';
 
 class Series {
   const Series({
