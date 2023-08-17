@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/widgets/main_screen/movie_list/movie_details/movie_detail_main_info_widgets.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+import '../../../../Theme/app_bar_style.dart';
+import '../../../../resources/resources.dart';
+
+class MovieDetails extends StatefulWidget {
+  const MovieDetails({super.key, required this.mivieId});
+  final int mivieId;
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<MovieDetails> createState() => _MovieDetailsState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _MovieDetailsState extends State<MovieDetails> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Blue Beetle',
+            style: AppColors.textAppBar,
+          ),
+        ),
+        body: ColoredBox(
+          color: Color.fromRGBO(34, 19, 100, 1),
+          child: ListView(
+            children: const [MovieDetailsMainInfoWidget()],
+          ),
+        ));
   }
 }

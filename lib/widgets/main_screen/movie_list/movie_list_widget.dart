@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
-import 'package:async/async.dart';
 
 class Movie {
   const Movie({
+    required this.id,
     required this.imageName,
     required this.title,
     required this.time,
     required this.description,
   });
+  final int id;
   final String imageName;
   final String title;
   final String time;
@@ -25,6 +26,7 @@ class MovieListWidget extends StatefulWidget {
 class _MovieListWidgetState extends State<MovieListWidget> {
   final _listMovie = [
     const Movie(
+      id: 1,
       imageName: AppImages.spiderMan,
       title: 'Spider-Man',
       description:
@@ -32,30 +34,35 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       time: 'Aug 16, 2023',
     ),
     const Movie(
+      id: 2,
       imageName: AppImages.spiderMan,
       title: 'Gigga-Man',
       description: 'biba boba123',
       time: 'Aug 12, 2023',
     ),
     const Movie(
+      id: 3,
       imageName: AppImages.spiderMan,
       title: 'SMan',
       description: 'sadsadasdadadasd',
       time: 'Jun 11, 2023',
     ),
     const Movie(
+      id: 4,
       imageName: AppImages.spiderMan,
       title: 'SMan',
       description: 'sadsadasdadadasd',
       time: 'Jun 11, 2023',
     ),
     const Movie(
+      id: 5,
       imageName: AppImages.spiderMan,
       title: 'FFFFF',
       description: 'FFFFFFFFFFFFFFFFF',
       time: 'Jun 111, 2023',
     ),
     const Movie(
+      id: 6,
       imageName: AppImages.spiderMan,
       title: 'Vafelnoe Morozeno',
       description: '12312312312312313123123213123133123',
@@ -78,6 +85,13 @@ class _MovieListWidgetState extends State<MovieListWidget> {
         _filtredMovies = _listMovie;
       }
     });
+  }
+
+  void _onMovieTab(int index) {
+    final id = _listMovie[index].id;
+
+    Navigator.of(context)
+        .pushNamed('/main_screen/movie_details', arguments: id);
   }
 
   @override
@@ -155,7 +169,9 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    onTap: () {},
+                    onTap: () {
+                      _onMovieTab(index);
+                    },
                   ),
                 )
               ]),

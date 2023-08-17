@@ -71,7 +71,7 @@ class _SeriesListWidgetState extends State<SeriesListWidget> {
     )
   ];
 
-  var _filtredSeriess = <Series>[];
+  var _filtredSeries = <Series>[];
 
   final _searchController = TextEditingController();
 
@@ -79,11 +79,11 @@ class _SeriesListWidgetState extends State<SeriesListWidget> {
     setState(() {
       final query = _searchController.text;
       if (query.isNotEmpty) {
-        _filtredSeriess = _listSeries.where((Series Series) {
-          return Series.title.toLowerCase().contains(query.toLowerCase());
+        _filtredSeries = _listSeries.where((Series series) {
+          return series.title.toLowerCase().contains(query.toLowerCase());
         }).toList();
       } else {
-        _filtredSeriess = _listSeries;
+        _filtredSeries = _listSeries;
       }
     });
   }
@@ -92,13 +92,12 @@ class _SeriesListWidgetState extends State<SeriesListWidget> {
   void initState() {
     // _searchController.text;
     super.initState();
-    _filtredSeriess = _listSeries;
+    _filtredSeries = _listSeries;
     _searchController.addListener(_searchSeries);
   }
 
-  void _onMovieTab(int index) {
+  void _onSeriesTab(int index) {
     final id = _listSeries[index].id;
-    final imageName = _listSeries[index].imageName;
 
     Navigator.of(context)
         .pushNamed('/main_screen/series_details', arguments: id);
@@ -110,10 +109,10 @@ class _SeriesListWidgetState extends State<SeriesListWidget> {
       ListView.builder(
           padding: EdgeInsets.only(top: 80),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          itemCount: _filtredSeriess.length,
+          itemCount: _filtredSeries.length,
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
-            final listSeries = _filtredSeriess[index];
+            final listSeries = _filtredSeries[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Stack(children: [
@@ -172,7 +171,7 @@ class _SeriesListWidgetState extends State<SeriesListWidget> {
                   child: InkWell(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     onTap: () {
-                      _onMovieTab(index);
+                      _onSeriesTab(index);
                     },
                   ),
                 )
