@@ -106,7 +106,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
   Widget build(BuildContext context) {
     return Stack(children: [
       ListView.builder(
-          padding: EdgeInsets.only(top: 80),
+          padding: const EdgeInsets.only(top: 80),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemCount: _filtredMovies.length,
           itemExtent: 163,
@@ -132,7 +132,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                       Image(
                         image: AssetImage(listMovie.imageName),
                       ),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

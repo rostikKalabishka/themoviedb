@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_type_check
+
 import 'package:flutter/material.dart';
 
 import '../widgets/auth/auth_widget.dart';
@@ -12,6 +14,7 @@ final routes = {
   '/main_screen': (context) => MainScreenWidget(),
   '/main_screen/movie_details': (context) {
     final arguments = ModalRoute.of(context)?.settings.arguments as int;
+
     if (arguments is int) {
       return MovieDetails(
         mivieId: arguments,
