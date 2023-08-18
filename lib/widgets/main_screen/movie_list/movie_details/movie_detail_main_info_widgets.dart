@@ -149,7 +149,7 @@ class Overview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

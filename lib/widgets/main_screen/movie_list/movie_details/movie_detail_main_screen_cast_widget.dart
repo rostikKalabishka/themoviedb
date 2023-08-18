@@ -83,7 +83,7 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
                   'Full Cast & Crew',
                   style: TextStyle(color: Colors.black, fontSize: 15),
                 )),
-          )
+          ),
         ],
       ),
     );
