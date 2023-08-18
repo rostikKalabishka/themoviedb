@@ -4,6 +4,7 @@ import 'package:themoviedb/widgets/main_screen/series_list/series_list_widget.da
 
 import '../../Theme/app_bar_style.dart';
 
+import 'home_page/home_page_widget.dart';
 import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -29,7 +30,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          const Text('1 news'),
+          HomePageWidget(),
           MovieListWidget(),
           SeriesListWidget(),
         ],
