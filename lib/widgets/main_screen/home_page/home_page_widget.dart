@@ -32,8 +32,7 @@ class HomePageWidget extends StatelessWidget {
                   itemCount: 20,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0), // Убран отступ
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: DecoratedBox(
                         decoration: const BoxDecoration(
                           color: Colors.white,
