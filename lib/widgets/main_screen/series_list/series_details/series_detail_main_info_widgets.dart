@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
 
-import '../../user_score/user_socere.dart';
+import '../../user_score/user_score.dart';
 
 class SeriesDetailsMainInfoWidget extends StatelessWidget {
   const SeriesDetailsMainInfoWidget({super.key});
@@ -19,7 +19,7 @@ class SeriesDetailsMainInfoWidget extends StatelessWidget {
         Divider(
           color: Colors.black26,
         ),
-        _FactsMovie(),
+        _FactsSeries(),
         Divider(
           color: Colors.black26,
         ),
@@ -129,8 +129,8 @@ class _ButtonWidget extends StatelessWidget {
   }
 }
 
-class _FactsMovie extends StatelessWidget {
-  const _FactsMovie({super.key});
+class _FactsSeries extends StatelessWidget {
+  const _FactsSeries({super.key});
 
   @override
   Widget build(BuildContext context) {

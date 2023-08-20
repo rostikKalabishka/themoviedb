@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
-import '../../Theme/thema.dart';
+import '../../Theme/theme.dart';
 
 class AuthWidget extends StatefulWidget {
   const AuthWidget({super.key});

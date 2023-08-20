@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
 
-import '../../user_score/user_socere.dart';
+import '../../user_score/user_score.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
   const MovieDetailsMainInfoWidget({super.key});

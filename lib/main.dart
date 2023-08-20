@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/routes/routes.dart';
 
-import 'Theme/thema.dart';
+import 'Theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
