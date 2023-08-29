@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/domain/api_client/data_providers/session_data_provider.dart';
 import 'package:themoviedb/ui/routes/routes.dart';
 import 'package:themoviedb/ui/widgets/auth/auth_modal.dart';
 
@@ -41,7 +42,9 @@ class _AuthWidgetState extends State<AuthWidget> {
               color: Color.fromARGB(255, 14, 117, 201),
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              SessionDataProvider().setSessionId(null);
+            },
           ),
         ],
         // backgroundColor: const Color.fromARGB(255, 1, 20, 48),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
 
+import '../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../Theme/app_bar_style.dart';
 
 import 'home_page/home_page_widget.dart';
@@ -40,6 +41,17 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         title: const Text(
           'TMDB',
           style: AppColors.textAppBar,
+        ),
+        //test
+        leading: IconButton(
+          icon: const Icon(
+            Icons.logout_sharp,
+            color: Color.fromARGB(255, 14, 117, 201),
+            size: 30,
+          ),
+          onPressed: () {
+            SessionDataProvider().setSessionId(null);
+          },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

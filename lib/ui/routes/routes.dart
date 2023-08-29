@@ -42,12 +42,12 @@ final routes = {
 };
 
 abstract class MainNavigationRouteName {
-  static const auth = '/auth';
-  static const mainScreen = '/main_screen';
-  static const movieDetails = '/main_screen/movie_details';
-  static const seriesDetails = '/main_screen/series_details';
-  static const resendEmail = '/resend_email';
-  static const signUp = '/sign_up';
+  static const auth = 'auth';
+  static const mainScreen = '/';
+  static const movieDetails = '/movie_details';
+  static const seriesDetails = '/series_details';
+  static const resendEmail = 'resend_email';
+  static const signUp = 'sign_up';
 }
 
 class MainNavigation {
@@ -56,13 +56,13 @@ class MainNavigation {
       : MainNavigationRouteName.auth;
 
   final routes = <String, Widget Function(BuildContext)>{
-    '/auth': (context) => AuthProvider(
+    MainNavigationRouteName.auth: (context) => AuthProvider(
           model: AuthModel(),
           child: const AuthWidget(),
         ),
-    '/main_screen': (context) => MainScreenWidget(),
-    '/resend_email': (context) => const ResendEmailScreen(),
-    '/sign_up': (context) => const SignUpScreen()
+    MainNavigationRouteName.mainScreen: (context) => MainScreenWidget(),
+    MainNavigationRouteName.resendEmail: (context) => const ResendEmailScreen(),
+    MainNavigationRouteName.signUp: (context) => const SignUpScreen()
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
