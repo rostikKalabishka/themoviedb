@@ -90,7 +90,7 @@ class MyPainter extends CustomPainter {
   }
 
   Rect calculateArcsRect(Size size) {
-    final linesMargin = 3;
+    const linesMargin = 3;
     final offset = lineWidth / 2 + linesMargin;
     final arcRect = Offset(offset, offset) &
         Size(size.width - offset * 2, size.height - offset * 2);

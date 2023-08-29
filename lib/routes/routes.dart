@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../widgets/auth/auth_modal.dart';
 import '../widgets/auth/auth_widget.dart';
 import '../widgets/main_screen/movie_list/movie_details/movie_details.dart';
 import '../widgets/main_screen/series_list/series_details/series_details.dart';
@@ -10,7 +11,10 @@ import '../widgets/main_screen/main_screen_widget.dart';
 import '../widgets/resend_email/resend_email_screen.dart';
 
 final routes = {
-  '/auth': (context) => AuthWidget(),
+  '/auth': (context) => AuthProvider(
+        model: AuthModel(),
+        child: const AuthWidget(),
+      ),
   '/main_screen': (context) => MainScreenWidget(),
   '/main_screen/movie_details': (context) {
     final arguments = ModalRoute.of(context)?.settings.arguments as int;
@@ -20,7 +24,7 @@ final routes = {
         mivieId: arguments,
       );
     } else {
-      return SeriesDetails(seriesId: 0);
+      return const SeriesDetails(seriesId: 0);
     }
   },
   '/main_screen/series_details': (context) {
@@ -30,9 +34,9 @@ final routes = {
         seriesId: arguments,
       );
     } else {
-      return SeriesDetails(seriesId: 0);
+      return const SeriesDetails(seriesId: 0);
     }
   },
-  '/resend_email': (context) => ResendEmailScreen(),
-  '/sign_up': (context) => SignUpScreen()
+  '/resend_email': (context) => const ResendEmailScreen(),
+  '/sign_up': (context) => const SignUpScreen()
 };

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/widgets/auth/auth_modal.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
@@ -106,63 +107,21 @@ class _HeaderWidget extends StatelessWidget {
   }
 }
 
-class _FormWidget extends StatefulWidget {
+class _FormWidget extends StatelessWidget {
   const _FormWidget({super.key});
 
   @override
-  State<_FormWidget> createState() => _FormWidgetState();
-}
-
-class _FormWidgetState extends State<_FormWidget> {
-  final _loginTextController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _loginFocus = FocusNode();
-  final _passwordFocus = FocusNode();
-
-  String? errorText = null;
-  void _auth() {
-    final login = _loginTextController.text;
-    final password = _passwordController.text;
-    print(login);
-    setState(() {
-      if (password.length < 5 || login.isEmpty) {
-        errorText = 'Error password or username';
-        print('error');
-      } else {
-        final navigator = Navigator.of(context);
-        navigator.pushNamed('/main_screen');
-        errorText = null;
-      }
-    });
-  }
-
-  void _fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-    currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
-  }
-
-  void _resetPassword() {
-    _passwordController.clear();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final _loginFocus = FocusNode();
+    final _passwordFocus = FocusNode();
     const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
     const textFieldStyle = textFormFieldStyle;
-    final errorText = this.errorText;
+    final model = AuthProvider.read(context)?.model;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (errorText != null) ...[
-          Text(
-            errorText,
-            style: const TextStyle(color: Colors.red),
-          ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
+        _ErrorMessageWidget(),
         const Text(
           'Username',
           style: textStyle,
@@ -171,10 +130,10 @@ class _FormWidgetState extends State<_FormWidget> {
         TextFormField(
           focusNode: _loginFocus,
           autofocus: true,
-          onFieldSubmitted: (_) {
-            _fieldFocusChange(context, _loginFocus, _passwordFocus);
-          },
-          controller: _loginTextController,
+          // onFieldSubmitted: (_) {
+          //   _fieldFocusChange(context, _loginFocus, _passwordFocus);
+          // },
+          controller: model?.loginTextController,
           decoration: textFieldStyle,
         ),
         const SizedBox(height: 20),
@@ -185,26 +144,66 @@ class _FormWidgetState extends State<_FormWidget> {
         const SizedBox(height: 5),
         TextFormField(
           focusNode: _passwordFocus,
-          controller: _passwordController,
+          controller: model?.passwordTextController,
           decoration: textFieldStyle,
           obscureText: true,
         ),
         const SizedBox(height: 30),
         Row(
           children: [
-            ElevatedButton(
-              onPressed: _auth,
-              style: AppButtonStyle.eventButton,
-              child: const Text('Login'),
-            ),
+            _AuthButtonWidget(),
             TextButton(
-              onPressed: _resetPassword,
+              onPressed: () {},
               style: AppButtonStyle.linkButton,
               child: const Text('Reset password'),
             )
           ],
         ),
       ],
+    );
+  }
+}
+
+class _AuthButtonWidget extends StatelessWidget {
+  const _AuthButtonWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final model = AuthProvider.read(context)?.model;
+    final onPressed =
+        model?.canStartAuth == true ? () => model?.auth(context) : null;
+    final child = model?.isAuthProgress == true
+        ? const SizedBox(
+            width: 15,
+            height: 15,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          )
+        : const Text('Login');
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: AppButtonStyle.eventButton,
+      child: child,
+    );
+  }
+}
+
+class _ErrorMessageWidget extends StatelessWidget {
+  const _ErrorMessageWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    if (errorMessage == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Text(
+        errorMessage,
+        style: const TextStyle(color: Colors.red),
+      ),
     );
   }
 }
