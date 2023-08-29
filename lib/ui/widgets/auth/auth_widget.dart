@@ -120,7 +120,7 @@ class _FormWidget extends StatelessWidget {
     final _passwordFocus = FocusNode();
     const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
     const textFieldStyle = textFormFieldStyle;
-    final model = AuthProvider.read(context)?.model;
+    final model = NotifierProvider.read<AuthModel>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +175,7 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.read(context)?.model;
+    final model = NotifierProvider.watch<AuthModel>(context);
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
     final child = model?.isAuthProgress == true
@@ -200,7 +200,8 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    final errorMessage =
+        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
