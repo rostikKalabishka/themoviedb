@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../resources/resources.dart';
+import '../../../../../resources/resources.dart';
 
 class HomePageWidget extends StatelessWidget {
   const HomePageWidget({super.key});

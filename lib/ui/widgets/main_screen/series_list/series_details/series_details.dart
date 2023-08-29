@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/widgets/main_screen/movie_list/movie_details/movie_detail_main_info_widgets.dart';
+import 'package:themoviedb/ui/widgets/main_screen/movie_list/movie_details/movie_detail_main_info_widgets.dart';
 
 import '../../../../Theme/app_bar_style.dart';
 import 'series_detail_main_rec.dart';

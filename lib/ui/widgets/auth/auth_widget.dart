@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/widgets/auth/auth_modal.dart';
+import 'package:themoviedb/ui/routes/routes.dart';
+import 'package:themoviedb/ui/widgets/auth/auth_modal.dart';
 
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
@@ -81,7 +82,7 @@ class _HeaderWidget extends StatelessWidget {
           TextButton(
               style: AppButtonStyle.linkButton,
               onPressed: () {
-                navigator.pushNamed('/sign_up');
+                navigator.pushNamed(MainNavigationRouteName.signUp);
               },
               child: const Text('Register')),
           const SizedBox(height: 25),
@@ -92,7 +93,7 @@ class _HeaderWidget extends StatelessWidget {
           const SizedBox(height: 5),
           TextButton(
             onPressed: () {
-              navigator.pushNamed('/resend_email');
+              navigator.pushNamed(MainNavigationRouteName.resendEmail);
             },
             style: AppButtonStyle.linkButton,
             child: const Text('Verify Email'),

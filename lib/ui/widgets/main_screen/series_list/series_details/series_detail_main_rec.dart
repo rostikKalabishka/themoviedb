@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../resources/resources.dart';
+import '../../../../../resources/resources.dart';
 
-class MovieDetailsMainRec extends StatelessWidget {
-  const MovieDetailsMainRec({super.key});
+class SeriesDetailsMainRec extends StatelessWidget {
+  const SeriesDetailsMainRec({super.key});
 
   @override
   Widget build(BuildContext context) {

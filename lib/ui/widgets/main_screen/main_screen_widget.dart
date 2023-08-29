@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:themoviedb/widgets/main_screen/series_list/series_list_widget.dart';
+import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
 
 import '../../Theme/app_bar_style.dart';
 
@@ -30,7 +30,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          HomePageWidget(),
+          const HomePageWidget(),
           MovieListWidget(),
           SeriesListWidget(),
         ],

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 import 'package:themoviedb/domain/api_client/data_providers/session_data_provider.dart';
+import 'package:themoviedb/ui/routes/routes.dart';
 
 class AuthModel extends ChangeNotifier {
   final _apiClient = ApiClient();
@@ -11,8 +12,7 @@ class AuthModel extends ChangeNotifier {
 
   final loginTextController = TextEditingController();
   final passwordTextController = TextEditingController();
-  // final String username;
-  // final String password;
+
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
@@ -53,7 +53,8 @@ class AuthModel extends ChangeNotifier {
       return;
     }
     await _sessionDataProvider.setSessionId(sessionId);
-    unawaited(Navigator.of(context).pushNamed('/main_screen'));
+    unawaited(
+        Navigator.of(context).pushNamed(MainNavigationRouteName.mainScreen));
   }
 }
 
