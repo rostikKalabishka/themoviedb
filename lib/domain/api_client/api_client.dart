@@ -1,9 +1,9 @@
-// import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+import '../entity/popular_movie_response.dart';
 import '../static_const_url_client.dart';
 
 enum ApiClientExceptionType { Network, Auth, Other }
@@ -107,6 +107,22 @@ class ApiClient {
 
     final result = _get('/authentication/token/new', parser,
         <String, dynamic>{'api_key': _apiKey});
+    return result;
+  }
+
+  Future<PopularMovieResponse> popularMovie(int page, String locale) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = PopularMovieResponse.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/movie/popular', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString()
+    });
     return result;
   }
 

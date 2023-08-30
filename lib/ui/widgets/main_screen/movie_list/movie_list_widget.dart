@@ -2,117 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
 import 'package:themoviedb/ui/routes/routes.dart';
 
-class Movie {
-  const Movie({
-    required this.id,
-    required this.imageName,
-    required this.title,
-    required this.time,
-    required this.description,
-  });
-  final int id;
-  final String imageName;
-  final String title;
-  final String time;
-  final String description;
-}
+import '../../../../library/widgets/inherited/provider.dart';
+import 'movie_list_model.dart';
 
-class MovieListWidget extends StatefulWidget {
-  MovieListWidget({super.key});
-
-  @override
-  State<MovieListWidget> createState() => _MovieListWidgetState();
-}
-
-class _MovieListWidgetState extends State<MovieListWidget> {
-  final _listMovie = [
-    const Movie(
-      id: 1,
-      imageName: AppImages.spiderMan,
-      title: 'Spider-Man',
-      description:
-          'Цього разу на Майлза Моралеса чекає несподівана подорож крізь всесвіт, у якій він об’єднає зусилля з Ґвен Стейсі та новою командою «павуків», щоби протистояти наймогутнішому лиходію, котрого вони коли-небудь зустрічали.',
-      time: 'Aug 16, 2023',
-    ),
-    const Movie(
-      id: 2,
-      imageName: AppImages.spiderMan,
-      title: 'Gigga-Man',
-      description: 'biba boba123',
-      time: 'Aug 12, 2023',
-    ),
-    const Movie(
-      id: 3,
-      imageName: AppImages.spiderMan,
-      title: 'SMan',
-      description: 'sadsadasdadadasd',
-      time: 'Jun 11, 2023',
-    ),
-    const Movie(
-      id: 4,
-      imageName: AppImages.spiderMan,
-      title: 'SMan',
-      description: 'sadsadasdadadasd',
-      time: 'Jun 11, 2023',
-    ),
-    const Movie(
-      id: 5,
-      imageName: AppImages.spiderMan,
-      title: 'FFFFF',
-      description: 'FFFFFFFFFFFFFFFFF',
-      time: 'Jun 111, 2023',
-    ),
-    const Movie(
-      id: 6,
-      imageName: AppImages.spiderMan,
-      title: 'Vafelnoe Morozeno',
-      description: '12312312312312313123123213123133123',
-      time: 'Jun 11, 2023',
-    )
-  ];
-
-  var _filtredMovies = <Movie>[];
-
-  final _searchController = TextEditingController();
-
-  void _searchMovies() {
-    setState(() {
-      final query = _searchController.text;
-      if (query.isNotEmpty) {
-        _filtredMovies = _listMovie.where((Movie movie) {
-          return movie.title.toLowerCase().contains(query.toLowerCase());
-        }).toList();
-      } else {
-        _filtredMovies = _listMovie;
-      }
-    });
-  }
-
-  void _onMovieTab(int index) {
-    final id = _listMovie[index].id;
-
-    Navigator.of(context)
-        .pushNamed(MainNavigationRouteName.movieDetails, arguments: id);
-  }
-
-  @override
-  void initState() {
-    // _searchController.text;
-    super.initState();
-    _filtredMovies = _listMovie;
-    _searchController.addListener(_searchMovies);
-  }
-
+class MovieListWidget extends StatelessWidget {
+  const MovieListWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieListModel>(context);
+    if (model == null) return const SizedBox.shrink();
     return Stack(children: [
       ListView.builder(
           padding: const EdgeInsets.only(top: 80),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          itemCount: _filtredMovies.length,
+          itemCount: model.movies.length,
           itemExtent: 163,
           itemBuilder: (BuildContext context, int index) {
-            final listMovie = _filtredMovies[index];
+            final listMovie = model.movies[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Stack(children: [
@@ -130,9 +36,9 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   clipBehavior: Clip.hardEdge,
                   child: Row(
                     children: [
-                      Image(
-                        image: AssetImage(listMovie.imageName),
-                      ),
+                      // Image(
+                      //   image: AssetImage(listMovie.imageName),
+                      // ),
                       const SizedBox(width: 15),
                       Expanded(
                         child: Column(
@@ -148,14 +54,14 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              listMovie.time,
+                              listMovie.releaseDate?.toString() ?? '000000',
                               style: const TextStyle(color: Colors.grey),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              listMovie.description,
+                              listMovie.overview,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )
@@ -170,9 +76,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    onTap: () {
-                      _onMovieTab(index);
-                    },
+                    onTap: () => model.onMovieTap(context, index),
                   ),
                 )
               ]),
@@ -181,7 +85,6 @@ class _MovieListWidgetState extends State<MovieListWidget> {
       Padding(
         padding: const EdgeInsets.all(10.0),
         child: TextField(
-          controller: _searchController,
           decoration: InputDecoration(
               labelText: 'Search',
               filled: true,
