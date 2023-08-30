@@ -22,6 +22,10 @@ class ApiClient {
   static const _imageUrl = StaticConstUrlClient.imageUrl;
   static const _apiKey = StaticConstUrlClient.apiKey;
 
+  static String imageUrl(String path) {
+    return _imageUrl + path;
+  }
+
   Future<String> auth({
     required String username,
     required String password,
