@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
@@ -38,8 +39,21 @@ class AuthModel extends ChangeNotifier {
         username: login,
         password: password,
       );
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.Network:
+          _errorMessage =
+              'The server is unavailable. Check your internet connection';
+          break;
+        case ApiClientExceptionType.Auth:
+          _errorMessage = 'Incorrect login or password!';
+          break;
+        case ApiClientExceptionType.Other:
+          _errorMessage = 'There\'s been a mistake. Try again';
+          break;
+      }
     } catch (e) {
-      _errorMessage = 'Incorrect login or password!';
+      _errorMessage = 'There\'s been a mistake. Try again';
     }
     _isAuthProgress = false;
     if (_errorMessage != null) {
@@ -57,30 +71,6 @@ class AuthModel extends ChangeNotifier {
         .pushReplacementNamed(MainNavigationRouteName.mainScreen));
   }
 }
-
-// class AuthProvider extends InheritedNotifier {
-//   final AuthModel model;
-
-//   const AuthProvider({
-//     Key? key,
-//     required this.model,
-//     required Widget child,
-//   }) : super(
-//           key: key,
-//           notifier: model,
-//           child: child,
-//         );
-
-//   static AuthProvider? watch(BuildContext context) {
-//     return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
-//   }
-
-//   static AuthProvider? read(BuildContext context) {
-//     final widget =
-//         context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
-//     return widget is AuthProvider ? widget : null;
-//   }
-// }
 
 class NotifierProvider<Model extends ChangeNotifier> extends InheritedNotifier {
   final Model model;
