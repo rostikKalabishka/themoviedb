@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+import '../entity/movie_details.dart';
 import '../entity/popular_movie_response.dart';
 import '../static_const_url_client.dart';
 
@@ -126,6 +127,44 @@ class ApiClient {
       'api_key': _apiKey,
       'language': locale,
       'page': page.toString()
+    });
+    return result;
+  }
+
+  Future<PopularMovieResponse> searchMovie(
+      int page, String locale, String query) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = PopularMovieResponse.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/search/movie', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString(),
+      'query': query,
+      'include_adult': true.toString(),
+    });
+    return result;
+  }
+
+  Future<MovieDetails> movieDetails(
+    int movieId,
+    String locale,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = MovieDetails.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/movie/$movieId', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'movie_id': movieId.toString(),
     });
     return result;
   }

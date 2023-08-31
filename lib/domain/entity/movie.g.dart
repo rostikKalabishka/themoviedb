@@ -10,7 +10,7 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       posterPath: json['poster_path'] as String?,
       adult: json['adult'] as bool,
       overview: json['overview'] as String,
-      releaseDate: Movie._parseDateFromString(json['release_date'] as String?),
+      releaseDate: parseMovieDateFromString(json['release_date'] as String?),
       genreIds:
           (json['genre_ids'] as List<dynamic>).map((e) => e as int).toList(),
       id: json['id'] as int,

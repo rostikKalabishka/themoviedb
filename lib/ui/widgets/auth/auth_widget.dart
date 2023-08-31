@@ -3,6 +3,7 @@ import 'package:themoviedb/domain/api_client/data_providers/session_data_provide
 import 'package:themoviedb/ui/routes/routes.dart';
 import 'package:themoviedb/ui/widgets/auth/auth_modal.dart';
 
+import '../../../library/widgets/inherited/provider.dart';
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
 import '../../Theme/theme.dart';

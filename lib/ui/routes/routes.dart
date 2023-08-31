@@ -1,10 +1,12 @@
 // ignore_for_file: unnecessary_type_check
 import 'package:flutter/material.dart';
 
+import '../../library/widgets/inherited/provider.dart';
 import '../widgets/auth/auth_modal.dart';
 import '../widgets/auth/auth_widget.dart';
 import '../widgets/main_screen/main_screen_model.dart';
 import '../widgets/main_screen/movie_list/movie_details/movie_details.dart';
+import '../widgets/main_screen/movie_list/movie_details/movie_details_model.dart';
 import '../widgets/main_screen/series_list/series_details/series_details.dart';
 import '../widgets/signup/signup_screen.dart';
 import '../widgets/main_screen/main_screen_widget.dart';
@@ -26,11 +28,11 @@ class MainNavigation {
 
   final routes = <String, Widget Function(BuildContext)>{
     MainNavigationRouteName.auth: (context) => NotifierProvider(
-          model: AuthModel(),
+          create: () => AuthModel(),
           child: const AuthWidget(),
         ),
-    MainNavigationRouteName.mainScreen: (context) =>
-        NotifierProvider(model: MainScreenModel(), child: MainScreenWidget()),
+    MainNavigationRouteName.mainScreen: (context) => NotifierProvider(
+        create: () => MainScreenModel(), child: MainScreenWidget()),
     MainNavigationRouteName.resendEmail: (context) => const ResendEmailScreen(),
     MainNavigationRouteName.signUp: (context) => const SignUpScreen()
   };
@@ -41,7 +43,9 @@ class MainNavigation {
         final argument = settings.arguments;
         final movieId = argument is int ? argument : 0;
         return MaterialPageRoute(
-          builder: (context) => MovieDetails(mivieId: movieId),
+          builder: (context) => NotifierProvider(
+              create: () => MovieDetailsModel(movieId),
+              child: const MovieDetails()),
         );
       case MainNavigationRouteName.seriesDetails:
         final argument = settings.arguments;
