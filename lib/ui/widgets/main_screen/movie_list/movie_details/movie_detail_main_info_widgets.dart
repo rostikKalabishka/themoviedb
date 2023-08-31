@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/resources/resources.dart';
+import 'package:themoviedb/domain/api_client/api_client.dart';
 
+import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
+import 'movie_details_model.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
   const MovieDetailsMainInfoWidget({super.key});
@@ -34,20 +36,29 @@ class _TopPosterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
-      children: [
-        Image(
-          image: AssetImage(AppImages.blueBeetleBackground),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Image(
-            image: AssetImage(AppImages.blueBeetle),
-            width: 90,
-            height: 150,
-          ),
-        )
-      ],
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final backdropPath = model?.movieDetails?.backdropPath;
+    final posterPath = model?.movieDetails?.posterPath;
+
+    return AspectRatio(
+      aspectRatio: 390 / 219,
+      child: Stack(
+        children: [
+          backdropPath != null
+              ? Image.network(ApiClient.imageUrl('$backdropPath'))
+              : const SizedBox.shrink(),
+          posterPath != null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  child: Image.network(
+                    ApiClient.imageUrl('$posterPath'),
+                    width: 90,
+                    height: 150,
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }
@@ -57,15 +68,18 @@ class _FilmsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final movieName = model?.movieDetails?.title;
+    var year = model?.movieDetails?.releaseDate?.year.toString();
+    year = year != null ? ' ($year)' : '';
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
-        const TextSpan(
-            text: 'Blue Beetle ',
-            style: TextStyle(color: Colors.white, fontSize: 20)),
         TextSpan(
-            text: '(2023)',
-            style: TextStyle(color: Colors.grey[300], fontSize: 18))
+            text: movieName ?? '',
+            style: const TextStyle(color: Colors.white, fontSize: 20)),
+        TextSpan(
+            text: year, style: TextStyle(color: Colors.grey[300], fontSize: 18))
       ]),
     );
   }
@@ -76,13 +90,18 @@ class _ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final bb = model?.movieDetails?.voteAverage;
+    var percent = (model?.movieDetails?.voteAverage) ?? 0;
+    percent = percent * 10;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextButton(
           onPressed: () {},
-          child: const Row(
+          child: Row(
             children: [
               SizedBox(
                 width: 40,
@@ -92,8 +111,11 @@ class _ButtonWidget extends StatelessWidget {
                   lineColor: Colors.green,
                   lineWidth: 3,
                   freeColor: Colors.red,
-                  percent: 0.73,
-                  child: Text('73%'),
+                  percent: percent / 100,
+                  child: Text(
+                    percent.toStringAsFixed(0),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
               SizedBox(
@@ -134,10 +156,12 @@ class _FactsMovie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final bb = model?.movieDetails?.tagline;
     return Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        child: const Center(
-            child: Text('PG-13 08/18/2023 (US)  2h 7m Action, Science Fiction',
+        child: Center(
+            child: Text(bb ?? '',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 16))));
   }
@@ -148,22 +172,24 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final overview = model?.movieDetails?.overview;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Overview',
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           Text(
-            'Recent college grad Jaime Reyes returns home full of aspirations for his future, only to find that home is not quite as he left it. As he searches to find his purpose in the world, fate intervenes when Jaime unexpectedly finds himself in possession of an ancient relic of alien biotechnology: the Scarab.',
-            style: TextStyle(fontSize: 15, color: Colors.white),
+            overview ?? '',
+            style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
