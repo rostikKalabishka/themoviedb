@@ -45,13 +45,14 @@ class _TopPosterWidget extends StatelessWidget {
       child: Stack(
         children: [
           backdropPath != null
-              ? Image.network(ApiClient.imageUrl('$backdropPath'))
+              ? Image.network(ApiClient.imageUrl(backdropPath))
               : const SizedBox.shrink(),
           posterPath != null
               ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Image.network(
-                    ApiClient.imageUrl('$posterPath'),
+                    ApiClient.imageUrl(posterPath),
                     width: 90,
                     height: 150,
                   ),
@@ -91,7 +92,7 @@ class _ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    final bb = model?.movieDetails?.voteAverage;
+
     var percent = (model?.movieDetails?.voteAverage) ?? 0;
     percent = percent * 10;
 
@@ -118,10 +119,10 @@ class _ButtonWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              Text('User Score',
+              const Text('User Score',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -159,11 +160,11 @@ class _FactsMovie extends StatelessWidget {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
     final bb = model?.movieDetails?.tagline;
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Center(
             child: Text(bb ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 16))));
+                style: const TextStyle(color: Colors.white, fontSize: 16))));
   }
 }
 
@@ -192,7 +193,7 @@ class Overview extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
+          const Row(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,10 +227,10 @@ class Overview extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Row(
+          const Row(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

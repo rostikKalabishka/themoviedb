@@ -32,7 +32,7 @@ class MovieDetailMainSocialWidget extends StatelessWidget {
             height: 110,
             child: ListView(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -90,7 +90,7 @@ class MovieDetailMainSocialWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text(
+                    child: const Text(
                       'Go to Discussion',
                       style: TextStyle(
                           color: Colors.black,

@@ -43,9 +43,6 @@ class MovieListWidget extends StatelessWidget {
                               width: 95,
                             )
                           : const SizedBox.shrink(),
-                      // Image(
-                      //   image: AssetImage(posterPath),
-                      // ),
                       const SizedBox(width: 15),
                       Expanded(
                         child: Column(

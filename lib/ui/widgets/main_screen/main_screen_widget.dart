@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:themoviedb/library/widgets/inherited/provider.dart';
 
 import 'package:themoviedb/ui/widgets/main_screen/movie_list/movie_list_model.dart';
+import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.dart';
 
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
 
@@ -21,6 +22,7 @@ class MainScreenWidget extends StatefulWidget {
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
   final movieListModel = MovieListModel();
+  final seriesListModel = SeriesListModel();
 
   void onSelectTab(int index) {
     if (_selectedTab == index) return;
@@ -32,7 +34,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   @override
   void didChangeDependencies() {
     movieListModel.setupLocale(context);
-
+    seriesListModel.setupLocale(context);
     super.didChangeDependencies();
   }
 
@@ -49,7 +51,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
             isManagingModel: false,
             child: const MovieListWidget(),
           ),
-          SeriesListWidget(),
+          NotifierProvider(
+              create: () => seriesListModel,
+              isManagingModel: false,
+              child: const SeriesListWidget()),
         ],
       ),
       appBar: AppBar(

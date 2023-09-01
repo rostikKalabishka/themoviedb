@@ -8,6 +8,7 @@ import '../widgets/main_screen/main_screen_model.dart';
 import '../widgets/main_screen/movie_list/movie_details/movie_details.dart';
 import '../widgets/main_screen/movie_list/movie_details/movie_details_model.dart';
 import '../widgets/main_screen/series_list/series_details/series_details.dart';
+import '../widgets/main_screen/series_list/series_details/series_details_model.dart';
 import '../widgets/signup/signup_screen.dart';
 import '../widgets/main_screen/main_screen_widget.dart';
 import '../widgets/resend_email/resend_email_screen.dart';
@@ -51,7 +52,9 @@ class MainNavigation {
         final argument = settings.arguments;
         final serialId = argument is int ? argument : 0;
         return MaterialPageRoute(
-          builder: (context) => SeriesDetails(seriesId: serialId),
+          builder: (context) => NotifierProvider(
+              create: () => SeriesDetailModel(serialId),
+              child: SeriesDetails(seriesId: serialId)),
         );
 
       default:

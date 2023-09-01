@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
 import '../entity/movie_details.dart';
 import '../entity/popular_movie_response.dart';
@@ -115,6 +116,7 @@ class ApiClient {
     return result;
   }
 
+//MOVIE
   Future<PopularMovieResponse> popularMovie(int page, String locale) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
@@ -169,6 +171,45 @@ class ApiClient {
     return result;
   }
 
+//SERIES
+
+  Future<PopularSeriesResponse> popularSeries(int page, String locale) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = PopularSeriesResponse.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/tv/popular', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString()
+    });
+
+    return result;
+  }
+
+  Future<PopularSeriesResponse> searchSeries(
+      int page, String locale, String query) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = PopularSeriesResponse.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/search/tv', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString(),
+      'query': query,
+      'include_adult': true.toString(),
+    });
+    return result;
+  }
+
+//_validateUser
   Future<String> _validateUser({
     required String username,
     required String password,
@@ -191,6 +232,7 @@ class ApiClient {
     return result;
   }
 
+//_makeSession
   Future<String> _makeSession({
     required String requestToken,
   }) async {
@@ -209,6 +251,7 @@ class ApiClient {
     return result;
   }
 
+//_validateResponse
   void _validateResponse(HttpClientResponse response, dynamic json) {
     if (response.statusCode == 401) {
       final dynamic status = json['status_code'];
