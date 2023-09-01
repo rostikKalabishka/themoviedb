@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
-
 import '../../../../../domain/api_client/api_client.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
+import 'series_details_model.dart';
 
 class SeriesDetailsMainInfoWidget extends StatelessWidget {
   const SeriesDetailsMainInfoWidget({super.key});
@@ -40,6 +39,7 @@ class _TopPosterWidget extends StatelessWidget {
     final model = NotifierProvider.watch<SeriesDetailsModel>(context);
     final backdropPath = model?.seriesDetails?.backdropPath;
     final posterPath = model?.seriesDetails?.posterPath;
+
     return AspectRatio(
       aspectRatio: 390 / 219.2,
       child: Stack(

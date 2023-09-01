@@ -54,7 +54,7 @@ class MainNavigation {
         return MaterialPageRoute(
           builder: (context) => NotifierProvider(
               create: () => SeriesDetailsModel(serialId),
-              child: SeriesDetails(seriesId: serialId)),
+              child: const SeriesDetails()),
         );
 
       default:

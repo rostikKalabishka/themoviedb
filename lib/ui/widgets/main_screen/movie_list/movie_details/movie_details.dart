@@ -29,9 +29,7 @@ class _MovieDetailsState extends State<MovieDetails> {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: const _TitleWidget()),
       body: const ColoredBox(
-        color: Color.fromRGBO(34, 19, 100, 1),
-        child: _BodyWidget(),
-      ),
+          color: Color.fromRGBO(34, 19, 100, 1), child: _BodyWidget()),
     );
   }
 }

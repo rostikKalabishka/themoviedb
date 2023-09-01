@@ -13,6 +13,7 @@ class SeriesDetailsModel extends ChangeNotifier {
   SeriesDetails? get seriesDetails => _seriesDetails;
 
   SeriesDetailsModel(this.seriesId);
+
   Future<void> setupLocale(BuildContext context) async {
     final locale = Localizations.localeOf(context).toLanguageTag();
     if (_locale == locale) return;
