@@ -62,8 +62,6 @@ class SeriesListModel extends ChangeNotifier {
       _isLoadingInProgress = false;
       notifyListeners();
     } catch (e) {
-      print(e);
-
       _isLoadingInProgress = false;
     }
   }

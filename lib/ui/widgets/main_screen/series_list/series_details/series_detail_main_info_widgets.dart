@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/resources/resources.dart';
+
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 
 import '../../../../../domain/api_client/api_client.dart';
@@ -11,7 +11,6 @@ class SeriesDetailsMainInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
     return const Column(
       children: [
         _TopPosterWidget(),
@@ -71,15 +70,15 @@ class _FilmsInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<SeriesDetailsModel>(context);
     final name = model?.seriesDetails?.name;
-    // var yaer = model?.seriesDetails?.firstAirDate;
+    var yaer = model?.seriesDetails?.firstAirDate?.year.toString();
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
         TextSpan(
-            text: name ?? '',
+            text: name ?? '321',
             style: const TextStyle(color: Colors.white, fontSize: 20)),
         TextSpan(
-            text: ' (2022)',
+            text: ' ($yaer)',
             style: TextStyle(color: Colors.grey[300], fontSize: 18))
       ]),
     );

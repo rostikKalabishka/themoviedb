@@ -8,7 +8,7 @@ class SeriesDetails {
   final String? backdropPath;
   // final List<CreatedBy> createdBy;
   // final List<int> episodeRunTime;
-  final String firstAirDate;
+  final DateTime? firstAirDate;
   // final List<Genre> genres;
   // final String homepage;
   final int id;

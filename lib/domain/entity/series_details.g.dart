@@ -9,7 +9,9 @@ part of 'series_details.dart';
 SeriesDetails _$SeriesDetailsFromJson(Map<String, dynamic> json) =>
     SeriesDetails(
       backdropPath: json['backdrop_path'] as String?,
-      firstAirDate: json['first_air_date'] as String,
+      firstAirDate: json['first_air_date'] == null
+          ? null
+          : DateTime.parse(json['first_air_date'] as String),
       id: json['id'] as int,
       name: json['name'] as String,
       posterPath: json['poster_path'] as String?,
@@ -20,7 +22,7 @@ SeriesDetails _$SeriesDetailsFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SeriesDetailsToJson(SeriesDetails instance) =>
     <String, dynamic>{
       'backdrop_path': instance.backdropPath,
-      'first_air_date': instance.firstAirDate,
+      'first_air_date': instance.firstAirDate?.toIso8601String(),
       'id': instance.id,
       'name': instance.name,
       'poster_path': instance.posterPath,
