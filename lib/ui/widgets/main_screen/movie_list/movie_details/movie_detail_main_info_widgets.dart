@@ -41,7 +41,7 @@ class _TopPosterWidget extends StatelessWidget {
     final posterPath = model?.movieDetails?.posterPath;
 
     return AspectRatio(
-      aspectRatio: 390 / 219,
+      aspectRatio: 390 / 219.2,
       child: Stack(
         children: [
           backdropPath != null

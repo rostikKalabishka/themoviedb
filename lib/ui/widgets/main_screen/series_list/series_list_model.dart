@@ -38,10 +38,7 @@ class SeriesListModel extends ChangeNotifier {
     await _loadNextPage();
   }
 
-  Future<PopularSeriesResponse> _loadSeries(
-    int nextPage,
-    //  String locale
-  ) async {
+  Future<PopularSeriesResponse> _loadSeries(int nextPage, String locale) async {
     final query = _searchQuery;
     if (query == null) {
       await _apiClient.popularSeries(nextPage, _locale);
@@ -58,10 +55,7 @@ class SeriesListModel extends ChangeNotifier {
     final nexPage = _currentPage + 1;
 
     try {
-      final seriesResponse = await _loadSeries(
-        nexPage,
-        //  _locale
-      );
+      final seriesResponse = await _loadSeries(nexPage, _locale);
       _series.addAll(seriesResponse.series);
       _currentPage = seriesResponse.page;
       _totalPage = seriesResponse.totalPages;

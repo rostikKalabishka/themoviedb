@@ -6,6 +6,7 @@ import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
 import '../entity/movie_details.dart';
 import '../entity/popular_movie_response.dart';
+import '../entity/series_details.dart';
 import '../static_const_url_client.dart';
 
 enum ApiClientExceptionType { Network, Auth, Other }
@@ -205,6 +206,25 @@ class ApiClient {
       'page': page.toString(),
       'query': query,
       'include_adult': true.toString(),
+    });
+    return result;
+  }
+
+  Future<SeriesDetails> seriesDetails(
+    int seriesId,
+    String locale,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = SeriesDetails.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/tv/$seriesId', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'series_id': seriesId.toString(),
     });
     return result;
   }

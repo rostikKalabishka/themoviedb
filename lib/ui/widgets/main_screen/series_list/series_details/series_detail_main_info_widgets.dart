@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/resources/resources.dart';
+import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 
+import '../../../../../domain/api_client/api_client.dart';
+import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
 
 class SeriesDetailsMainInfoWidget extends StatelessWidget {
@@ -8,6 +11,7 @@ class SeriesDetailsMainInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
     return const Column(
       children: [
         _TopPosterWidget(),
@@ -34,20 +38,28 @@ class _TopPosterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
-      children: [
-        Image(
-          image: AssetImage(AppImages.blueBeetleBackground),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-          child: Image(
-            image: AssetImage(AppImages.blueBeetle),
-            width: 90,
-            height: 150,
-          ),
-        )
-      ],
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    final backdropPath = model?.seriesDetails?.backdropPath;
+    final posterPath = model?.seriesDetails?.posterPath;
+    return AspectRatio(
+      aspectRatio: 390 / 219.2,
+      child: Stack(
+        children: [
+          backdropPath != null
+              ? Image.network(ApiClient.imageUrl(backdropPath))
+              : const SizedBox.shrink(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: posterPath != null
+                ? Image.network(
+                    ApiClient.imageUrl(posterPath),
+                    width: 90,
+                    height: 150,
+                  )
+                : const SizedBox.shrink(),
+          )
+        ],
+      ),
     );
   }
 }
@@ -57,14 +69,17 @@ class _FilmsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    final name = model?.seriesDetails?.name;
+    // var yaer = model?.seriesDetails?.firstAirDate;
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
-        const TextSpan(
-            text: 'Blue Beetle ',
-            style: TextStyle(color: Colors.white, fontSize: 20)),
         TextSpan(
-            text: '(2023)',
+            text: name ?? '',
+            style: const TextStyle(color: Colors.white, fontSize: 20)),
+        TextSpan(
+            text: ' (2022)',
             style: TextStyle(color: Colors.grey[300], fontSize: 18))
       ]),
     );
@@ -135,7 +150,7 @@ class _FactsSeries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: const Center(
             child: Text('PG-13 08/18/2023 (US)  2h 7m Action, Science Fiction',
                 textAlign: TextAlign.center,

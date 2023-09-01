@@ -53,7 +53,7 @@ class MainNavigation {
         final serialId = argument is int ? argument : 0;
         return MaterialPageRoute(
           builder: (context) => NotifierProvider(
-              create: () => SeriesDetailModel(serialId),
+              create: () => SeriesDetailsModel(serialId),
               child: SeriesDetails(seriesId: serialId)),
         );
 
