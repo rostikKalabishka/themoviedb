@@ -39,56 +39,59 @@ class MovieDetailsMainRec extends StatelessWidget {
                       itemExtent: 270,
                       itemBuilder: (BuildContext context, int index) {
                         final movieRec = model?.movieDetailRec?.movieRec;
-                        final title = movieRec?[index].title;
-                        final image = movieRec?[index].backdropPath;
-                        var voteAverage = (movieRec?[index].voteAverage ?? 0);
-                        voteAverage = voteAverage * 10;
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(8)),
-                              clipBehavior: Clip.hardEdge,
-                              child: Column(
-                                children: [
-                                  image != null
-                                      ? Image.network(ApiClient.imageUrl(image))
-                                      : const SizedBox.shrink(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            title ?? '',
+                        if (movieRec != null && movieRec.isNotEmpty) {
+                          final title = movieRec[index].title;
+                          final image = movieRec[index].backdropPath;
+                          var voteAverage = (movieRec[index].voteAverage);
+                          voteAverage = voteAverage * 10;
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DecoratedBox(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                clipBehavior: Clip.hardEdge,
+                                child: Column(
+                                  children: [
+                                    image != null
+                                        ? Image.network(
+                                            ApiClient.imageUrl(image))
+                                        : const SizedBox.shrink(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              title ?? '',
 
-                                            // 'Barbie',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                                              // 'Barbie',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          voteAverage.toStringAsFixed(0),
-                                          maxLines: 2,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            voteAverage.toStringAsFixed(0),
+                                            maxLines: 2,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       }),
                 ),
               ),
