@@ -63,7 +63,7 @@ class SeriesListWidget extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              listSeries.overview ?? ' ',
+                              listSeries.overview,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             )
