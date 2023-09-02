@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../../library/widgets/inherited/provider.dart';
@@ -158,11 +159,38 @@ class _FactsMovie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    final bb = model?.movieDetails?.tagline;
+    if (model == null) return SizedBox.shrink();
+    var texts = <String>[];
+    final releaseDate = (model.movieDetails?.releaseDate);
+
+    if (releaseDate != null) {
+      texts.add(model.stringFromDate(releaseDate));
+    }
+    final productionCountries = model.movieDetails?.productionCountries;
+    if (productionCountries != null && productionCountries.isNotEmpty) {
+      final name = '(${productionCountries.first.iso})';
+      texts.add(name);
+    }
+
+    final runtime = model.movieDetails?.runtime ?? 0;
+
+    final durationRuntime = Duration(minutes: runtime);
+    final hours = durationRuntime.inHours;
+    final minutes = durationRuntime.inMinutes.remainder(60);
+    texts.add('${hours}h ${minutes}m');
+
+    final genres = model.movieDetails?.genres;
+    if (genres != null && genres.isNotEmpty) {
+      var genresNames = <String>[];
+      for (var genr in genres) {
+        genresNames.add(genr.name);
+      }
+      texts.add(genresNames.join(', '));
+    }
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Center(
-            child: Text(bb ?? '',
+            child: Text(texts.join(' '),
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white, fontSize: 16))));
   }

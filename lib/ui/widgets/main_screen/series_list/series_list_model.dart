@@ -43,7 +43,6 @@ class SeriesListModel extends ChangeNotifier {
     if (query == null) {
       await _apiClient.popularSeries(nextPage, _locale);
       return await _apiClient.popularSeries(nextPage, _locale);
-      ;
     } else {
       return await _apiClient.searchSeries(nextPage, _locale, query);
     }

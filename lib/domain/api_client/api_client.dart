@@ -5,10 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
 import '../entity/movie_details.dart';
+import '../entity/movie_details_rec.dart';
 import '../entity/popular_movie_response.dart';
 import '../entity/series_details.dart';
 import '../static_const_url_client.dart';
 
+// ignore: constant_identifier_names
 enum ApiClientExceptionType { Network, Auth, Other }
 
 class ApiClientException implements Exception {
@@ -148,7 +150,7 @@ class ApiClient {
       'language': locale,
       'page': page.toString(),
       'query': query,
-      'include_adult': true.toString(),
+      'include_adult': false.toString(),
     });
     return result;
   }
@@ -165,6 +167,26 @@ class ApiClient {
     }
 
     final result = _get('/movie/$movieId', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'movie_id': movieId.toString(),
+    });
+    return result;
+  }
+
+  Future<MovieDetailsRec> movieDetailsRec(
+    int movieId,
+    String locale,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = MovieDetailsRec.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result =
+        _get('/movie/$movieId/recommendations', parser, <String, dynamic>{
       'api_key': _apiKey,
       'language': locale,
       'movie_id': movieId.toString(),

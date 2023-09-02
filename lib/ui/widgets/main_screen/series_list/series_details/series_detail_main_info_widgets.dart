@@ -90,13 +90,16 @@ class _ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    var percent = (model?.seriesDetails?.voteAverage) ?? 0;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextButton(
           onPressed: () {},
-          child: const Row(
+          child: Row(
             children: [
               SizedBox(
                 width: 40,
@@ -106,14 +109,14 @@ class _ButtonWidget extends StatelessWidget {
                   lineColor: Colors.green,
                   lineWidth: 3,
                   freeColor: Colors.red,
-                  percent: 0.73,
-                  child: Text('73%'),
+                  percent: percent / 10,
+                  child: Text((percent * 10).toStringAsFixed(0)),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              Text('User Score',
+              const Text('User Score',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

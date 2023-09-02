@@ -20,7 +20,7 @@ class SeriesListWidget extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             final listSeries = model.series[index];
             final posterPath = listSeries.posterPath;
-
+            model.showedSeriesAtIndex(index);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Stack(children: [
