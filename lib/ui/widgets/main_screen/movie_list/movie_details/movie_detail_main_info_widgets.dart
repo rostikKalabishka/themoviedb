@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:themoviedb/domain/api_client/api_client.dart';
 
+import '../../../../../domain/entity/movie_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
 import 'movie_details_model.dart';
@@ -202,7 +203,25 @@ class Overview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    var crew = model?.movieDetails?.credits.crew;
+    if (crew == null || crew.isEmpty) return const SizedBox.shrink();
+    crew = crew.length > 4 ? crew.sublist(0, 4) : crew;
+
     final overview = model?.movieDetails?.overview;
+
+    var crewChanks = <List<Crew>>[];
+    for (var i = 0; i < crew.length; i += 2) {
+      crewChanks
+          .add(crew.sublist(i, i + 2 > crew.length ? crew.length : i + 2));
+    }
+    var peopleWidgetsRow = crewChanks
+        .map(
+          (chunk) => Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: _PeopleWidgetsRow(crew: chunk),
+          ),
+        )
+        .toList();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: Column(
@@ -221,74 +240,40 @@ class Overview extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Cully Hamner',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    'Characters',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      'Keith Giffen',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    Text('Characters', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-              )
-            ],
+          ...peopleWidgetsRow
+        ],
+      ),
+    );
+  }
+}
+
+class _PeopleWidgetsRow extends StatelessWidget {
+  final List<Crew> crew;
+  const _PeopleWidgetsRow({super.key, required this.crew});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children:
+            crew.map((crews) => _PeopleWidgetRowItems(crew: crews)).toList());
+  }
+}
+
+class _PeopleWidgetRowItems extends StatelessWidget {
+  final Crew crew;
+  const _PeopleWidgetRowItems({super.key, required this.crew});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            crew.name,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'John Rogers',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  Text('Characters', style: TextStyle(color: Colors.white)),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      'Ángel Manuel Soto',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    Text('Characters', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-              )
-            ],
-          ),
+          Text(crew.job, style: const TextStyle(color: Colors.white)),
         ],
       ),
     );

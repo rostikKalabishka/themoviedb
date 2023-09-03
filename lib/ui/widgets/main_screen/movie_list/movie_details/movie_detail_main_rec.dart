@@ -76,7 +76,9 @@ class MovieDetailsMainRec extends StatelessWidget {
                                           image != null
                                               ? Image.network(
                                                   ApiClient.imageUrl(image))
-                                              : const SizedBox.shrink(),
+                                              : const Image(
+                                                  image: AssetImage(
+                                                      'images/place2.png')),
                                           Padding(
                                             padding: const EdgeInsets.all(8),
                                             child: Row(

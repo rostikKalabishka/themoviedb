@@ -10,4 +10,5 @@ class AppImages {
       'images/blue-beetle-background.jpg';
   static const String blueBeetle = 'images/blue-beetle.jpg';
   static const String spiderMan = 'images/spider-man.jpg';
+  static const String unknown1111 = 'images/unknown1111.jpg';
 }

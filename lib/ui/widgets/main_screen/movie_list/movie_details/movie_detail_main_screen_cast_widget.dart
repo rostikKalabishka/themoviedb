@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
-import 'package:themoviedb/resources/resources.dart';
 
 import '../../../../../library/widgets/inherited/provider.dart';
+
 import 'movie_details_model.dart';
 
 class MovieDetailMainScreenCastWidget extends StatelessWidget {
@@ -11,6 +11,7 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    if (model == null) return const SizedBox.shrink();
     return ColoredBox(
       color: Colors.white,
       child: Column(
@@ -24,20 +25,21 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 300,
+            height: 350,
             child: Scrollbar(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: (model?.movieDetails?.credits.cast.length) ?? 0,
-                  itemExtent: 120,
+                  itemCount: (model.movieDetails?.credits.cast.length) ?? 0,
+                  itemExtent: 170,
                   itemBuilder: (BuildContext context, int index) {
-                    if (model?.movieDetails?.credits != null) {
-                      final name =
-                          model?.movieDetails?.credits.cast[index].name;
+                    if (model.movieDetails?.credits != null) {
+                      final name = model.movieDetails?.credits.cast[index].name;
+                      if (name == null) return const SizedBox.shrink();
                       final profilePath =
-                          model?.movieDetails?.credits.cast[index].profilePath;
-                      final originalName =
-                          model?.movieDetails?.credits.cast[index].originalName;
+                          model.movieDetails?.credits.cast[index].profilePath;
+                      final character =
+                          model.movieDetails?.credits.cast[index].character;
+                      if (character == null) return const SizedBox.shrink();
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: DecoratedBox(
@@ -63,23 +65,29 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
                                     ? Image.network(
                                         ApiClient.imageUrl(profilePath),
                                       )
-                                    : const SizedBox.shrink(),
+                                    : const Image(
+                                        height: 230,
+                                        width: 150,
+                                        image: AssetImage(
+                                          'images/unknown1111.jpg',
+                                        ),
+                                      ),
                                 Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        name!,
+                                        character!,
                                         maxLines: 2,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        originalName ?? ' ',
+                                        name!,
                                         maxLines: 2,
                                       )
                                     ],
