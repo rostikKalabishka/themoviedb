@@ -150,7 +150,7 @@ class ApiClient {
       'language': locale,
       'page': page.toString(),
       'query': query,
-      'include_adult': false.toString(),
+      'include_adult': true.toString(),
     });
     return result;
   }

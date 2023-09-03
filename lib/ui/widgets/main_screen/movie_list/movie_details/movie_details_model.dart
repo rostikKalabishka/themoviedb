@@ -4,6 +4,7 @@ import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../../domain/entity/movie_details.dart';
 import '../../../../../domain/entity/movie_details_rec.dart';
+import '../../../../routes/routes.dart';
 
 class MovieDetailsModel extends ChangeNotifier {
   final _apiClient = ApiClient();
@@ -36,6 +37,12 @@ class MovieDetailsModel extends ChangeNotifier {
   Future<void> _loadRec() async {
     _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
     notifyListeners();
+  }
+
+  void onMovieTap(BuildContext context, int index) {
+    final id = _movieDetailsRec?.movieRec[index].id;
+    Navigator.of(context)
+        .pushNamed(MainNavigationRouteName.movieDetails, arguments: id);
   }
 
   Future<void> _loadDetails() async {
