@@ -167,9 +167,10 @@ class ApiClient {
     }
 
     final result = _get('/movie/$movieId', parser, <String, dynamic>{
+      'append_to_response': 'credits',
       'api_key': _apiKey,
       'language': locale,
-      'movie_id': movieId.toString(),
+      // 'movie_id': movieId.toString(),
     });
     return result;
   }

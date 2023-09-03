@@ -38,7 +38,10 @@ class MovieDetailsMainRec extends StatelessWidget {
                             (model?.movieDetailRec?.movieRec.isEmpty ?? true)
                                 ? 1
                                 : model!.movieDetailRec!.movieRec.length,
-                        itemExtent: 270,
+                        itemExtent:
+                            model?.movieDetailRec?.movieRec.isEmpty == false
+                                ? 270
+                                : 390,
                         itemBuilder: (BuildContext context, int index) {
                           final movieRec = model?.movieDetailRec?.movieRec;
 
@@ -107,7 +110,12 @@ class MovieDetailsMainRec extends StatelessWidget {
                             );
                           }
                           return const Center(
-                              child: Text('No Recommendations'));
+                            child: Text(
+                              'No Recommendations',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 26),
+                            ),
+                          );
                         },
                       ),
                     ),
