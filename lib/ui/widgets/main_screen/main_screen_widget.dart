@@ -9,6 +9,8 @@ import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget
 import '../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../Theme/app_bar_style.dart';
 
+import '../../routes/routes.dart';
+import 'account/account.dart';
 import 'home_page/home_page_widget.dart';
 import 'movie_list/movie_list_widget.dart';
 
@@ -64,6 +66,18 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           style: AppColors.textAppBar,
         ),
         //test
+        actions: [
+          IconButton(
+              icon: const Icon(
+                Icons.people,
+                color: Color.fromARGB(255, 14, 117, 201),
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(MainNavigationRouteName.account);
+              })
+        ],
         leading: IconButton(
           icon: const Icon(
             Icons.logout_sharp,
@@ -93,6 +107,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
             icon: Icon(Icons.tv),
             label: 'TV series',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.people),
+          //   label: 'Account',
+          // ),
         ],
         onTap: onSelectTab,
       ),

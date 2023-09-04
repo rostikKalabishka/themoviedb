@@ -45,10 +45,13 @@ MovieDetails _$MovieDetailsFromJson(Map<String, dynamic> json) => MovieDetails(
       voteCount: json['vote_count'] as int,
       credits:
           MovieDetailsCasts.fromJson(json['credits'] as Map<String, dynamic>),
+      videos:
+          MovieDetailsVideo.fromJson(json['videos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MovieDetailsToJson(MovieDetails instance) =>
     <String, dynamic>{
+      'videos': instance.videos.toJson(),
       'credits': instance.credits.toJson(),
       'adult': instance.adult,
       'backdrop_path': instance.backdropPath,

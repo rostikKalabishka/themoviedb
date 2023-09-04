@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_type_check
 import 'package:flutter/material.dart';
+import 'package:themoviedb/ui/widgets/main_screen/account/account.dart';
+import 'package:themoviedb/ui/widgets/movie_trailer/movie_trailer_widget.dart';
 
 import '../../library/widgets/inherited/provider.dart';
 import '../widgets/auth/auth_modal.dart';
@@ -17,9 +19,11 @@ abstract class MainNavigationRouteName {
   static const auth = 'auth';
   static const mainScreen = '/';
   static const movieDetails = '/movie_details';
+  static const movieTrailer = '/movie_details/trailer';
   static const seriesDetails = '/series_details';
   static const resendEmail = 'resend_email';
-  static const signUp = 'sign_up';
+  static const signUp = '/sign_up';
+  static const account = '/account';
 }
 
 class MainNavigation {
@@ -35,7 +39,8 @@ class MainNavigation {
     MainNavigationRouteName.mainScreen: (context) => NotifierProvider(
         create: () => MainScreenModel(), child: MainScreenWidget()),
     MainNavigationRouteName.resendEmail: (context) => const ResendEmailScreen(),
-    MainNavigationRouteName.signUp: (context) => const SignUpScreen()
+    MainNavigationRouteName.signUp: (context) => const SignUpScreen(),
+    MainNavigationRouteName.account: (context) => const Account()
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
@@ -56,7 +61,12 @@ class MainNavigation {
               create: () => SeriesDetailsModel(serialId),
               child: const SeriesDetails()),
         );
-
+      case MainNavigationRouteName.movieTrailer:
+        final argument = settings.arguments;
+        final youtubeKey = argument is String ? argument : '';
+        return MaterialPageRoute(
+          builder: (context) => MovieTrailerWidget(youtubeKey: youtubeKey),
+        );
       default:
         const widget = Text('Navigator error');
         return MaterialPageRoute(builder: (context) => widget);

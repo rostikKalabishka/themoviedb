@@ -75,15 +75,6 @@ class SeriesDetailMainScreenCastWidget extends StatelessWidget {
                   }),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Full Cast & Crew',
-                  style: TextStyle(color: Colors.black, fontSize: 15),
-                )),
-          ),
         ],
       ),
     );

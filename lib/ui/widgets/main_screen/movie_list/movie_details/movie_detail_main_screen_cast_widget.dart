@@ -80,14 +80,14 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        character!,
+                                        character,
                                         maxLines: 2,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
                                       const SizedBox(height: 5),
                                       Text(
-                                        name!,
+                                        name,
                                         maxLines: 2,
                                       )
                                     ],
@@ -102,15 +102,6 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
                     return null;
                   }),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Full Cast & Crew',
-                  style: TextStyle(color: Colors.black, fontSize: 15),
-                )),
           ),
         ],
       ),

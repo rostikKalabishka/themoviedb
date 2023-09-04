@@ -2,10 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'date_parser.dart';
 import 'movie_details_cast.dart';
+import 'movie_details_video.dart';
 part 'movie_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class MovieDetails {
+  final MovieDetailsVideo videos;
   final MovieDetailsCasts credits;
   final bool adult;
   final String? backdropPath;
@@ -59,7 +61,8 @@ class MovieDetails {
       required this.video,
       required this.voteAverage,
       required this.voteCount,
-      required this.credits});
+      required this.credits,
+      required this.videos});
   factory MovieDetails.fromJson(Map<String, dynamic> json) =>
       _$MovieDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$MovieDetailsToJson(this);

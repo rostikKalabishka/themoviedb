@@ -4,6 +4,7 @@ import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../../domain/entity/movie_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
+import '../../../../routes/routes.dart';
 import '../../user_score/user_score.dart';
 import 'movie_details_model.dart';
 
@@ -97,7 +98,9 @@ class _ButtonWidget extends StatelessWidget {
 
     var percent = (model?.movieDetails?.voteAverage) ?? 0;
     percent = percent * 10;
-
+    final videos = model?.movieDetails?.videos.results
+        .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+    final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -132,23 +135,29 @@ class _ButtonWidget extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 20,
-          width: 1,
-        ),
-        TextButton(
-            onPressed: () {},
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                ),
-                Text('Play Trailer',
-                    style: TextStyle(color: Colors.white, fontSize: 16))
-              ],
-            ))
+        trailerKey != null
+            ? Container(
+                color: Colors.white,
+                height: 20,
+                width: 1,
+              )
+            : const SizedBox.shrink(),
+        trailerKey != null
+            ? TextButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                    MainNavigationRouteName.movieTrailer,
+                    arguments: trailerKey),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
+                    Text('Play Trailer',
+                        style: TextStyle(color: Colors.white, fontSize: 16))
+                  ],
+                ))
+            : const SizedBox.shrink()
       ],
     );
   }

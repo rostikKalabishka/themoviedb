@@ -34,6 +34,7 @@ dependencies:
   json_annotation: ^4.8.1
   flutter_localization: ^0.1.13
   intl: ^0.18.0
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:
