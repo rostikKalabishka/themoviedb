@@ -3,7 +3,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieTrailerWidget extends StatefulWidget {
   final String youtubeKey;
-  const MovieTrailerWidget({super.key, required this.youtubeKey});
+  const MovieTrailerWidget({Key? key, required this.youtubeKey})
+      : super(key: key);
 
   @override
   State<MovieTrailerWidget> createState() => _MovieTrailerWidgetState();
@@ -14,11 +15,10 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.youtubeKey,
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: true,
       ),
@@ -26,23 +26,45 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-        ),
-        builder: (context, player) {
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text(
-                'Trailer',
-                style: TextStyle(color: Colors.white),
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        return YoutubePlayerBuilder(
+          player: YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: true,
+            onReady: () {
+              // Here, you can handle any custom logic when the player is ready.
+            },
+          ),
+          builder: (context, player) {
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: const Text(
+                  'Trailer',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-            body: Center(child: player),
-          );
-        });
+              body: Center(child: player),
+              floatingActionButton: orientation == Orientation.landscape
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        _controller.toggleFullScreenMode();
+                      },
+                      child: Icon(Icons.fullscreen_exit),
+                    )
+                  : null,
+            );
+          },
+        );
+      },
+    );
   }
 }

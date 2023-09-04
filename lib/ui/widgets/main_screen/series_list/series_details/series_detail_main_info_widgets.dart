@@ -56,7 +56,7 @@ class _TopPosterWidget extends StatelessWidget {
                     height: 150,
                   )
                 : const SizedBox.shrink(),
-          )
+          ),
         ],
       ),
     );

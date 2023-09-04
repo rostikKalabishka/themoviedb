@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
 import '../entity/movie_details.dart';
@@ -19,9 +18,21 @@ class ApiClientException implements Exception {
   ApiClientException(this.type);
 }
 
+enum ApiClientMediaType { Movie, TV }
+
+extension ApiClientMediaTypeAsString on ApiClientMediaType {
+  String asString() {
+    switch (this) {
+      case ApiClientMediaType.Movie:
+        return 'movie';
+      case ApiClientMediaType.TV:
+        return 'movie';
+    }
+  }
+}
+
 class ApiClient {
   final _client = HttpClient();
-  final dio = Dio();
 
   static const _host = StaticConstUrlClient.host;
   static const _imageUrl = StaticConstUrlClient.imageUrl;
@@ -63,6 +74,9 @@ class ApiClient {
     try {
       final request = await _client.getUrl(url);
       final response = await request.close();
+      if (response.statusCode == 201) {
+        return 1 as T;
+      }
       final dynamic json = (await response.jsonDecode());
       _validateResponse(response, json);
       final result = parser(json);
@@ -119,6 +133,25 @@ class ApiClient {
     return result;
   }
 
+  Future<int> getAccountInfo(
+    String sessionId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final result = jsonMap['id'] as int;
+
+      return result;
+    }
+
+    final result = _get('/account', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'session_id': sessionId,
+
+      // 'movie_id': movieId.toString(),
+    });
+    return result;
+  }
+
 //MOVIE
   Future<PopularMovieResponse> popularMovie(int page, String locale) async {
     parser(dynamic json) {
@@ -133,6 +166,31 @@ class ApiClient {
       'language': locale,
       'page': page.toString()
     });
+    return result;
+  }
+
+  Future<int> addFavorite({
+    required int accountId,
+    required String sessionId,
+    required ApiClientMediaType mediaType,
+    required int mediaId,
+    required bool isFavorite,
+  }) async {
+    final parameters = <String, dynamic>{
+      'media_type': mediaType.asString(),
+      'media_id': mediaId,
+      'favorite': isFavorite
+    };
+    parser(dynamic json) {
+      return 1;
+    }
+
+    final result = _post(
+        '/account/$accountId/favorite', parameters, parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'session_id': sessionId,
+    });
+
     return result;
   }
 
@@ -170,6 +228,27 @@ class ApiClient {
       'append_to_response': 'credits,videos',
       'api_key': _apiKey,
       'language': locale,
+      // 'movie_id': movieId.toString(),
+    });
+    return result;
+  }
+
+  Future<bool> isFavorite(
+    int movieId,
+    String sessionId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final result = jsonMap['favorite'] as bool;
+
+      return result;
+    }
+
+    final result =
+        _get('/movie/$movieId/account_states', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'session_id': sessionId,
+
       // 'movie_id': movieId.toString(),
     });
     return result;

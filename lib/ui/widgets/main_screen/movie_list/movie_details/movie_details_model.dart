@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 
+import '../../../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../../../../domain/entity/movie_details.dart';
 import '../../../../../domain/entity/movie_details_rec.dart';
 import '../../../../routes/routes.dart';
@@ -13,6 +14,8 @@ class MovieDetailsModel extends ChangeNotifier {
   MovieDetails? _movieDetails;
   MovieDetailsRec? _movieDetailsRec;
   String _locale = '';
+  bool _isFavorite = false;
+  final _sessionDataProvide = SessionDataProvider();
   late DateFormat _dateFormat;
 
   String stringFromDate(DateTime? date) =>
@@ -20,6 +23,7 @@ class MovieDetailsModel extends ChangeNotifier {
 
   MovieDetails? get movieDetails => _movieDetails;
   MovieDetailsRec? get movieDetailRec => _movieDetailsRec;
+  bool get isFavorite => _isFavorite;
 
   MovieDetailsModel(
     this.movieId,
@@ -31,12 +35,6 @@ class MovieDetailsModel extends ChangeNotifier {
     _locale = locale;
     _dateFormat = DateFormat.yMMMEd(locale);
     await _loadDetails();
-    await _loadRec();
-  }
-
-  Future<void> _loadRec() async {
-    _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
-    notifyListeners();
   }
 
   void onMovieTap(BuildContext context, int index) {
@@ -46,8 +44,30 @@ class MovieDetailsModel extends ChangeNotifier {
   }
 
   Future<void> _loadDetails() async {
+    final sessionId = await _sessionDataProvide.getSessionId();
     _movieDetails = await _apiClient.movieDetails(movieId, _locale);
+    _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
+    if (sessionId != null) {
+      _isFavorite = await _apiClient.isFavorite(movieId, sessionId);
+    }
 
     notifyListeners();
+  }
+
+  Future<void> toggleFavorite() async {
+    final accountId = await _sessionDataProvide.getAccountId();
+    final sessionId = await _sessionDataProvide.getSessionId();
+
+    if (accountId == null || sessionId == null) return;
+
+    _isFavorite = !_isFavorite;
+
+    notifyListeners();
+    await _apiClient.addFavorite(
+        accountId: accountId,
+        sessionId: sessionId,
+        mediaType: ApiClientMediaType.Movie,
+        mediaId: movieId,
+        isFavorite: _isFavorite);
   }
 }
