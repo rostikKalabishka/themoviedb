@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
+import '../entity/account_details.dart';
 import '../entity/movie_details.dart';
 import '../entity/movie_details_rec.dart';
 import '../entity/popular_movie_response.dart';
@@ -74,9 +75,7 @@ class ApiClient {
     try {
       final request = await _client.getUrl(url);
       final response = await request.close();
-      if (response.statusCode == 201) {
-        return 1 as T;
-      }
+
       final dynamic json = (await response.jsonDecode());
       _validateResponse(response, json);
       final result = parser(json);
@@ -133,6 +132,7 @@ class ApiClient {
     return result;
   }
 
+//account
   Future<int> getAccountInfo(
     String sessionId,
   ) async {
@@ -148,6 +148,26 @@ class ApiClient {
       'session_id': sessionId,
 
       // 'movie_id': movieId.toString(),
+    });
+    return result;
+  }
+
+  Future<AccountDetails> accountDetails(
+    String sessionId,
+    int accountId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+
+      final response = AccountDetails.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result = _get('/account/$accountId', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'session_id': sessionId,
+      // 'account_id': accountId,
     });
     return result;
   }

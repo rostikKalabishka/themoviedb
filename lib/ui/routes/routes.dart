@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_type_check
 import 'package:flutter/material.dart';
 import 'package:themoviedb/ui/widgets/main_screen/account/account.dart';
+import 'package:themoviedb/ui/widgets/main_screen/account/account_model.dart';
 import 'package:themoviedb/ui/widgets/movie_trailer/movie_trailer_widget.dart';
 
 import '../../library/widgets/inherited/provider.dart';
@@ -22,7 +23,7 @@ abstract class MainNavigationRouteName {
   static const movieTrailer = '/movie_details/trailer';
   static const seriesDetails = '/series_details';
   static const resendEmail = 'resend_email';
-  static const signUp = '/sign_up';
+  static const signUp = 'sign_up';
   static const account = '/account';
 }
 
@@ -37,10 +38,11 @@ class MainNavigation {
           child: const AuthWidget(),
         ),
     MainNavigationRouteName.mainScreen: (context) => NotifierProvider(
-        create: () => MainScreenModel(), child: MainScreenWidget()),
+        create: () => MainScreenModel(), child: const MainScreenWidget()),
     MainNavigationRouteName.resendEmail: (context) => const ResendEmailScreen(),
     MainNavigationRouteName.signUp: (context) => const SignUpScreen(),
-    MainNavigationRouteName.account: (context) => const Account()
+    MainNavigationRouteName.account: (context) =>
+        NotifierProvider(create: () => AccountModel(), child: const Account())
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {

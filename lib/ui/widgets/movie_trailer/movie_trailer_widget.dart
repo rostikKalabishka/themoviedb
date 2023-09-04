@@ -39,9 +39,7 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
           player: YoutubePlayer(
             controller: _controller,
             showVideoProgressIndicator: true,
-            onReady: () {
-              // Here, you can handle any custom logic when the player is ready.
-            },
+            onReady: () {},
           ),
           builder: (context, player) {
             return Scaffold(
@@ -58,7 +56,7 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
                       onPressed: () {
                         _controller.toggleFullScreenMode();
                       },
-                      child: Icon(Icons.fullscreen_exit),
+                      child: const Icon(Icons.fullscreen_exit),
                     )
                   : null,
             );

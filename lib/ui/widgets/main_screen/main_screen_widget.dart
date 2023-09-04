@@ -10,12 +10,13 @@ import '../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../Theme/app_bar_style.dart';
 
 import '../../routes/routes.dart';
-import 'account/account.dart';
+
+import 'account/account_model.dart';
 import 'home_page/home_page_widget.dart';
 import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
-  MainScreenWidget({super.key});
+  const MainScreenWidget({super.key});
 
   @override
   State<MainScreenWidget> createState() => _MainScreenWidgetState();
@@ -25,6 +26,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
   final movieListModel = MovieListModel();
   final seriesListModel = SeriesListModel();
+  final accountModel = AccountModel();
 
   void onSelectTab(int index) {
     if (_selectedTab == index) return;
@@ -91,7 +93,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
-        backgroundColor: Color.fromRGBO(3, 37, 65, 1),
+        backgroundColor: const Color.fromRGBO(3, 37, 65, 1),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
         items: const <BottomNavigationBarItem>[

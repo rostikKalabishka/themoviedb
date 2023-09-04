@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
       initialRoute: mainNavigation.initialRoute(model.isAuth),
       title: 'Flutter Demo',
       theme: theme,
-      // home: AuthWidget(),
     );
   }
 }

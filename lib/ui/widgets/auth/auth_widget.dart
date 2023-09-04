@@ -126,7 +126,7 @@ class _FormWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _ErrorMessageWidget(),
+        const _ErrorMessageWidget(),
         const Text(
           'Username',
           style: textStyle,
@@ -135,9 +135,6 @@ class _FormWidget extends StatelessWidget {
         TextFormField(
           focusNode: _loginFocus,
           autofocus: true,
-          // onFieldSubmitted: (_) {
-          //   _fieldFocusChange(context, _loginFocus, _passwordFocus);
-          // },
           controller: model?.loginTextController,
           decoration: textFieldStyle,
         ),
@@ -156,7 +153,7 @@ class _FormWidget extends StatelessWidget {
         const SizedBox(height: 30),
         Row(
           children: [
-            _AuthButtonWidget(),
+            const _AuthButtonWidget(),
             TextButton(
               onPressed: () {},
               style: AppButtonStyle.linkButton,

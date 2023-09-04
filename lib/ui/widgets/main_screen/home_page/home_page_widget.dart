@@ -39,7 +39,8 @@ class HomePageWidget extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
                           clipBehavior: Clip.hardEdge,
                           child: Column(
                             children: [
