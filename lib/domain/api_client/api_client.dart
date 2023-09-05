@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:themoviedb/domain/entity/popular_series_response.dart';
 
 import '../entity/account_details.dart';
+import '../entity/favorite_movie.dart';
 import '../entity/movie_details.dart';
 import '../entity/movie_details_rec.dart';
 import '../entity/popular_movie_response.dart';
@@ -74,6 +75,29 @@ class ApiClient {
     );
     try {
       final request = await _client.getUrl(url);
+      final response = await request.close();
+
+      final dynamic json = (await response.jsonDecode());
+      _validateResponse(response, json);
+      final result = parser(json);
+      return result;
+    } on SocketException {
+      throw ApiClientException(ApiClientExceptionType.Network);
+    } on ApiClientException {
+      rethrow;
+    } catch (_) {
+      throw ApiClientException(ApiClientExceptionType.Other);
+    }
+  }
+
+  Future<T> _delete<T>(String path, T Function(dynamic json) parser,
+      [Map<String, dynamic>? parameters]) async {
+    final url = _makeUri(
+      path,
+      parameters,
+    );
+    try {
+      final request = await _client.deleteUrl(url);
       final response = await request.close();
 
       final dynamic json = (await response.jsonDecode());
@@ -172,6 +196,17 @@ class ApiClient {
     return result;
   }
 
+  Future<void> deleteSession(
+    String sessionId,
+  ) async {
+    parser(dynamic json) {}
+
+    final result = _delete('/authentication/session', parser, <String, dynamic>{
+      'api_key': _apiKey,
+    });
+    return result;
+  }
+
 //MOVIE
   Future<PopularMovieResponse> popularMovie(int page, String locale) async {
     parser(dynamic json) {
@@ -211,6 +246,30 @@ class ApiClient {
       'session_id': sessionId,
     });
 
+    return result;
+  }
+
+  Future<MovieFavorite> favoriteMovie(
+    int accountId,
+    String locale,
+    int page,
+    String sessionId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = MovieFavorite.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result =
+        _get('/account/$accountId/favorite/movies', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString(),
+      'session_id': sessionId,
+      'sort_by': 'created_at.asc'
+    });
     return result;
   }
 
