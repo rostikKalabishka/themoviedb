@@ -16,9 +16,7 @@ class AccountModel extends ChangeNotifier {
 
   AccountDetails? get accountDetails => _accountDetails;
 
-  AccountModel(
-      // {required this.accountId, required this.sessionId}
-      );
+  AccountModel();
 
   Future<void> setupLocale(BuildContext context) async {
     final locale = Localizations.localeOf(context).toLanguageTag();

@@ -19,6 +19,8 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    String valueChoose;
+    final List<String> items = ['Movie', 'TV'];
     final model = NotifierProvider.watch<AccountModel>(context);
     if (model == null) return const SizedBox.shrink();
     final username = model.accountDetails?.username;
@@ -32,17 +34,32 @@ class _AccountState extends State<Account> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Container(
+      body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            username != null ? Text(username) : const SizedBox.shrink(),
+            const SizedBox(height: 30),
             avatar != null
-                ? Image.network(
-                    ApiClient.imageUrl(avatar),
-                    width: 100,
-                    height: 100,
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(50.0),
+                    child: Image.network(
+                      width: 100,
+                      height: 100,
+                      ApiClient.imageUrl(avatar),
+                    ),
                   )
-                : const SizedBox.shrink()
+                : const SizedBox.shrink(),
+            const SizedBox(height: 20),
+            username != null
+                ? Text(
+                    username,
+                    style: const TextStyle(fontSize: 22),
+                  )
+                : const SizedBox.shrink(),
+            // DropdownButton(
+            //     value: valueChoose,
+            //     items: items.map((buildMen)),
+            //     onChanged: (newValue) {}),
           ],
         ),
       ),
