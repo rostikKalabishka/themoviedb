@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
-import 'package:themoviedb/domain/entity/popular_movie_response.dart';
+import 'package:themoviedb/domain/entity/movie/popular_movie_response/popular_movie_response.dart';
 import 'package:themoviedb/ui/routes/routes.dart';
 import 'package:intl/intl.dart';
-import '../../../../domain/entity/movie.dart';
+import '../../../../domain/entity/movie/movie.dart';
 
 class MovieListModel extends ChangeNotifier {
   final _apiClient = ApiClient();

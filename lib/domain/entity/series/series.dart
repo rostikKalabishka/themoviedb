@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'date_parser.dart';
+import '../date_parser.dart';
 part 'series.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)

@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:themoviedb/domain/entity/popular_series_response.dart';
+import 'package:themoviedb/domain/entity/series/popular_series_response/popular_series_response.dart';
 
-import '../entity/account_details.dart';
-import '../entity/favorite_movie.dart';
-import '../entity/movie_details.dart';
-import '../entity/movie_details_rec.dart';
-import '../entity/popular_movie_response.dart';
-import '../entity/series_details.dart';
-import '../entity/series_details_rec.dart';
+import '../entity/account/account_details.dart';
+import '../entity/movie/favorite_movie/favorite_movie.dart';
+import '../entity/movie/movie_details/movie_details.dart';
+import '../entity/movie/movie_details_rec/movie_details_rec.dart';
+import '../entity/movie/popular_movie_response/popular_movie_response.dart';
+import '../entity/series/series_details/series_details.dart';
+import '../entity/series/series_details_rec/series_details_rec.dart';
 import '../static_const_url_client.dart';
 
 // ignore: constant_identifier_names
@@ -344,7 +344,6 @@ class ApiClient {
       'append_to_response': 'credits,videos',
       'api_key': _apiKey,
       'language': locale,
-      // 'movie_id': movieId.toString(),
     });
     return result;
   }
@@ -443,7 +442,7 @@ class ApiClient {
         _get('/tv/$seriesId/recommendations', parser, <String, dynamic>{
       'api_key': _apiKey,
       'language': locale,
-      // 'series_id': seriesId.toString(),
+      'series_id': seriesId.toString(),
     });
     return result;
   }
@@ -460,9 +459,10 @@ class ApiClient {
     }
 
     final result = _get('/tv/$seriesId', parser, <String, dynamic>{
+      // 'append_to_response': 'credits,videos',
       'api_key': _apiKey,
       'language': locale,
-      'series_id': seriesId.toString(),
+      // 'series_id': seriesId.toString(),
     });
     return result;
   }

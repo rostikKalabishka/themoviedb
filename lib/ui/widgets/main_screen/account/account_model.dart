@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../domain/api_client/data_providers/session_data_provider.dart';
-import '../../../../domain/entity/account_details.dart';
-import '../../../../domain/entity/favorite_movie.dart';
+import '../../../../domain/entity/account/account_details.dart';
+import '../../../../domain/entity/movie/favorite_movie/favorite_movie.dart';
 import '../../../routes/routes.dart';
 
 class AccountModel extends ChangeNotifier {

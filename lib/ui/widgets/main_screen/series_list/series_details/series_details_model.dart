@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../../domain/api_client/data_providers/session_data_provider.dart';
-import '../../../../../domain/entity/series_details.dart';
-import '../../../../../domain/entity/series_details_rec.dart';
+import '../../../../../domain/entity/series/series_details/series_details.dart';
+import '../../../../../domain/entity/series/series_details_rec/series_details_rec.dart';
 import '../../../../routes/routes.dart';
 
 class SeriesDetailsModel extends ChangeNotifier {
@@ -39,9 +39,9 @@ class SeriesDetailsModel extends ChangeNotifier {
     _seriesDetails = await _apiClient.seriesDetails(seriesId, _locale);
     _seriesDetailsRec = await _apiClient.seriesDetailsRec(seriesId, _locale);
 
-    if (sessionId != null) {
-      _isFavorite = await _apiClient.isFavorite(seriesId, sessionId);
-    }
+    // if (sessionId != null) {
+    //   _isFavorite = await _apiClient.isFavorite(seriesId, sessionId);
+    // }
 
     notifyListeners();
   }

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:themoviedb/domain/entity/movie.dart';
+import 'package:themoviedb/domain/entity/movie/movie.dart';
 part 'popular_movie_response.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:themoviedb/domain/entity/popular_series_response.dart';
-import 'package:themoviedb/domain/entity/series.dart';
+import 'package:themoviedb/domain/entity/series/popular_series_response/popular_series_response.dart';
+import 'package:themoviedb/domain/entity/series/series.dart';
 import '../../../../domain/api_client/api_client.dart';
 import '../../../routes/routes.dart';
 

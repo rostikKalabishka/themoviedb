@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'date_parser.dart';
-import 'movie_details_cast.dart';
-import 'movie_details_video.dart';
+import '../../date_parser.dart';
+import '../movie_details_cast/movie_details_cast.dart';
+import '../movie_details_video/movie_details_video.dart';
 part 'movie_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
