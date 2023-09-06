@@ -12,7 +12,7 @@ class AccountModel extends ChangeNotifier {
   final _sessionDataProvider = SessionDataProvider();
   late int movieId;
   AccountDetails? _accountDetails;
-
+// String? sessionId;
   MovieFavorite? _favoriteMovie;
   String _locale = '';
   late DateFormat _dateFormat;
@@ -67,7 +67,8 @@ class AccountModel extends ChangeNotifier {
   Future<void> deleteSession(BuildContext context) async {
     final sessionId = await _sessionDataProvider.getSessionId();
     if (sessionId == null) return;
-    await _apiClient.deleteSession(sessionId);
+    final sessionIdDelete = await _apiClient.deleteSession(sessionId);
+    _sessionDataProvider.setSessionId(sessionIdDelete);
     Navigator.of(context).pushNamed(MainNavigationRouteName.auth);
   }
 }

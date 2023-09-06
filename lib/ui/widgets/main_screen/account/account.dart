@@ -76,7 +76,7 @@ class _AccountState extends State<Account> {
                 ),
                 const MovieFavoriteList(),
                 TextButton(
-                    onPressed: () => model.deleteSession,
+                    onPressed: () => model.deleteSession(context),
                     child: const Text(
                       'Logout',
                       style: TextStyle(fontSize: 22),

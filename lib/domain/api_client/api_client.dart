@@ -90,18 +90,51 @@ class ApiClient {
     }
   }
 
-  Future<T> _delete<T>(String path, T Function(dynamic json) parser,
-      [Map<String, dynamic>? parameters]) async {
-    final url = _makeUri(
-      path,
-      parameters,
-    );
-    try {
-      final request = await _client.deleteUrl(url);
-      final response = await request.close();
+  // Future<T> _delete<T>(String path, Map<String, dynamic>? urlParameters,T Function(dynamic json) parser,
+  //     [Map<String, dynamic>? parameters]) async {
+  //   final url = _makeUri(
+  //     path,
+  //     parameters,
+  //   );
+  //   try {
+  //    final request = await _client.postUrl(url);
 
+  //     request.headers.contentType = ContentType.json;
+  //     request.write(jsonEncode(bodyParameters));
+  //     final response = await request.close();
+  //     final dynamic json = (await response.jsonDecode());
+  //     _validateResponse(response, json);
+  //     final result = parser(json);
+  //     return result;
+  //   } on SocketException {
+  //     throw ApiClientException(ApiClientExceptionType.Network);
+  //   } on ApiClientException {
+  //     rethrow;
+  //   } catch (_) {
+  //     throw ApiClientException(ApiClientExceptionType.Other);
+  //   }
+  // }
+
+  Future<T> _delete<T>(
+    String path,
+    Map<String, dynamic> bodyParameters,
+    T Function(dynamic json) parser, [
+    Map<String, dynamic>? urlParameters,
+  ]) async {
+    try {
+      final url = _makeUri(
+        path,
+        urlParameters,
+      );
+
+      final request = await _client.postUrl(url);
+
+      request.headers.contentType = ContentType.json;
+      request.write(jsonEncode(bodyParameters));
+      final response = await request.close();
       final dynamic json = (await response.jsonDecode());
       _validateResponse(response, json);
+
       final result = parser(json);
       return result;
     } on SocketException {
@@ -196,17 +229,6 @@ class ApiClient {
     return result;
   }
 
-  Future<void> deleteSession(
-    String sessionId,
-  ) async {
-    parser(dynamic json) {}
-
-    final result = _delete('/authentication/session', parser, <String, dynamic>{
-      'api_key': _apiKey,
-    });
-    return result;
-  }
-
 //MOVIE
   Future<PopularMovieResponse> popularMovie(int page, String locale) async {
     parser(dynamic json) {
@@ -221,6 +243,21 @@ class ApiClient {
       'language': locale,
       'page': page.toString()
     });
+    return result;
+  }
+
+  Future<Null> deleteSession(
+    String sessionId,
+  ) async {
+    final parameters = <String, dynamic>{
+      'session_id': sessionId,
+    };
+    parser(dynamic json) {
+      return null;
+    }
+
+    final result = _delete('/authentication/session', parameters, parser,
+        <String, dynamic>{'api_key': _apiKey});
     return result;
   }
 
