@@ -5,6 +5,7 @@ import 'package:themoviedb/domain/api_client/api_client.dart';
 import '../../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../../../domain/entity/account/account_details.dart';
 import '../../../../domain/entity/movie/favorite_movie/favorite_movie.dart';
+import '../../../../domain/entity/series/favorite_series/favorite_series.dart';
 import '../../../routes/routes.dart';
 
 class AccountModel extends ChangeNotifier {
@@ -14,11 +15,13 @@ class AccountModel extends ChangeNotifier {
   AccountDetails? _accountDetails;
 // String? sessionId;
   MovieFavorite? _favoriteMovie;
+  FavoriteSeries? _favoriteSeries;
   String _locale = '';
   late DateFormat _dateFormat;
 
   AccountDetails? get accountDetails => _accountDetails;
   MovieFavorite? get favoriteMovie => _favoriteMovie;
+  FavoriteSeries? get favoriteSeries => _favoriteSeries;
 
   AccountModel();
 
@@ -38,6 +41,8 @@ class AccountModel extends ChangeNotifier {
     if (accountId == null || sessionId == null) return;
     _favoriteMovie =
         await _apiClient.favoriteMovie(accountId, _locale, 1, sessionId);
+    _favoriteSeries =
+        await _apiClient.favoriteSeries(accountId, _locale, 1, sessionId);
 
     notifyListeners();
   }
@@ -50,6 +55,14 @@ class AccountModel extends ChangeNotifier {
       final id = _favoriteMovie?.results[index].id;
       Navigator.of(context)
           .pushNamed(MainNavigationRouteName.movieDetails, arguments: id);
+    }
+  }
+
+  void onSeriesTap(BuildContext context, int index) {
+    if (_favoriteMovie != null) {
+      final id = _favoriteSeries?.results[index].id;
+      Navigator.of(context)
+          .pushNamed(MainNavigationRouteName.seriesDetails, arguments: id);
     }
   }
 

@@ -74,7 +74,7 @@ class _AccountState extends State<Account> {
                     ],
                   ),
                 ),
-                const MovieFavoriteList(),
+                const SeriesFavoriteList(),
                 TextButton(
                     onPressed: () => model.deleteSession(context),
                     child: const Text(
@@ -174,6 +174,101 @@ class MovieFavoriteList extends StatelessWidget {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         onTap: () => model.onMovieTap(context, index),
+                      ),
+                    )
+                  ]),
+                );
+              }),
+        ),
+      ]),
+    );
+  }
+}
+
+class SeriesFavoriteList extends StatelessWidget {
+  const SeriesFavoriteList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<AccountModel>(context);
+    if (model == null) return const SizedBox.shrink();
+    return SizedBox(
+      width: double.infinity,
+      // height: double.infinity,
+      child: Stack(children: [
+        SizedBox(
+          height: 163,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              itemCount: model.favoriteSeries?.results.length,
+              itemExtent: 220,
+              itemBuilder: (BuildContext context, int index) {
+                // model.showedMovieAtIndex(index);
+                final listSeries = model.favoriteSeries?.results[index];
+                final posterPath = listSeries?.posterPath;
+                if (listSeries == null) return const SizedBox.shrink();
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Colors.black.withOpacity(0.2)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2)),
+                          ]),
+                      clipBehavior: Clip.hardEdge,
+                      child: Row(
+                        children: [
+                          posterPath != null
+                              ? Image.network(
+                                  ApiClient.imageUrl(posterPath),
+                                  width: 95,
+                                )
+                              : const SizedBox.shrink(),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 20),
+                                Text(
+                                  listSeries.name,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  model.stringFromDate(listSeries.firstAirDate),
+                                  style: const TextStyle(color: Colors.grey),
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          // IconButton(
+                        ],
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        onTap: () => model.onSeriesTap(context, index),
                       ),
                     )
                   ]),

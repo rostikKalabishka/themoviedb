@@ -25,25 +25,35 @@ SeriesDetails _$SeriesDetailsFromJson(Map<String, dynamic> json) =>
       genres: (json['genres'] as List<dynamic>?)
           ?.map((e) => Genre.fromJson(e as Map<String, dynamic>))
           .toList(),
+      homepage: json['homepage'] as String?,
       id: json['id'] as int,
+      languages:
+          (json['languages'] as List<dynamic>).map((e) => e as String).toList(),
       lastAirDate: json['last_air_date'] == null
           ? null
           : DateTime.parse(json['last_air_date'] as String),
       name: json['name'] as String,
+      numberOfEpisodes: json['number_of_episodes'] as int,
+      numberOfSeasons: json['number_of_seasons'] as int,
+      originCountry: (json['origin_country'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       originalLanguage: json['original_language'] as String,
       originalName: json['original_name'] as String,
       overview: json['overview'] as String,
       popularity: (json['popularity'] as num).toDouble(),
       posterPath: json['poster_path'] as String?,
-      productionCompanies: (json['production_companies'] as List<dynamic>?)
-          ?.map((e) => ProductionCompanie.fromJson(e as Map<String, dynamic>))
+      productionCompanies: (json['production_companies'] as List<dynamic>)
+          .map((e) => ProductionCompanie.fromJson(e as Map<String, dynamic>))
           .toList(),
-      productionCountries: (json['production_countries'] as List<dynamic>?)
-          ?.map((e) => ProductionCountrie.fromJson(e as Map<String, dynamic>))
+      productionCountries: (json['production_countries'] as List<dynamic>)
+          .map((e) => ProductionCountrie.fromJson(e as Map<String, dynamic>))
           .toList(),
       spokenLanguages: (json['spoken_languages'] as List<dynamic>)
           .map((e) => SpokenLanguage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      status: json['status'] as String,
+      tagline: json['tagline'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
       voteCount: json['vote_count'] as int?,
     );
@@ -57,20 +67,27 @@ Map<String, dynamic> _$SeriesDetailsToJson(SeriesDetails instance) =>
       'episode_run_time': instance.episodeRunTime,
       'first_air_date': instance.firstAirDate?.toIso8601String(),
       'genres': instance.genres?.map((e) => e.toJson()).toList(),
+      'homepage': instance.homepage,
       'id': instance.id,
+      'languages': instance.languages,
       'last_air_date': instance.lastAirDate?.toIso8601String(),
       'name': instance.name,
+      'number_of_episodes': instance.numberOfEpisodes,
+      'number_of_seasons': instance.numberOfSeasons,
+      'origin_country': instance.originCountry,
       'original_language': instance.originalLanguage,
       'original_name': instance.originalName,
       'overview': instance.overview,
       'popularity': instance.popularity,
       'poster_path': instance.posterPath,
       'production_companies':
-          instance.productionCompanies?.map((e) => e.toJson()).toList(),
+          instance.productionCompanies.map((e) => e.toJson()).toList(),
       'production_countries':
-          instance.productionCountries?.map((e) => e.toJson()).toList(),
+          instance.productionCountries.map((e) => e.toJson()).toList(),
       'spoken_languages':
           instance.spokenLanguages.map((e) => e.toJson()).toList(),
+      'status': instance.status,
+      'tagline': instance.tagline,
       'vote_average': instance.voteAverage,
       'vote_count': instance.voteCount,
     };

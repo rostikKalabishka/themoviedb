@@ -15,29 +15,29 @@ class SeriesDetails {
   final List<int> episodeRunTime;
   final DateTime? firstAirDate;
   final List<Genre>? genres;
-  // final String? homepage;
+  final String? homepage;
   final int id;
   // final bool inProduction;
-  // final List<String> languages;
+  final List<String> languages;
   final DateTime? lastAirDate;
   // final LastEpisodeToAir lastEpisodeToAir;
   final String name;
   // final NextEpisodeToAir nextEpisodeToAir;
   // final List<Network> networks;
-  // final int numberOfEpisodes;
-  // final int numberOfSeasons;
-  // final List<String> originCountry;
+  final int numberOfEpisodes;
+  final int numberOfSeasons;
+  final List<String> originCountry;
   final String originalLanguage;
   final String originalName;
   final String overview;
   final double popularity;
   final String? posterPath;
-  final List<ProductionCompanie>? productionCompanies;
-  final List<ProductionCountrie>? productionCountries;
+  final List<ProductionCompanie> productionCompanies;
+  final List<ProductionCountrie> productionCountries;
   // final List<Season> seasons;
   final List<SpokenLanguage> spokenLanguages;
-  // final String? status;
-  // final String? tagline;
+  final String status;
+  final String? tagline;
   // final String type;
   final double voteAverage;
   final int? voteCount;
@@ -50,18 +50,18 @@ class SeriesDetails {
     required this.episodeRunTime,
     required this.firstAirDate,
     required this.genres,
-    // required this.homepage,
+    required this.homepage,
     required this.id,
     // required this.inProduction,
-    // required this.languages,
+    required this.languages,
     required this.lastAirDate,
     // required this.lastEpisodeToAir,
     required this.name,
     // required this.nextEpisodeToAir,
     // required this.networks,
-    // required this.numberOfEpisodes,
-    // required this.numberOfSeasons,
-    // required this.originCountry,
+    required this.numberOfEpisodes,
+    required this.numberOfSeasons,
+    required this.originCountry,
     required this.originalLanguage,
     required this.originalName,
     required this.overview,
@@ -71,8 +71,8 @@ class SeriesDetails {
     required this.productionCountries,
     // required this.seasons,
     required this.spokenLanguages,
-    // required this.status,
-    // required this.tagline,
+    required this.status,
+    required this.tagline,
     // required this.type,
     required this.voteAverage,
     required this.voteCount,

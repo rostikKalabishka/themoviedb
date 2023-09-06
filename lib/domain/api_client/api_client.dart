@@ -8,6 +8,7 @@ import '../entity/movie/favorite_movie/favorite_movie.dart';
 import '../entity/movie/movie_details/movie_details.dart';
 import '../entity/movie/movie_details_rec/movie_details_rec.dart';
 import '../entity/movie/popular_movie_response/popular_movie_response.dart';
+import '../entity/series/favorite_series/favorite_series.dart';
 import '../entity/series/series_details/series_details.dart';
 import '../entity/series/series_details_rec/series_details_rec.dart';
 import '../static_const_url_client.dart';
@@ -29,7 +30,7 @@ extension ApiClientMediaTypeAsString on ApiClientMediaType {
       case ApiClientMediaType.Movie:
         return 'movie';
       case ApiClientMediaType.TV:
-        return 'movie';
+        return 'tv';
     }
   }
 }
@@ -286,7 +287,7 @@ class ApiClient {
     return result;
   }
 
-  Future<MovieFavorite> favoriteSeries(
+  Future<FavoriteSeries> favoriteSeries(
     int accountId,
     String locale,
     int page,
@@ -294,13 +295,13 @@ class ApiClient {
   ) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
-      final response = MovieFavorite.fromJson(jsonMap);
+      final response = FavoriteSeries.fromJson(jsonMap);
 
       return response;
     }
 
     final result =
-        _get('/account/$accountId/favorite/movies', parser, <String, dynamic>{
+        _get('/account/$accountId/favorite/tv', parser, <String, dynamic>{
       'api_key': _apiKey,
       'language': locale,
       'page': page.toString(),
@@ -365,6 +366,25 @@ class ApiClient {
       'session_id': sessionId,
 
       // 'movie_id': movieId.toString(),
+    });
+    return result;
+  }
+
+  Future<bool> isFavoriteSeries(
+    int seriesId,
+    String sessionId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final result = jsonMap['favorite'] as bool;
+
+      return result;
+    }
+
+    final result =
+        _get('/tv/$seriesId/account_states', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'session_id': sessionId,
     });
     return result;
   }

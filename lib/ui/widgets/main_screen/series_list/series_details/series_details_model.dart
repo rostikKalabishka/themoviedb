@@ -39,9 +39,9 @@ class SeriesDetailsModel extends ChangeNotifier {
     _seriesDetails = await _apiClient.seriesDetails(seriesId, _locale);
     _seriesDetailsRec = await _apiClient.seriesDetailsRec(seriesId, _locale);
 
-    // if (sessionId != null) {
-    //   _isFavorite = await _apiClient.isFavorite(seriesId, sessionId);
-    // }
+    if (sessionId != null) {
+      _isFavorite = await _apiClient.isFavoriteSeries(seriesId, sessionId);
+    }
 
     notifyListeners();
   }
@@ -56,20 +56,20 @@ class SeriesDetailsModel extends ChangeNotifier {
     Navigator.of(context)
         .pushNamed(MainNavigationRouteName.seriesDetails, arguments: id);
   }
-  // Future<void> toggleFavorite() async {
-  //   final accountId = await _sessionDataProvide.getAccountId();
-  //   final sessionId = await _sessionDataProvide.getSessionId();
 
-  //   if (accountId == null || sessionId == null) return;
+  Future<void> toggleFavorite() async {
+    final accountId = await _sessionDataProvide.getAccountId();
+    final sessionId = await _sessionDataProvide.getSessionId();
 
-  //   _isFavorite = !_isFavorite;
+    if (accountId == null || sessionId == null) return;
 
-  //   notifyListeners();
-  //   await _apiClient.addFavorite(
-  //       accountId: accountId,
-  //       sessionId: sessionId,
-  //       mediaType: ApiClientMediaType.Movie,
-  //       mediaId: movieId,
-  //       isFavorite: _isFavorite);
-  // }
+    _isFavorite = !_isFavorite;
+    notifyListeners();
+    await _apiClient.addFavorite(
+        accountId: accountId,
+        sessionId: sessionId,
+        mediaType: ApiClientMediaType.TV,
+        mediaId: seriesId,
+        isFavorite: _isFavorite);
+  }
 }
