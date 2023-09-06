@@ -12,6 +12,7 @@ import '../widgets/main_screen/movie_list/movie_details/movie_details.dart';
 import '../widgets/main_screen/movie_list/movie_details/movie_details_model.dart';
 import '../widgets/main_screen/series_list/series_details/series_details.dart';
 import '../widgets/main_screen/series_list/series_details/series_details_model.dart';
+import '../widgets/series_trailer/series_trailer.dart';
 import '../widgets/signup/signup_screen.dart';
 import '../widgets/main_screen/main_screen_widget.dart';
 import '../widgets/resend_email/resend_email_screen.dart';
@@ -21,6 +22,7 @@ abstract class MainNavigationRouteName {
   static const mainScreen = '/';
   static const movieDetails = '/movie_details';
   static const movieTrailer = '/movie_details/trailer';
+  static const seriesTrailer = '/series_details/trailer';
   static const seriesDetails = '/series_details';
   static const resendEmail = 'resend_email';
   static const signUp = 'sign_up';
@@ -68,6 +70,12 @@ class MainNavigation {
         final youtubeKey = argument is String ? argument : '';
         return MaterialPageRoute(
           builder: (context) => MovieTrailerWidget(youtubeKey: youtubeKey),
+        );
+      case MainNavigationRouteName.seriesTrailer:
+        final argument = settings.arguments;
+        final youtubeKey = argument is String ? argument : '';
+        return MaterialPageRoute(
+          builder: (context) => SeriesTrailerWidget(youtubeKey: youtubeKey),
         );
       default:
         const widget = Text('Navigator error');

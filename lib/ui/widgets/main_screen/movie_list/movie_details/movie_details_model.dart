@@ -54,6 +54,11 @@ class MovieDetailsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void navigateYoutubeVideos(BuildContext context, String trailerKey) {
+    Navigator.of(context)
+        .pushNamed(MainNavigationRouteName.movieTrailer, arguments: trailerKey);
+  }
+
   Future<void> toggleFavorite() async {
     final accountId = await _sessionDataProvide.getAccountId();
     final sessionId = await _sessionDataProvide.getSessionId();

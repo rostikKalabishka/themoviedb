@@ -46,6 +46,11 @@ class SeriesDetailsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void navigateYoutubeVideos(BuildContext context, String trailerKey) {
+    Navigator.of(context).pushNamed(MainNavigationRouteName.seriesTrailer,
+        arguments: trailerKey);
+  }
+
   void onMovieTap(BuildContext context, int index) {
     final id = _seriesDetailsRec?.seriesRec[index].id;
     Navigator.of(context)

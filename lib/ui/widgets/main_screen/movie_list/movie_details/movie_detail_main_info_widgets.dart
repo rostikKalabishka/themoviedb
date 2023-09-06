@@ -156,9 +156,8 @@ class _ButtonWidget extends StatelessWidget {
             : const SizedBox.shrink(),
         trailerKey != null
             ? TextButton(
-                onPressed: () => Navigator.of(context).pushNamed(
-                    MainNavigationRouteName.movieTrailer,
-                    arguments: trailerKey),
+                onPressed: () =>
+                    model?.navigateYoutubeVideos(context, trailerKey),
                 child: const Row(
                   children: [
                     Icon(

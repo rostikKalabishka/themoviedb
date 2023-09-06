@@ -8,7 +8,6 @@ part of 'series_details_video.dart';
 
 SeriesDetailsVideo _$SeriesDetailsVideoFromJson(Map<String, dynamic> json) =>
     SeriesDetailsVideo(
-      id: json['id'] as int,
       results: (json['results'] as List<dynamic>)
           .map((e) =>
               SeriesDetailsVideoResult.fromJson(e as Map<String, dynamic>))
@@ -17,7 +16,6 @@ SeriesDetailsVideo _$SeriesDetailsVideoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SeriesDetailsVideoToJson(SeriesDetailsVideo instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'results': instance.results.map((e) => e.toJson()).toList(),
     };
 

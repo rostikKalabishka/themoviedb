@@ -92,7 +92,9 @@ class _ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<SeriesDetailsModel>(context);
     var percent = (model?.seriesDetails?.voteAverage) ?? 0;
-
+    final videos = model?.seriesDetails?.videos.results
+        .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+    final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,23 +126,28 @@ class _ButtonWidget extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          color: Colors.white,
-          height: 20,
-          width: 1,
-        ),
-        TextButton(
-            onPressed: () {},
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                ),
-                Text('Play Trailer',
-                    style: TextStyle(color: Colors.white, fontSize: 16))
-              ],
-            ))
+        trailerKey != null
+            ? Container(
+                color: Colors.white,
+                height: 20,
+                width: 1,
+              )
+            : const SizedBox.shrink(),
+        trailerKey != null
+            ? TextButton(
+                onPressed: () =>
+                    model?.navigateYoutubeVideos(context, trailerKey),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
+                    Text('Play Trailer',
+                        style: TextStyle(color: Colors.white, fontSize: 16))
+                  ],
+                ))
+            : const SizedBox.shrink()
       ],
     );
   }

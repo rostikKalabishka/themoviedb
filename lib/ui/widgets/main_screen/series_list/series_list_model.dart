@@ -55,6 +55,7 @@ class SeriesListModel extends ChangeNotifier {
 
     try {
       final seriesResponse = await _loadSeries(nexPage, _locale);
+
       _series.addAll(seriesResponse.series);
       _currentPage = seriesResponse.page;
       _totalPage = seriesResponse.totalPages;
@@ -77,8 +78,10 @@ class SeriesListModel extends ChangeNotifier {
 
   void onSeriesTap(BuildContext context, int index) {
     final id = _series[index].id;
+    // if (id != 2261) {
     Navigator.of(context)
         .pushNamed(MainNavigationRouteName.seriesDetails, arguments: id);
+    // }
   }
 
   void showedSeriesAtIndex(int index) {

@@ -8,6 +8,8 @@ part of 'series_details.dart';
 
 SeriesDetails _$SeriesDetailsFromJson(Map<String, dynamic> json) =>
     SeriesDetails(
+      videos:
+          SeriesDetailsVideo.fromJson(json['videos'] as Map<String, dynamic>),
       backdropPath: json['backdrop_path'] as String?,
       firstAirDate: json['first_air_date'] == null
           ? null
@@ -21,6 +23,7 @@ SeriesDetails _$SeriesDetailsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SeriesDetailsToJson(SeriesDetails instance) =>
     <String, dynamic>{
+      'videos': instance.videos.toJson(),
       'backdrop_path': instance.backdropPath,
       'first_air_date': instance.firstAirDate?.toIso8601String(),
       'id': instance.id,

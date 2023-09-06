@@ -86,7 +86,7 @@ class ApiClient {
       throw ApiClientException(ApiClientExceptionType.Network);
     } on ApiClientException {
       rethrow;
-    } catch (_) {
+    } catch (e) {
       throw ApiClientException(ApiClientExceptionType.Other);
     }
   }
@@ -459,7 +459,7 @@ class ApiClient {
     }
 
     final result = _get('/tv/$seriesId', parser, <String, dynamic>{
-      // 'append_to_response': 'credits,videos',
+      'append_to_response': 'videos', //credits
       'api_key': _apiKey,
       'language': locale,
       // 'series_id': seriesId.toString(),

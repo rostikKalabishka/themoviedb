@@ -1,10 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../series_details_video/series_details_video.dart';
+
 part 'series_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SeriesDetails {
+// final MovieDetailsCasts credits;
+
   // final bool adult;
+  final SeriesDetailsVideo videos;
   final String? backdropPath;
   // final List<CreatedBy> createdBy;
   // final List<int> episodeRunTime;
@@ -37,6 +42,7 @@ class SeriesDetails {
   final double voteAverage;
   final int voteCount;
   SeriesDetails({
+    required this.videos,
     // required this.adult,
     required this.backdropPath,
     // required this.createdBy,

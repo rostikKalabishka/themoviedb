@@ -10,9 +10,7 @@ class SeriesDetailsMainRec extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    // if (model == null) return const SizedBox.shrink();
-    // final backdropPath = model.seriesDetailsRec?.seriesRec.first.backdropPath;
-    // if (backdropPath == null) return const SizedBox.shrink();
+
     return IndexedStack(
       children: [
         ColoredBox(
@@ -56,6 +54,9 @@ class SeriesDetailsMainRec extends StatelessWidget {
                             final image = seriesRec[index].backdropPath;
                             var voteAverage = (seriesRec[index].voteAverage);
                             voteAverage = voteAverage * 10;
+                            if (title !=
+                                'The Tonight Show Starring Johnny Carson') {}
+
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Material(

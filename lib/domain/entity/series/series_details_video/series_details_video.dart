@@ -4,10 +4,8 @@ part 'series_details_video.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SeriesDetailsVideo {
-  final int id;
   final List<SeriesDetailsVideoResult> results;
   SeriesDetailsVideo({
-    required this.id,
     required this.results,
   });
   factory SeriesDetailsVideo.fromJson(Map<String, dynamic> json) =>

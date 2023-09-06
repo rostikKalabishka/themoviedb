@@ -6,13 +6,13 @@ class SeriesDetailsRec {
   final int page;
   @JsonKey(name: 'results')
   final List<SeriesDetailsRecResult> seriesRec;
-  final int totalPages;
-  final int totalResults;
+  // final int totalPages;
+  // final int totalResults;
   SeriesDetailsRec({
     required this.page,
     required this.seriesRec,
-    required this.totalPages,
-    required this.totalResults,
+    // required this.totalPages,
+    // required this.totalResults,
   });
   factory SeriesDetailsRec.fromJson(Map<String, dynamic> json) =>
       _$SeriesDetailsRecFromJson(json);
@@ -22,13 +22,13 @@ class SeriesDetailsRec {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SeriesDetailsRecResult {
   final bool adult;
-  final String backdropPath;
+  final String? backdropPath;
   final int id;
   final String name;
   final String originalLanguage;
   final String originalName;
   final String overview;
-  final String posterPath;
+  final String? posterPath;
   final String mediaType;
   final List<int> genreIds;
   final double popularity;
