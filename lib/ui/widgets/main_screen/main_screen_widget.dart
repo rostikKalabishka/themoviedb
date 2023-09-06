@@ -80,16 +80,6 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                     .pushNamed(MainNavigationRouteName.account);
               })
         ],
-        leading: IconButton(
-          icon: const Icon(
-            Icons.logout_sharp,
-            color: Color.fromARGB(255, 14, 117, 201),
-            size: 30,
-          ),
-          onPressed: () {
-            SessionDataProvider().setSessionId(null);
-          },
-        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,
@@ -103,16 +93,12 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.movie),
-            label: 'Films',
+            label: 'Movie',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.tv),
             label: 'TV series',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.people),
-          //   label: 'Account',
-          // ),
         ],
         onTap: onSelectTab,
       ),

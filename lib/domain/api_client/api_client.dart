@@ -9,6 +9,7 @@ import '../entity/movie_details.dart';
 import '../entity/movie_details_rec.dart';
 import '../entity/popular_movie_response.dart';
 import '../entity/series_details.dart';
+import '../entity/series_details_rec.dart';
 import '../static_const_url_client.dart';
 
 // ignore: constant_identifier_names
@@ -89,31 +90,6 @@ class ApiClient {
       throw ApiClientException(ApiClientExceptionType.Other);
     }
   }
-
-  // Future<T> _delete<T>(String path, Map<String, dynamic>? urlParameters,T Function(dynamic json) parser,
-  //     [Map<String, dynamic>? parameters]) async {
-  //   final url = _makeUri(
-  //     path,
-  //     parameters,
-  //   );
-  //   try {
-  //    final request = await _client.postUrl(url);
-
-  //     request.headers.contentType = ContentType.json;
-  //     request.write(jsonEncode(bodyParameters));
-  //     final response = await request.close();
-  //     final dynamic json = (await response.jsonDecode());
-  //     _validateResponse(response, json);
-  //     final result = parser(json);
-  //     return result;
-  //   } on SocketException {
-  //     throw ApiClientException(ApiClientExceptionType.Network);
-  //   } on ApiClientException {
-  //     rethrow;
-  //   } catch (_) {
-  //     throw ApiClientException(ApiClientExceptionType.Other);
-  //   }
-  // }
 
   Future<T> _delete<T>(
     String path,
@@ -310,6 +286,30 @@ class ApiClient {
     return result;
   }
 
+  Future<MovieFavorite> favoriteSeries(
+    int accountId,
+    String locale,
+    int page,
+    String sessionId,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = MovieFavorite.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result =
+        _get('/account/$accountId/favorite/movies', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      'page': page.toString(),
+      'session_id': sessionId,
+      'sort_by': 'created_at.asc'
+    });
+    return result;
+  }
+
   Future<PopularMovieResponse> searchMovie(
       int page, String locale, String query) async {
     parser(dynamic json) {
@@ -424,6 +424,26 @@ class ApiClient {
       'page': page.toString(),
       'query': query,
       'include_adult': true.toString(),
+    });
+    return result;
+  }
+
+  Future<SeriesDetailsRec> seriesDetailsRec(
+    int seriesId,
+    String locale,
+  ) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = SeriesDetailsRec.fromJson(jsonMap);
+
+      return response;
+    }
+
+    final result =
+        _get('/tv/$seriesId/recommendations', parser, <String, dynamic>{
+      'api_key': _apiKey,
+      'language': locale,
+      // 'series_id': seriesId.toString(),
     });
     return result;
   }
