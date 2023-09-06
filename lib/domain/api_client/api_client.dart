@@ -459,7 +459,7 @@ class ApiClient {
     }
 
     final result = _get('/tv/$seriesId', parser, <String, dynamic>{
-      'append_to_response': 'videos', //credits
+      'append_to_response': 'videos,credits', //
       'api_key': _apiKey,
       'language': locale,
       // 'series_id': seriesId.toString(),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../domain/api_client/api_client.dart';
+
+import '../../../../../domain/entity/series/series_details_cast/series_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
 import 'series_details_model.dart';
@@ -158,12 +160,35 @@ class _FactsSeries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    if (model == null) return SizedBox.shrink();
+    var texts = <String>[];
+    final firstAirDate = (model.seriesDetails?.firstAirDate);
+
+    if (firstAirDate != null) {
+      texts.add(model.stringFromDate(firstAirDate));
+    }
+    final productionCountries = model.seriesDetails?.productionCountries;
+    if (productionCountries != null && productionCountries.isNotEmpty) {
+      final name = '(${productionCountries.first.iso})';
+      texts.add(name);
+    }
+
+    final genres = model.seriesDetails?.genres;
+    if (genres != null && genres.isNotEmpty) {
+      var genresNames = <String>[];
+      for (var genr in genres) {
+        genresNames.add(genr.name);
+      }
+      texts.add(genresNames.join(', '));
+    }
+
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        child: const Center(
-            child: Text('PG-13 08/18/2023 (US)  2h 7m Action, Science Fiction',
+        child: Center(
+            child: Text(texts.join(' '),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 16))));
+                style: const TextStyle(color: Colors.white, fontSize: 16))));
   }
 }
 
@@ -172,92 +197,82 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    if (model == null) const SizedBox.shrink();
+    var crew = model?.seriesDetails?.credits.crew;
+    if (crew == null || crew.isEmpty) return const SizedBox.shrink();
+    crew = crew.length > 4 ? crew.sublist(0, 4) : crew;
+
+    final overview = model?.seriesDetails?.overview;
+
+    var crewChanks = <List<Crew>>[];
+    for (var i = 0; i < crew.length; i += 2) {
+      crewChanks
+          .add(crew.sublist(i, i + 2 > crew.length ? crew.length : i + 2));
+    }
+    var peopleWidgetsRow = crewChanks
+        .map(
+          (chunk) => Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: _PeopleWidgetsRow(crew: chunk),
+          ),
+        )
+        .toList();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Overview',
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          Text(
-            'Recent college grad Jaime Reyes returns home full of aspirations for his future, only to find that home is not quite as he left it. As he searches to find his purpose in the world, fate intervenes when Jaime unexpectedly finds himself in possession of an ancient relic of alien biotechnology: the Scarab.',
-            style: TextStyle(fontSize: 15, color: Colors.white),
-          ),
-          SizedBox(
+          overview != null
+              ? Text(
+                  overview,
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                )
+              : const SizedBox.shrink(),
+          const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Cully Hamner',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    'Characters',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      'Keith Giffen',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    Text('Characters', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-              )
-            ],
+          ...peopleWidgetsRow
+        ],
+      ),
+    );
+  }
+}
+
+class _PeopleWidgetsRow extends StatelessWidget {
+  final List<Crew> crew;
+  const _PeopleWidgetsRow({super.key, required this.crew});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children:
+            crew.map((crews) => _PeopleWidgetRowItems(crew: crews)).toList());
+  }
+}
+
+class _PeopleWidgetRowItems extends StatelessWidget {
+  final Crew crew;
+  const _PeopleWidgetRowItems({super.key, required this.crew});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            crew.name,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'John Rogers',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                  Text('Characters', style: TextStyle(color: Colors.white)),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Text(
-                      'Ángel Manuel Soto',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    Text('Characters', style: TextStyle(color: Colors.white)),
-                  ],
-                ),
-              )
-            ],
-          ),
+          Text(crew.job, style: const TextStyle(color: Colors.white)),
         ],
       ),
     );

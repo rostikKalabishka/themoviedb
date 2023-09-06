@@ -1,25 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../series_details_cast/series_details_cast.dart';
 import '../series_details_video/series_details_video.dart';
 
 part 'series_details.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class SeriesDetails {
-// final MovieDetailsCasts credits;
-
   // final bool adult;
+  final SeriesDetailsCast credits;
   final SeriesDetailsVideo videos;
   final String? backdropPath;
-  // final List<CreatedBy> createdBy;
-  // final List<int> episodeRunTime;
+  final List<CreatedBy> createdBy;
+  final List<int> episodeRunTime;
   final DateTime? firstAirDate;
-  // final List<Genre> genres;
-  // final String homepage;
+  final List<Genre>? genres;
+  // final String? homepage;
   final int id;
   // final bool inProduction;
   // final List<String> languages;
-  // final String lastAirDate;
+  final DateTime? lastAirDate;
   // final LastEpisodeToAir lastEpisodeToAir;
   final String name;
   // final NextEpisodeToAir nextEpisodeToAir;
@@ -27,33 +27,34 @@ class SeriesDetails {
   // final int numberOfEpisodes;
   // final int numberOfSeasons;
   // final List<String> originCountry;
-  // final String originalLanguage;
-  // final String originalName;
-  // final String overview;
-  // final double popularity;
+  final String originalLanguage;
+  final String originalName;
+  final String overview;
+  final double popularity;
   final String? posterPath;
-  // final List<ProductionCompanie> productionCompanies;
-  // final List<ProductionCountrie> productionCountries;
+  final List<ProductionCompanie>? productionCompanies;
+  final List<ProductionCountrie>? productionCountries;
   // final List<Season> seasons;
-  // final List<SpokenLanguage> spokenLanguages;
-  // final String status;
-  // final String tagline;
+  final List<SpokenLanguage> spokenLanguages;
+  // final String? status;
+  // final String? tagline;
   // final String type;
   final double voteAverage;
-  final int voteCount;
+  final int? voteCount;
   SeriesDetails({
+    required this.credits,
     required this.videos,
     // required this.adult,
     required this.backdropPath,
-    // required this.createdBy,
-    // required this.episodeRunTime,
+    required this.createdBy,
+    required this.episodeRunTime,
     required this.firstAirDate,
-    // required this.genres,
+    required this.genres,
     // required this.homepage,
     required this.id,
     // required this.inProduction,
     // required this.languages,
-    // required this.lastAirDate,
+    required this.lastAirDate,
     // required this.lastEpisodeToAir,
     required this.name,
     // required this.nextEpisodeToAir,
@@ -61,15 +62,15 @@ class SeriesDetails {
     // required this.numberOfEpisodes,
     // required this.numberOfSeasons,
     // required this.originCountry,
-    // required this.originalLanguage,
-    // required this.originalName,
-    // required this.overview,
-    // required this.popularity,
+    required this.originalLanguage,
+    required this.originalName,
+    required this.overview,
+    required this.popularity,
     required this.posterPath,
-    // required this.productionCompanies,
-    // required this.productionCountries,
+    required this.productionCompanies,
+    required this.productionCountries,
     // required this.seasons,
-    // required this.spokenLanguages,
+    required this.spokenLanguages,
     // required this.status,
     // required this.tagline,
     // required this.type,
@@ -84,10 +85,10 @@ class SeriesDetails {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class CreatedBy {
   final int id;
-  final String creditId;
-  final String name;
+  final String? creditId;
+  final String? name;
   final int gender;
-  final String profilePath;
+  final String? profilePath;
   CreatedBy({
     required this.id,
     required this.creditId,
@@ -115,17 +116,17 @@ class Genre {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class LastEpisodeToAir {
   final int id;
-  final String name;
-  final String overview;
+  final String? name;
+  final String? overview;
   final double voteAverage;
   final int voteCount;
-  final String airDate;
+  final String? airDate;
   final int episodeNumber;
-  final String productionCode;
+  final String? productionCode;
   final int runtime;
   final int seasonNumber;
   final int showId;
-  final String stillPath;
+  final String? stillPath;
   LastEpisodeToAir({
     required this.id,
     required this.name,
@@ -156,7 +157,7 @@ class NextEpisodeToAir {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Network {
   final int id;
-  final String logoPath;
+  final String? logoPath;
   final String name;
   final String originCountry;
   Network({
@@ -173,9 +174,9 @@ class Network {
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ProductionCompanie {
   final int id;
-  final String logoPath;
-  final String name;
-  final String originCountry;
+  final String? logoPath;
+  final String? name;
+  final String? originCountry;
   ProductionCompanie({
     required this.id,
     required this.logoPath,
@@ -203,12 +204,12 @@ class ProductionCountrie {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class Season {
-  final String airDate;
+  final String? airDate;
   final int episodeCount;
   final int id;
-  final String name;
-  final String overview;
-  final String posterPath;
+  final String? name;
+  final String? overview;
+  final String? posterPath;
   final int seasonNumber;
   final int voteAverage;
   Season({
@@ -227,9 +228,9 @@ class Season {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SpokenLanguage {
-  final String englishName;
+  final String? englishName;
   @JsonKey(name: 'iso_639_1')
-  final String iso;
+  final String? iso;
   final String name;
   SpokenLanguage({
     required this.englishName,
