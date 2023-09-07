@@ -6,13 +6,13 @@ import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.
 
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
 
-import '../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../Theme/app_bar_style.dart';
 
 import '../../routes/routes.dart';
 
 import 'account/account_model.dart';
 import 'home_page/home_page_widget.dart';
+import 'home_page/home_page_widget_model.dart';
 import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -24,6 +24,7 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
+  final homePageWidgetModel = HomePageWidgetModel();
   final movieListModel = MovieListModel();
   final seriesListModel = SeriesListModel();
   final accountModel = AccountModel();
@@ -46,20 +47,24 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   Widget build(BuildContext context) {
     // final model = NotifierProvider.read<MainScreenModel>(context);
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedTab,
-        children: [
-          const HomePageWidget(),
-          NotifierProvider(
-            create: () => movieListModel,
-            isManagingModel: false,
-            child: const MovieListWidget(),
-          ),
-          NotifierProvider(
-              create: () => seriesListModel,
+      body: SafeArea(
+        child: IndexedStack(
+          index: _selectedTab,
+          children: [
+            NotifierProvider(
+                create: () => homePageWidgetModel,
+                child: const HomePageWidget()),
+            NotifierProvider(
+              create: () => movieListModel,
               isManagingModel: false,
-              child: const SeriesListWidget()),
-        ],
+              child: const MovieListWidget(),
+            ),
+            NotifierProvider(
+                create: () => seriesListModel,
+                isManagingModel: false,
+                child: const SeriesListWidget()),
+          ],
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,

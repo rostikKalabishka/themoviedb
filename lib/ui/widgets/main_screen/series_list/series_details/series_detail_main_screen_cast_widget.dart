@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/resources/resources.dart';
+
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 
 import '../../../../../domain/api_client/api_client.dart';

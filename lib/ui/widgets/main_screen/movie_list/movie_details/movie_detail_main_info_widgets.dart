@@ -4,7 +4,7 @@ import 'package:themoviedb/domain/api_client/api_client.dart';
 
 import '../../../../../domain/entity/movie/movie_details_cast/movie_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
-import '../../../../routes/routes.dart';
+
 import '../../user_score/user_score.dart';
 import 'movie_details_model.dart';
 
