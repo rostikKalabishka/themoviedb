@@ -14,7 +14,7 @@ import '../entity/series/series_details_rec/series_details_rec.dart';
 import '../static_const_url_client.dart';
 
 // ignore: constant_identifier_names
-enum ApiClientExceptionType { Network, Auth, Other }
+enum ApiClientExceptionType { Network, Auth, Other, SessionExpired }
 
 class ApiClientException implements Exception {
   final ApiClientExceptionType type;
@@ -536,6 +536,8 @@ class ApiClient {
       final code = status is int ? status : 0;
       if (code == 30) {
         throw ApiClientException(ApiClientExceptionType.Auth);
+      } else if (code == 3) {
+        throw ApiClientException(ApiClientExceptionType.SessionExpired);
       } else {
         throw ApiClientException(ApiClientExceptionType.Other);
       }

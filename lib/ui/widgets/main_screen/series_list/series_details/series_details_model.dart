@@ -16,6 +16,7 @@ class SeriesDetailsModel extends ChangeNotifier {
   late DateFormat _dateFormat;
   final _sessionDataProvide = SessionDataProvider();
   SeriesDetailsRec? _seriesDetailsRec;
+  Future<void>? Function()? onSessionExpired;
 
   String stringFromDate(DateTime? date) =>
       date != null ? _dateFormat.format(date) : '';
@@ -71,5 +72,15 @@ class SeriesDetailsModel extends ChangeNotifier {
         mediaType: ApiClientMediaType.TV,
         mediaId: seriesId,
         isFavorite: _isFavorite);
+  }
+
+  void _handleApiClientException(ApiClientException exeption) {
+    switch (exeption.type) {
+      case ApiClientExceptionType.SessionExpired:
+        // onSessionExpired?.call();
+        break;
+      default:
+        print(exeption);
+    }
   }
 }

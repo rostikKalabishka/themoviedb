@@ -49,9 +49,11 @@ class AuthModel extends ChangeNotifier {
         case ApiClientExceptionType.Auth:
           _errorMessage = 'Incorrect login or password!';
           break;
+
         case ApiClientExceptionType.Other:
           _errorMessage = 'There\'s been a mistake. Try again';
           break;
+        default:
       }
     } catch (e) {
       _errorMessage = 'There\'s been a mistake. Try again';

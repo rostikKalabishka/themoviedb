@@ -12,6 +12,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     NotifierProvider.watch<AccountModel>(context)?.setupLocale(context);

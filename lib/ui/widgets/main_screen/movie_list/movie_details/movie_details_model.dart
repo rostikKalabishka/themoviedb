@@ -17,12 +17,15 @@ class MovieDetailsModel extends ChangeNotifier {
   bool _isFavorite = false;
   final _sessionDataProvide = SessionDataProvider();
   late DateFormat _dateFormat;
+  late String _errorMessage;
+  Future<void>? Function()? onSessionExpired;
 
   String stringFromDate(DateTime? date) =>
       date != null ? _dateFormat.format(date) : '';
 
   MovieDetails? get movieDetails => _movieDetails;
   MovieDetailsRec? get movieDetailRec => _movieDetailsRec;
+  String? get errorMessage => _errorMessage;
   bool get isFavorite => _isFavorite;
 
   MovieDetailsModel(
@@ -44,14 +47,18 @@ class MovieDetailsModel extends ChangeNotifier {
   }
 
   Future<void> _loadDetails() async {
-    final sessionId = await _sessionDataProvide.getSessionId();
-    _movieDetails = await _apiClient.movieDetails(movieId, _locale);
-    _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
-    if (sessionId != null) {
-      _isFavorite = await _apiClient.isFavorite(movieId, sessionId);
-    }
+    try {
+      final sessionId = await _sessionDataProvide.getSessionId();
+      _movieDetails = await _apiClient.movieDetails(movieId, _locale);
+      _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
+      if (sessionId != null) {
+        _isFavorite = await _apiClient.isFavorite(movieId, sessionId);
+      }
 
-    notifyListeners();
+      notifyListeners();
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
+    }
   }
 
   void navigateYoutubeVideos(BuildContext context, String trailerKey) {
@@ -68,11 +75,26 @@ class MovieDetailsModel extends ChangeNotifier {
     _isFavorite = !_isFavorite;
 
     notifyListeners();
-    await _apiClient.addFavorite(
-        accountId: accountId,
-        sessionId: sessionId,
-        mediaType: ApiClientMediaType.Movie,
-        mediaId: movieId,
-        isFavorite: _isFavorite);
+
+    try {
+      await _apiClient.addFavorite(
+          accountId: accountId,
+          sessionId: "sessionId",
+          mediaType: ApiClientMediaType.Movie,
+          mediaId: movieId,
+          isFavorite: _isFavorite);
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
+    }
+  }
+
+  void _handleApiClientException(ApiClientException exeption) {
+    switch (exeption.type) {
+      case ApiClientExceptionType.SessionExpired:
+        onSessionExpired?.call();
+        break;
+      default:
+        print(exeption);
+    }
   }
 }
