@@ -79,7 +79,7 @@ class MovieDetailsModel extends ChangeNotifier {
     try {
       await _apiClient.addFavorite(
           accountId: accountId,
-          sessionId: "sessionId",
+          sessionId: sessionId,
           mediaType: ApiClientMediaType.Movie,
           mediaId: movieId,
           isFavorite: _isFavorite);

@@ -21,6 +21,7 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   @override
   void initState() {
+    super.initState();
     final model = NotifierProvider.read<MovieDetailsModel>(context);
     final appModel = Provider.read<MainModel>(context);
     model?.onSessionExpired = () => appModel?.resetSession(context);

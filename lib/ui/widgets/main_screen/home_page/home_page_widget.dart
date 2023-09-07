@@ -46,6 +46,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ],
                   ),
                 ),
+                SizedBox(height: 10),
                 PopularMovie(),
                 Padding(
                   padding: EdgeInsets.all(10.0),
@@ -80,7 +81,7 @@ class PopularSeries extends StatelessWidget {
 
     var series = model.popularSeriesResponse?.series;
     return SizedBox(
-      height: 310,
+      height: 295,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 20,
@@ -186,7 +187,7 @@ class PopularMovie extends StatelessWidget {
 
     var movies = model.popularMovieResponse?.movies;
     return SizedBox(
-      height: 310,
+      height: 295,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 20,

@@ -36,15 +36,19 @@ class SeriesDetailsModel extends ChangeNotifier {
   }
 
   Future<void> _loadDetails() async {
-    final sessionId = await _sessionDataProvide.getSessionId();
-    _seriesDetails = await _apiClient.seriesDetails(seriesId, _locale);
-    _seriesDetailsRec = await _apiClient.seriesDetailsRec(seriesId, _locale);
+    try {
+      final sessionId = await _sessionDataProvide.getSessionId();
+      _seriesDetails = await _apiClient.seriesDetails(seriesId, _locale);
+      _seriesDetailsRec = await _apiClient.seriesDetailsRec(seriesId, _locale);
 
-    if (sessionId != null) {
-      _isFavorite = await _apiClient.isFavoriteSeries(seriesId, sessionId);
+      if (sessionId != null) {
+        _isFavorite = await _apiClient.isFavoriteSeries(seriesId, sessionId);
+      }
+
+      notifyListeners();
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
     }
-
-    notifyListeners();
   }
 
   void navigateYoutubeVideos(BuildContext context, String trailerKey) {
@@ -66,12 +70,17 @@ class SeriesDetailsModel extends ChangeNotifier {
 
     _isFavorite = !_isFavorite;
     notifyListeners();
-    await _apiClient.addFavorite(
-        accountId: accountId,
-        sessionId: sessionId,
-        mediaType: ApiClientMediaType.TV,
-        mediaId: seriesId,
-        isFavorite: _isFavorite);
+
+    try {
+      await _apiClient.addFavorite(
+          accountId: accountId,
+          sessionId: sessionId,
+          mediaType: ApiClientMediaType.TV,
+          mediaId: seriesId,
+          isFavorite: _isFavorite);
+    } on ApiClientException catch (e) {
+      _handleApiClientException(e);
+    }
   }
 
   void _handleApiClientException(ApiClientException exeption) {
