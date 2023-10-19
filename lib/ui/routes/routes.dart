@@ -1,50 +1,30 @@
-// ignore_for_file: unnecessary_type_check
 import 'package:flutter/material.dart';
-import 'package:themoviedb/ui/widgets/main_screen/account/account.dart';
-import 'package:themoviedb/ui/widgets/main_screen/account/account_model.dart';
-import 'package:themoviedb/ui/widgets/movie_trailer/movie_trailer_widget.dart';
 
-import '../../library/widgets/inherited/provider.dart';
-import '../widgets/auth/auth_modal.dart';
-import '../widgets/auth/auth_widget.dart';
-import '../widgets/main_screen/main_screen_model.dart';
-import '../widgets/main_screen/movie_list/movie_details/movie_details.dart';
-import '../widgets/main_screen/movie_list/movie_details/movie_details_model.dart';
-import '../widgets/main_screen/series_list/series_details/series_details.dart';
-import '../widgets/main_screen/series_list/series_details/series_details_model.dart';
-import '../widgets/series_trailer/series_trailer.dart';
-import '../widgets/signup/signup_screen.dart';
-import '../widgets/main_screen/main_screen_widget.dart';
-import '../widgets/resend_email/resend_email_screen.dart';
+import '../../domain/factories/screen_factory.dart';
 
 abstract class MainNavigationRouteName {
-  static const auth = 'auth';
-  static const mainScreen = '/';
-  static const movieDetails = '/movie_details';
-  static const movieTrailer = '/movie_details/trailer';
-  static const seriesTrailer = '/series_details/trailer';
-  static const seriesDetails = '/series_details';
+  static const loaderScreen = '/';
+  static const auth = '/auth';
+  static const mainScreen = '/main_screen';
+  static const movieDetails = '/main_screen/movie_details';
+  static const movieTrailer = '/main_screen/movie_details/trailer';
+  static const seriesTrailer = '/main_screen/series_details/trailer';
+  static const seriesDetails = '/main_screen/series_details';
   static const resendEmail = 'resend_email';
-  static const signUp = 'sign_up';
-  static const account = '/account';
+  static const signUp = '/sign_up';
+  static const account = '/main_screen/account';
 }
 
 class MainNavigation {
-  String initialRoute(bool isAuth) => isAuth
-      ? MainNavigationRouteName.mainScreen
-      : MainNavigationRouteName.auth;
-
+  static final _screenFactory = ScreenFactory();
   final routes = <String, Widget Function(BuildContext)>{
-    MainNavigationRouteName.auth: (context) => NotifierProvider(
-          create: () => AuthModel(),
-          child: const AuthWidget(),
-        ),
-    MainNavigationRouteName.mainScreen: (context) => NotifierProvider(
-        create: () => MainScreenModel(), child: const MainScreenWidget()),
-    MainNavigationRouteName.resendEmail: (context) => const ResendEmailScreen(),
-    MainNavigationRouteName.signUp: (context) => const SignUpScreen(),
-    MainNavigationRouteName.account: (context) =>
-        NotifierProvider(create: () => AccountModel(), child: const Account())
+    MainNavigationRouteName.loaderScreen: (_) => _screenFactory.makeLoader(),
+    MainNavigationRouteName.auth: (_) => _screenFactory.makeAuth(),
+    MainNavigationRouteName.mainScreen: (_) => _screenFactory.makeMainScreen(),
+    MainNavigationRouteName.resendEmail: (_) =>
+        _screenFactory.makeResendEmail(),
+    MainNavigationRouteName.signUp: (_) => _screenFactory.makeSignUp(),
+    MainNavigationRouteName.account: (_) => _screenFactory.makeAccount()
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
@@ -53,29 +33,26 @@ class MainNavigation {
         final argument = settings.arguments;
         final movieId = argument is int ? argument : 0;
         return MaterialPageRoute(
-          builder: (context) => NotifierProvider(
-              create: () => MovieDetailsModel(movieId),
-              child: const MovieDetails()),
-        );
+            builder: (context) => _screenFactory.makeMovieDetails(movieId));
       case MainNavigationRouteName.seriesDetails:
         final argument = settings.arguments;
         final serialId = argument is int ? argument : 0;
         return MaterialPageRoute(
-          builder: (context) => NotifierProvider(
-              create: () => SeriesDetailsModel(serialId),
-              child: const SeriesDetails()),
+          builder: (context) => _screenFactory.makeSeriesDetails(serialId),
         );
       case MainNavigationRouteName.movieTrailer:
         final argument = settings.arguments;
         final youtubeKey = argument is String ? argument : '';
         return MaterialPageRoute(
-          builder: (context) => MovieTrailerWidget(youtubeKey: youtubeKey),
+          builder: (context) =>
+              _screenFactory.makeMovieTrailerWidget(youtubeKey),
         );
       case MainNavigationRouteName.seriesTrailer:
         final argument = settings.arguments;
         final youtubeKey = argument is String ? argument : '';
         return MaterialPageRoute(
-          builder: (context) => SeriesTrailerWidget(youtubeKey: youtubeKey),
+          builder: (context) =>
+              _screenFactory.makeSeriesTrailerWidget(youtubeKey),
         );
       default:
         const widget = Text('Navigator error');
