@@ -35,11 +35,11 @@ class NetworkClient {
       final result = parser(json);
       return result;
     } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.Network);
+      throw ApiClientException(ApiClientExceptionType.network);
     } on ApiClientException {
       rethrow;
     } catch (e) {
-      throw ApiClientException(ApiClientExceptionType.Other);
+      throw ApiClientException(ApiClientExceptionType.other);
     }
   }
 
@@ -66,11 +66,11 @@ class NetworkClient {
       final result = parser(json);
       return result;
     } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.Network);
+      throw ApiClientException(ApiClientExceptionType.network);
     } on ApiClientException {
       rethrow;
     } catch (_) {
-      throw ApiClientException(ApiClientExceptionType.Other);
+      throw ApiClientException(ApiClientExceptionType.other);
     }
   }
 
@@ -97,11 +97,11 @@ class NetworkClient {
       final result = parser(json);
       return result;
     } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.Network);
+      throw ApiClientException(ApiClientExceptionType.network);
     } on ApiClientException {
       rethrow;
     } catch (_) {
-      throw ApiClientException(ApiClientExceptionType.Other);
+      throw ApiClientException(ApiClientExceptionType.other);
     }
   }
 
@@ -110,11 +110,11 @@ class NetworkClient {
       final dynamic status = json['status_code'];
       final code = status is int ? status : 0;
       if (code == 30) {
-        throw ApiClientException(ApiClientExceptionType.Auth);
+        throw ApiClientException(ApiClientExceptionType.auth);
       } else if (code == 3) {
-        throw ApiClientException(ApiClientExceptionType.SessionExpired);
+        throw ApiClientException(ApiClientExceptionType.sessionExpired);
       } else {
-        throw ApiClientException(ApiClientExceptionType.Other);
+        throw ApiClientException(ApiClientExceptionType.other);
       }
     }
   }
