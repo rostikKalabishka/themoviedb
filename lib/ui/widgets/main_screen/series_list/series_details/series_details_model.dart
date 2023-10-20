@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
-
+import '../../../../../domain/api_client/account_api_client/account_api_client.dart';
+import '../../../../../domain/api_client/api_client_exaption.dart';
 import '../../../../../domain/api_client/data_providers/session_data_provider.dart';
+import '../../../../../domain/api_client/series_api_client/series_api_client.dart';
 import '../../../../../domain/entity/series/series_details/series_details.dart';
 import '../../../../../domain/entity/series/series_details_rec/series_details_rec.dart';
 import '../../../../routes/routes.dart';
 
 class SeriesDetailsModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _seriesApiClient = SeriesApiClient();
+  final _accountApiClient = AccountApiClient();
   final int seriesId;
   SeriesDetails? _seriesDetails;
   String _locale = '';
@@ -38,11 +40,13 @@ class SeriesDetailsModel extends ChangeNotifier {
   Future<void> _loadDetails() async {
     try {
       final sessionId = await _sessionDataProvide.getSessionId();
-      _seriesDetails = await _apiClient.seriesDetails(seriesId, _locale);
-      _seriesDetailsRec = await _apiClient.seriesDetailsRec(seriesId, _locale);
+      _seriesDetails = await _seriesApiClient.seriesDetails(seriesId, _locale);
+      _seriesDetailsRec =
+          await _seriesApiClient.seriesDetailsRec(seriesId, _locale);
 
       if (sessionId != null) {
-        _isFavorite = await _apiClient.isFavoriteSeries(seriesId, sessionId);
+        _isFavorite =
+            await _seriesApiClient.isFavoriteSeries(seriesId, sessionId);
       }
 
       notifyListeners();
@@ -72,10 +76,10 @@ class SeriesDetailsModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _apiClient.addFavorite(
+      await _accountApiClient.addFavorite(
           accountId: accountId,
           sessionId: sessionId,
-          mediaType: ApiClientMediaType.TV,
+          mediaType: ApiClientMediaType.tv,
           mediaId: seriesId,
           isFavorite: _isFavorite);
     } on ApiClientException catch (e) {

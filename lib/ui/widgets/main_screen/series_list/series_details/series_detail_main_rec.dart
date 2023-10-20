@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 
+import '../../../../../domain/api_client/network_client.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 
 class SeriesDetailsMainRec extends StatelessWidget {
@@ -80,7 +80,7 @@ class SeriesDetailsMainRec extends StatelessWidget {
                                         children: [
                                           image != null
                                               ? Image.network(
-                                                  ApiClient.imageUrl(image))
+                                                  NetworkClient.imageUrl(image))
                                               : const Image(
                                                   image: AssetImage(
                                                       'images/place2.png')),

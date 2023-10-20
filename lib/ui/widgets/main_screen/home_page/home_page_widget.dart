@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
-
+import '../../../../domain/api_client/network_client.dart';
 import '../../../../library/widgets/inherited/provider.dart';
 import '../user_score/user_score.dart';
 import 'home_page_widget_model.dart';
@@ -123,7 +122,7 @@ class PopularSeries extends StatelessWidget {
                           ),
                           child: posterPath != null
                               ? Image.network(
-                                  ApiClient.imageUrl(posterPath),
+                                  NetworkClient.imageUrl(posterPath),
                                   width: 150,
                                   height: 225,
                                 )
@@ -228,7 +227,7 @@ class PopularMovie extends StatelessWidget {
                           ),
                           child: posterPath != null
                               ? Image.network(
-                                  ApiClient.imageUrl(posterPath),
+                                  NetworkClient.imageUrl(posterPath),
                                   width: 150,
                                   height: 225,
                                 )

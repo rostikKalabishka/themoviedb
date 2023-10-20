@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../domain/api_client/api_client.dart';
+import '../../../../domain/api_client/movie_api_client/movie_api_client.dart';
+import '../../../../domain/api_client/series_api_client/series_api_client.dart';
 import '../../../../domain/entity/movie/popular_movie_response/popular_movie_response.dart';
 
 import '../../../../domain/entity/series/popular_series_response/popular_series_response.dart';
 import '../../../routes/routes.dart';
 
 class HomePageWidgetModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _movieApiClient = MovieApiClient();
+  final _seriesApiClient = SeriesApiClient();
+
   String _locale = '';
   late DateFormat _dateFormat;
   PopularMovieResponse? _popularMovieResponse;
@@ -42,10 +45,10 @@ class HomePageWidgetModel extends ChangeNotifier {
   }
 
   Future _loadMovies(String locale) async {
-    _popularMovieResponse = await _apiClient.popularMovie(1, _locale);
+    _popularMovieResponse = await _movieApiClient.popularMovie(1, _locale);
   }
 
   Future _loadSeries(String locale) async {
-    _popularSeriesResponse = await _apiClient.popularSeries(1, _locale);
+    _popularSeriesResponse = await _seriesApiClient.popularSeries(1, _locale);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:themoviedb/domain/api_client/network_client.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.dart';
-
-import '../../../../domain/api_client/api_client.dart';
 import '../../../../library/widgets/inherited/provider.dart';
 
 class SeriesListWidget extends StatelessWidget {
@@ -39,7 +38,7 @@ class SeriesListWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       posterPath != null
-                          ? Image.network(ApiClient.imageUrl(posterPath))
+                          ? Image.network(NetworkClient.imageUrl(posterPath))
                           : const SizedBox.shrink(),
                       const SizedBox(width: 15),
                       Expanded(
