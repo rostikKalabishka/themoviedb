@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
-
+import '../../../../../domain/api_client/network_client.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 
 import 'movie_details_model.dart';
@@ -63,7 +62,7 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
                               children: [
                                 profilePath != null
                                     ? Image.network(
-                                        ApiClient.imageUrl(profilePath),
+                                        NetworkClient.imageUrl(profilePath),
                                       )
                                     : const Image(
                                         height: 230,

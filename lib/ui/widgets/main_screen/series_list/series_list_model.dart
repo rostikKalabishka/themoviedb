@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/entity/series/popular_series_response/popular_series_response.dart';
 import 'package:themoviedb/domain/entity/series/series.dart';
-import '../../../../domain/api_client/api_client.dart';
+
+import '../../../../domain/api_client/series_api_client/series_api_client.dart';
 import '../../../routes/routes.dart';
 
 class SeriesListModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _seriesApiClient = SeriesApiClient();
   final _series = <Series>[];
   late int _currentPage;
   late int _totalPage;
@@ -41,10 +42,10 @@ class SeriesListModel extends ChangeNotifier {
   Future<PopularSeriesResponse> _loadSeries(int nextPage, String locale) async {
     final query = _searchQuery;
     if (query == null) {
-      await _apiClient.popularSeries(nextPage, _locale);
-      return await _apiClient.popularSeries(nextPage, _locale);
+      await _seriesApiClient.popularSeries(nextPage, _locale);
+      return await _seriesApiClient.popularSeries(nextPage, _locale);
     } else {
-      return await _apiClient.searchSeries(nextPage, _locale, query);
+      return await _seriesApiClient.searchSeries(nextPage, _locale, query);
     }
   }
 

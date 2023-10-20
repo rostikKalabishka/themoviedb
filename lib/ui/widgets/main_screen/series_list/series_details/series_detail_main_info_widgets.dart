@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../../../domain/api_client/api_client.dart';
-
+import '../../../../../domain/api_client/network_client.dart';
 import '../../../../../domain/entity/series/series_details_cast/series_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 import '../../user_score/user_score.dart';
@@ -47,13 +45,13 @@ class _TopPosterWidget extends StatelessWidget {
       child: Stack(
         children: [
           backdropPath != null
-              ? Image.network(ApiClient.imageUrl(backdropPath))
+              ? Image.network(NetworkClient.imageUrl(backdropPath))
               : const SizedBox.shrink(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: posterPath != null
                 ? Image.network(
-                    ApiClient.imageUrl(posterPath),
+                    NetworkClient.imageUrl(posterPath),
                     width: 90,
                     height: 150,
                   )

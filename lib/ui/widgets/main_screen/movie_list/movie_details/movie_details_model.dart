@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:themoviedb/domain/api_client/api_client.dart';
+import 'package:themoviedb/domain/api_client/account_api_client/account_api_client.dart';
+import 'package:themoviedb/domain/api_client/movie_api_client/movie_api_client.dart';
 
+import '../../../../../domain/api_client/api_client_exaption.dart';
 import '../../../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../../../../domain/entity/movie/movie_details/movie_details.dart';
 import '../../../../../domain/entity/movie/movie_details_rec/movie_details_rec.dart';
 import '../../../../routes/routes.dart';
 
 class MovieDetailsModel extends ChangeNotifier {
-  final _apiClient = ApiClient();
+  final _movieApiClient = MovieApiClient();
+  final _accountApiClient = AccountApiClient();
 
   final int movieId;
   MovieDetails? _movieDetails;
@@ -49,10 +52,11 @@ class MovieDetailsModel extends ChangeNotifier {
   Future<void> _loadDetails() async {
     try {
       final sessionId = await _sessionDataProvide.getSessionId();
-      _movieDetails = await _apiClient.movieDetails(movieId, _locale);
-      _movieDetailsRec = await _apiClient.movieDetailsRec(movieId, _locale);
+      _movieDetails = await _movieApiClient.movieDetails(movieId, _locale);
+      _movieDetailsRec =
+          await _movieApiClient.movieDetailsRec(movieId, _locale);
       if (sessionId != null) {
-        _isFavorite = await _apiClient.isFavorite(movieId, sessionId);
+        _isFavorite = await _movieApiClient.isFavorite(movieId, sessionId);
       }
 
       notifyListeners();
@@ -77,10 +81,10 @@ class MovieDetailsModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _apiClient.addFavorite(
+      await _accountApiClient.addFavorite(
           accountId: accountId,
           sessionId: sessionId,
-          mediaType: ApiClientMediaType.Movie,
+          mediaType: ApiClientMediaType.movie,
           mediaId: movieId,
           isFavorite: _isFavorite);
     } on ApiClientException catch (e) {

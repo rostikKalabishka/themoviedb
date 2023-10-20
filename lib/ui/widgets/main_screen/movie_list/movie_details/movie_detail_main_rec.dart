@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:themoviedb/library/widgets/inherited/provider.dart';
-import '../../../../../domain/api_client/api_client.dart';
+import '../../../../../domain/api_client/network_client.dart';
 import 'movie_details_model.dart';
 
 class MovieDetailsMainRec extends StatelessWidget {
@@ -75,7 +75,7 @@ class MovieDetailsMainRec extends StatelessWidget {
                                         children: [
                                           image != null
                                               ? Image.network(
-                                                  ApiClient.imageUrl(image))
+                                                  NetworkClient.imageUrl(image))
                                               : const Image(
                                                   image: AssetImage(
                                                       'images/place2.png')),

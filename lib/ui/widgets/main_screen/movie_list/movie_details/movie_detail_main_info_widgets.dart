@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:themoviedb/domain/api_client/api_client.dart';
-
+import '../../../../../domain/api_client/network_client.dart';
 import '../../../../../domain/entity/movie/movie_details_cast/movie_details_cast.dart';
 import '../../../../../library/widgets/inherited/provider.dart';
 
@@ -48,14 +47,14 @@ class _TopPosterWidget extends StatelessWidget {
       child: Stack(
         children: [
           backdropPath != null
-              ? Image.network(ApiClient.imageUrl(backdropPath))
+              ? Image.network(NetworkClient.imageUrl(backdropPath))
               : const SizedBox.shrink(),
           posterPath != null
               ? Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Image.network(
-                    ApiClient.imageUrl(posterPath),
+                    NetworkClient.imageUrl(posterPath),
                     width: 90,
                     height: 150,
                   ),
@@ -180,7 +179,7 @@ class _FactsMovie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    if (model == null) return SizedBox.shrink();
+    if (model == null) return const SizedBox.shrink();
     var texts = <String>[];
     final releaseDate = (model.movieDetails?.releaseDate);
 
