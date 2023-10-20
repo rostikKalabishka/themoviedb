@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/library/widgets/inherited/provider.dart';
-
 import 'package:themoviedb/ui/routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

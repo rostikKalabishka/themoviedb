@@ -69,8 +69,11 @@ class AuthApiClient {
       return sessionId;
     }
 
-    final result = _networkClient.post('/authentication/session/new',
-        parameters, parser, <String, dynamic>{'api_key': Configuration.apiKey});
+    final result = _networkClient.post(
+        '${Configuration.host}/authentication/session/new',
+        parameters,
+        parser,
+        <String, dynamic>{'api_key': Configuration.apiKey});
 
     return result;
   }

@@ -46,15 +46,15 @@ class AuthModel extends ChangeNotifier {
       accountId = await _accountClient.getAccountInfo(sessionId);
     } on ApiClientException catch (e) {
       switch (e.type) {
-        case ApiClientExceptionType.Network:
+        case ApiClientExceptionType.network:
           _errorMessage =
               'The server is unavailable. Check your internet connection';
           break;
-        case ApiClientExceptionType.Auth:
+        case ApiClientExceptionType.auth:
           _errorMessage = 'Incorrect login or password!';
           break;
 
-        case ApiClientExceptionType.Other:
+        case ApiClientExceptionType.other:
           _errorMessage = 'There\'s been a mistake. Try again';
           break;
         default:

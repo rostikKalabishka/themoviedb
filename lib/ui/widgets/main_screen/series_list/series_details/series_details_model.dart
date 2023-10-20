@@ -89,7 +89,7 @@ class SeriesDetailsModel extends ChangeNotifier {
 
   void _handleApiClientException(ApiClientException exeption) {
     switch (exeption.type) {
-      case ApiClientExceptionType.SessionExpired:
+      case ApiClientExceptionType.sessionExpired:
         // onSessionExpired?.call();
         break;
       default:
