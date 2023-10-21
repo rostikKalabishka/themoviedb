@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:themoviedb/domain/api_client/network_client.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.dart';
-import '../../../../library/widgets/inherited/provider.dart';
 
-class SeriesListWidget extends StatelessWidget {
+class SeriesListWidget extends StatefulWidget {
   const SeriesListWidget({super.key});
+
+  @override
+  State<SeriesListWidget> createState() => _SeriesListWidgetState();
+}
+
+class _SeriesListWidgetState extends State<SeriesListWidget> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.watch<SeriesListModel>().setupLocale(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesListModel>(context);
+    final model = context.watch<SeriesListModel>();
 
-    if (model == null) return const SizedBox.shrink();
     return Stack(children: [
       ListView.builder(
           padding: const EdgeInsets.only(top: 80),
