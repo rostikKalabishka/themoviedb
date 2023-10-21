@@ -6,6 +6,7 @@ import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.
 
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
 
+import '../../../domain/factories/screen_factory.dart';
 import '../../Theme/app_bar_style.dart';
 
 import '../../routes/routes.dart';
@@ -24,10 +25,7 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 0;
-  final homePageWidgetModel = HomePageWidgetModel();
-  final movieListModel = MovieListModel();
-  final seriesListModel = SeriesListModel();
-  final accountModel = AccountModel();
+  final _screenFactory = ScreenFactory();
 
   void onSelectTab(int index) {
     if (_selectedTab == index) return;
@@ -37,32 +35,15 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
   }
 
   @override
-  void didChangeDependencies() {
-    movieListModel.setupLocale(context);
-    seriesListModel.setupLocale(context);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // final model = NotifierProvider.read<MainScreenModel>(context);
     return Scaffold(
       body: SafeArea(
         child: IndexedStack(
           index: _selectedTab,
           children: [
-            NotifierProvider(
-                create: () => homePageWidgetModel,
-                child: const HomePageWidget()),
-            NotifierProvider(
-              create: () => movieListModel,
-              isManagingModel: false,
-              child: const MovieListWidget(),
-            ),
-            NotifierProvider(
-                create: () => seriesListModel,
-                isManagingModel: false,
-                child: const SeriesListWidget()),
+            _screenFactory.makeHomePage(),
+            _screenFactory.makeMovieList(),
+            _screenFactory.makeSeriesList()
           ],
         ),
       ),

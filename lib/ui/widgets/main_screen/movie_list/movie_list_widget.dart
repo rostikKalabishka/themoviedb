@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../domain/api_client/network_client.dart';
-import '../../../../library/widgets/inherited/provider.dart';
+
 import 'movie_list_model.dart';
 
-class MovieListWidget extends StatelessWidget {
+class MovieListWidget extends StatefulWidget {
   const MovieListWidget({super.key});
+
+  @override
+  State<MovieListWidget> createState() => _MovieListWidgetState();
+}
+
+class _MovieListWidgetState extends State<MovieListWidget> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<MovieListModel>().setupLocale(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieListModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<MovieListModel>();
+
     return Stack(children: [
       ListView.builder(
           padding: const EdgeInsets.only(top: 80),
