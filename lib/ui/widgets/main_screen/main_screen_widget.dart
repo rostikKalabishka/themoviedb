@@ -1,20 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/library/widgets/inherited/provider.dart';
-
-import 'package:themoviedb/ui/widgets/main_screen/movie_list/movie_list_model.dart';
-import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_model.dart';
-
-import 'package:themoviedb/ui/widgets/main_screen/series_list/series_list_widget.dart';
-
 import '../../../domain/factories/screen_factory.dart';
 import '../../Theme/app_bar_style.dart';
-
 import '../../routes/routes.dart';
-
-import 'account/account_model.dart';
-import 'home_page/home_page_widget.dart';
-import 'home_page/home_page_widget_model.dart';
-import 'movie_list/movie_list_widget.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
