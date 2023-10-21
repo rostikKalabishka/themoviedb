@@ -14,7 +14,8 @@ class MovieApiClient {
 //account
 
 //MOVIE
-  Future<PopularMovieResponse> popularMovie(int page, String locale) async {
+  Future<PopularMovieResponse> popularMovie(
+      int page, String locale, String apiKey) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = PopularMovieResponse.fromJson(jsonMap);
@@ -57,7 +58,7 @@ class MovieApiClient {
   }
 
   Future<PopularMovieResponse> searchMovie(
-      int page, String locale, String query) async {
+      int page, String locale, String query, String apiKey) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = PopularMovieResponse.fromJson(jsonMap);
@@ -67,7 +68,7 @@ class MovieApiClient {
 
     final result = _networkClient
         .get('${Configuration.host}/search/movie', parser, <String, dynamic>{
-      'api_key': Configuration.apiKey,
+      'api_key': apiKey,
       'language': locale,
       'page': page.toString(),
       'query': query,
