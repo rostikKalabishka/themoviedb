@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../domain/api_client/movie_api_client/movie_api_client.dart';
 import '../../../../domain/api_client/series_api_client/series_api_client.dart';
 import '../../../../domain/entity/movie/popular_movie_response/popular_movie_response.dart';
-
 import '../../../../domain/entity/series/popular_series_response/popular_series_response.dart';
 import '../../../../domain/services/movie_service/movie_service.dart';
 import '../../../routes/routes.dart';

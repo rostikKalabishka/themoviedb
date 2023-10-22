@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:themoviedb/domain/api_client/data_providers/session_data_provider.dart';
-import 'package:themoviedb/ui/routes/routes.dart';
 import 'package:themoviedb/ui/widgets/auth/auth_modal.dart';
-
-import '../../../library/widgets/inherited/provider.dart';
 import '../../Theme/app_bar_style.dart';
 import '../../Theme/button_style.dart';
 import '../../Theme/theme.dart';
 
-class AuthWidget extends StatefulWidget {
+class AuthWidget extends StatelessWidget {
   const AuthWidget({super.key});
-
-  @override
-  State<AuthWidget> createState() => _AuthWidgetState();
-}
-
-class _AuthWidgetState extends State<AuthWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +61,7 @@ class _HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(fontSize: 16, color: Colors.black);
-    final navigator = Navigator.of(context);
+    final model = context.read<AuthModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -86,7 +78,7 @@ class _HeaderWidget extends StatelessWidget {
           TextButton(
               style: AppButtonStyle.linkButton,
               onPressed: () {
-                navigator.pushNamed(MainNavigationRouteName.signUp);
+                model.navigatorToSignUp(context);
               },
               child: const Text('Register')),
           const SizedBox(height: 25),
@@ -97,7 +89,7 @@ class _HeaderWidget extends StatelessWidget {
           const SizedBox(height: 5),
           TextButton(
             onPressed: () {
-              navigator.pushNamed(MainNavigationRouteName.resendEmail);
+              model.navigatorToResendEmail(context);
             },
             style: AppButtonStyle.linkButton,
             child: const Text('Verify Email'),
@@ -121,7 +113,7 @@ class _FormWidget extends StatelessWidget {
     final _passwordFocus = FocusNode();
     const textStyle = TextStyle(fontSize: 16, color: Color(0xFF212529));
     const textFieldStyle = textFormFieldStyle;
-    final model = NotifierProvider.read<AuthModel>(context);
+    final model = context.read<AuthModel>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +127,7 @@ class _FormWidget extends StatelessWidget {
         TextFormField(
           focusNode: _loginFocus,
           autofocus: true,
-          controller: model?.loginTextController,
+          controller: model.loginTextController,
           decoration: textFieldStyle,
         ),
         const SizedBox(height: 20),
@@ -146,7 +138,7 @@ class _FormWidget extends StatelessWidget {
         const SizedBox(height: 5),
         TextFormField(
           focusNode: _passwordFocus,
-          controller: model?.passwordTextController,
+          controller: model.passwordTextController,
           decoration: textFieldStyle,
           obscureText: true,
         ),
@@ -173,10 +165,9 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AuthModel>(context);
-    final onPressed =
-        model?.canStartAuth == true ? () => model?.auth(context) : null;
-    final child = model?.isAuthProgress == true
+    final model = context.watch<AuthModel>();
+    final onPressed = model.canStartAuth ? () => model.auth(context) : null;
+    final child = model.isAuthProgress == true
         ? const SizedBox(
             width: 15,
             height: 15,
@@ -199,7 +190,8 @@ class _ErrorMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final errorMessage =
-        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
+        context.select((AuthModel value) => value.errorMessage);
+
     if (errorMessage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
