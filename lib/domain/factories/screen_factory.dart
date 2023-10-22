@@ -36,8 +36,8 @@ class ScreenFactory {
   }
 
   Widget makeAuth() {
-    return old_provider.NotifierProvider(
-      create: () => AuthModel(),
+    return ChangeNotifierProvider(
+      create: (_) => AuthModel(),
       child: const AuthWidget(),
     );
   }

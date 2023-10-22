@@ -1,18 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
-import 'package:themoviedb/domain/api_client/data_providers/session_data_provider.dart';
 import 'package:themoviedb/ui/routes/routes.dart';
-
-import '../../../domain/api_client/account_api_client/account_api_client.dart';
 import '../../../domain/api_client/api_client_exaption.dart';
-import '../../../domain/api_client/auth_api_client/auth_api_client.dart';
+import '../../../domain/services/auth_service/auth_service.dart';
 
 class AuthModel extends ChangeNotifier {
-  final _authClient = AuthApiClient();
-  final _accountClient = AccountApiClient();
-  final _sessionDataProvider = SessionDataProvider();
+  final _authClient = AuthService();
 
   final loginTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -24,58 +17,65 @@ class AuthModel extends ChangeNotifier {
   bool get canStartAuth => !_isAuthProgress;
   bool get isAuthProgress => _isAuthProgress;
 
+  void navigatorToSignUp(BuildContext context) {
+    Navigator.of(context).pushNamed(MainNavigationRouteName.signUp);
+  }
+
+  void navigatorToResendEmail(BuildContext context) {
+    Navigator.of(context).pushNamed(MainNavigationRouteName.resendEmail);
+  }
+
+  bool _isValid(String login, String password) =>
+      login.isNotEmpty && password.isNotEmpty;
+
+  Future<String?> _loginErrorHandler(String login, String password) async {
+    try {
+      await _authClient.login(login, password);
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.network:
+          return 'The server is unavailable. Check your internet connection';
+
+        case ApiClientExceptionType.auth:
+          return 'Incorrect login or password!';
+
+        case ApiClientExceptionType.other:
+          return 'There\'s been a mistake. Try again';
+
+        default:
+      }
+    } catch (e) {
+      return 'Unknown error, try again';
+    }
+    return null;
+  }
+
   Future<void> auth(BuildContext context) async {
     final login = loginTextController.text;
     final password = passwordTextController.text;
 
-    if (login.isEmpty || password.isEmpty) {
-      _errorMessage = 'Fill in your login and password';
-      notifyListeners();
+    if (!_isValid(login, password)) {
+      _update('Fill in your login and password', false);
+
       return;
     }
-    _errorMessage = null;
-    _isAuthProgress = true;
+
+    _update(null, true);
+
+    _errorMessage = await _loginErrorHandler(login, password);
+    if (_errorMessage == null) {
+      MainNavigation.resetNavigator(context);
+    } else {
+      _update(_errorMessage, false);
+    }
+  }
+
+  void _update(String? errorMessage, bool isAuthProgress) {
+    if (_errorMessage == errorMessage && _isAuthProgress == isAuthProgress) {
+      return;
+    }
+    _errorMessage = errorMessage;
+    _isAuthProgress = isAuthProgress;
     notifyListeners();
-    String? sessionId;
-    int? accountId;
-    try {
-      sessionId = await _authClient.auth(
-        username: login,
-        password: password,
-      );
-      accountId = await _accountClient.getAccountInfo(sessionId);
-    } on ApiClientException catch (e) {
-      switch (e.type) {
-        case ApiClientExceptionType.network:
-          _errorMessage =
-              'The server is unavailable. Check your internet connection';
-          break;
-        case ApiClientExceptionType.auth:
-          _errorMessage = 'Incorrect login or password!';
-          break;
-
-        case ApiClientExceptionType.other:
-          _errorMessage = 'There\'s been a mistake. Try again';
-          break;
-        default:
-      }
-    } catch (e) {
-      _errorMessage = 'There\'s been a mistake. Try again';
-    }
-    _isAuthProgress = false;
-    if (_errorMessage != null) {
-      notifyListeners();
-      return;
-    }
-
-    if (sessionId == null || accountId == null) {
-      _errorMessage = 'Unknown error, try again';
-      notifyListeners();
-      return;
-    }
-    await _sessionDataProvider.setSessionId(sessionId);
-    await _sessionDataProvider.setAccountId(accountId);
-    unawaited(Navigator.of(context)
-        .pushReplacementNamed(MainNavigationRouteName.mainScreen));
   }
 }
