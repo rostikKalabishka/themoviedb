@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../../domain/api_client/network_client.dart';
-import '../../../../../library/widgets/inherited/provider.dart';
 
 import 'movie_details_model.dart';
 
@@ -9,8 +9,9 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final data =
+        context.select((MovieDetailsModel model) => model.data.actorData);
+
     return ColoredBox(
       color: Colors.white,
       child: Column(
@@ -28,16 +29,14 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
             child: Scrollbar(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: (model.movieDetails?.credits.cast.length) ?? 0,
+                  itemCount: data.length,
                   itemExtent: 170,
                   itemBuilder: (BuildContext context, int index) {
-                    if (model.movieDetails?.credits != null) {
-                      final name = model.movieDetails?.credits.cast[index].name;
+                    if (data.isNotEmpty) {
+                      final name = data[index].name;
                       if (name == null) return const SizedBox.shrink();
-                      final profilePath =
-                          model.movieDetails?.credits.cast[index].profilePath;
-                      final character =
-                          model.movieDetails?.credits.cast[index].character;
+                      final profilePath = data[index].profilePath;
+                      final character = data[index].character;
                       if (character == null) return const SizedBox.shrink();
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
