@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../../domain/api_client/network_client.dart';
-import '../../../../../library/widgets/inherited/provider.dart';
 
 import 'movie_details_model.dart';
 
@@ -9,8 +9,8 @@ class MovieDetailMainScreenCastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<MovieDetailsModel>();
+
     return ColoredBox(
       color: Colors.white,
       child: Column(

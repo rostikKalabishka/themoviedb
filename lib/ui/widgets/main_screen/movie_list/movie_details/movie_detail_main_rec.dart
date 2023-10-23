@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:themoviedb/library/widgets/inherited/provider.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../../domain/api_client/network_client.dart';
 import 'movie_details_model.dart';
 
@@ -8,7 +9,7 @@ class MovieDetailsMainRec extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieDetailsModel>(context);
+    final model = context.watch<MovieDetailsModel>();
     return IndexedStack(
       children: [
         ColoredBox(
@@ -35,15 +36,15 @@ class MovieDetailsMainRec extends StatelessWidget {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
-                            (model?.movieDetailRec?.movieRec.isEmpty ?? true)
+                            (model.movieDetailRec?.movieRec.isEmpty ?? true)
                                 ? 1
-                                : model!.movieDetailRec!.movieRec.length,
+                                : model.movieDetailRec!.movieRec.length,
                         itemExtent:
-                            model?.movieDetailRec?.movieRec.isEmpty == false
+                            model.movieDetailRec?.movieRec.isEmpty == false
                                 ? 270
                                 : 390,
                         itemBuilder: (BuildContext context, int index) {
-                          final movieRec = model?.movieDetailRec?.movieRec;
+                          final movieRec = model.movieDetailRec?.movieRec;
 
                           if (movieRec != null &&
                               movieRec.isNotEmpty &&
@@ -58,8 +59,7 @@ class MovieDetailsMainRec extends StatelessWidget {
                                 color: Colors.transparent,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(10),
-                                  onTap: () =>
-                                      model?.onMovieTap(context, index),
+                                  onTap: () => model.onMovieTap(context, index),
                                   splashColor: Colors.black,
                                   child: DecoratedBox(
                                     decoration: const BoxDecoration(

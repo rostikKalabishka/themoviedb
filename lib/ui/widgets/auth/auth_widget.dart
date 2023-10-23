@@ -36,7 +36,7 @@ class AuthWidget extends StatelessWidget {
               size: 30,
             ),
             onPressed: () {
-              SessionDataProvider().setSessionId(null);
+              SessionDataProvider().deleteSessionId();
             },
           ),
         ],
