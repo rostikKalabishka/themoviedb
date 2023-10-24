@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../domain/api_client/series_api_client/series_api_client.dart';
+import 'package:themoviedb/domain/services/series_service/series_service.dart';
+
 import '../../../../domain/entity/movie/popular_movie_response/popular_movie_response.dart';
 import '../../../../domain/entity/series/popular_series_response/popular_series_response.dart';
 import '../../../../domain/services/movie_service/movie_service.dart';
@@ -8,7 +9,7 @@ import '../../../routes/routes.dart';
 
 class HomePageWidgetModel extends ChangeNotifier {
   final _movieApiClient = MovieService();
-  final _seriesApiClient = SeriesApiClient();
+  final _seriesApiClient = SeriesService();
 
   String _locale = '';
   late DateFormat _dateFormat;

@@ -9,7 +9,8 @@ import '../network_client.dart';
 class SeriesApiClient {
   final _networkClient = NetworkClient();
 
-  Future<PopularSeriesResponse> popularSeries(int page, String locale) async {
+  Future<PopularSeriesResponse> popularSeries(
+      int page, String locale, String apiKey) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = PopularSeriesResponse.fromJson(jsonMap);
@@ -19,7 +20,7 @@ class SeriesApiClient {
 
     final result = _networkClient.get(
         '${Configuration.host}/tv/popular', parser, <String, dynamic>{
-      'api_key': Configuration.apiKey,
+      'api_key': apiKey,
       'language': locale,
       'page': page.toString()
     });
@@ -28,7 +29,7 @@ class SeriesApiClient {
   }
 
   Future<PopularSeriesResponse> searchSeries(
-      int page, String locale, String query) async {
+      int page, String locale, String query, String apiKey) async {
     parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final response = PopularSeriesResponse.fromJson(jsonMap);
@@ -38,7 +39,7 @@ class SeriesApiClient {
 
     final result = _networkClient
         .get('${Configuration.host}/search/tv', parser, <String, dynamic>{
-      'api_key': Configuration.apiKey,
+      'api_key': apiKey,
       'language': locale,
       'page': page.toString(),
       'query': query,

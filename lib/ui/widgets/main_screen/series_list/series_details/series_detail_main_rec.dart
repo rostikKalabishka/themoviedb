@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 
 import '../../../../../domain/api_client/network_client.dart';
-import '../../../../../library/widgets/inherited/provider.dart';
 
 class SeriesDetailsMainRec extends StatelessWidget {
   const SeriesDetailsMainRec({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    final model = context.watch<SeriesDetailsModel>();
 
     return IndexedStack(
       children: [
@@ -37,15 +37,15 @@ class SeriesDetailsMainRec extends StatelessWidget {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
-                            (model?.seriesDetailsRec?.seriesRec.isEmpty ?? true)
+                            (model.seriesDetailsRec?.seriesRec.isEmpty ?? true)
                                 ? 1
-                                : model!.seriesDetailsRec?.seriesRec.length,
+                                : model.seriesDetailsRec?.seriesRec.length,
                         itemExtent:
-                            model?.seriesDetailsRec?.seriesRec.isEmpty == false
+                            model.seriesDetailsRec?.seriesRec.isEmpty == false
                                 ? 270
                                 : 390,
                         itemBuilder: (BuildContext context, int index) {
-                          final seriesRec = model?.seriesDetailsRec?.seriesRec;
+                          final seriesRec = model.seriesDetailsRec?.seriesRec;
 
                           if (seriesRec != null &&
                               seriesRec.isNotEmpty &&
@@ -63,8 +63,7 @@ class SeriesDetailsMainRec extends StatelessWidget {
                                 color: Colors.transparent,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(10),
-                                  onTap: () =>
-                                      model?.onMovieTap(context, index),
+                                  onTap: () => model.onMovieTap(context, index),
                                   splashColor: Colors.black,
                                   child: DecoratedBox(
                                     decoration: const BoxDecoration(

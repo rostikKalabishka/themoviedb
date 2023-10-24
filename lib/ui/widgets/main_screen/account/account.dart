@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../domain/api_client/network_client.dart';
-import '../../../../library/widgets/inherited/provider.dart';
+
 import 'account_model.dart';
 
 class Account extends StatefulWidget {
@@ -14,13 +15,13 @@ class _AccountState extends State<Account> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NotifierProvider.watch<AccountModel>(context)?.setupLocale(context);
+    context.watch<AccountModel>().setupLocale(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AccountModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<AccountModel>();
+
     final username = model.accountDetails?.username;
     final avatar = model.accountDetails?.avatar.tmdb.avatarPath;
 
@@ -95,8 +96,8 @@ class MovieFavoriteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AccountModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<AccountModel>();
+
     return SizedBox(
       width: double.infinity,
       // height: double.infinity,
@@ -190,8 +191,8 @@ class SeriesFavoriteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AccountModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<AccountModel>();
+
     return SizedBox(
       width: double.infinity,
       // height: double.infinity,

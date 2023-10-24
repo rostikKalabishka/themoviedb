@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:themoviedb/library/widgets/inherited/provider.dart'
-    as old_provider;
+
 import 'package:themoviedb/ui/widgets/loader/loader_view_model.dart';
 import 'package:themoviedb/ui/widgets/loader/loader_widget.dart';
 import 'package:themoviedb/ui/widgets/main_screen/account/account.dart';
@@ -55,8 +54,8 @@ class ScreenFactory {
   }
 
   Widget makeAccount() {
-    return old_provider.NotifierProvider(
-      create: () => AccountModel(),
+    return ChangeNotifierProvider(
+      create: (_) => AccountModel(),
       child: const Account(),
     );
   }
@@ -69,8 +68,8 @@ class ScreenFactory {
   }
 
   Widget makeSeriesDetails(int serialId) {
-    return old_provider.NotifierProvider(
-        create: () => SeriesDetailsModel(serialId),
+    return ChangeNotifierProvider(
+        create: (_) => SeriesDetailsModel(serialId),
         child: const SeriesDetails());
   }
 
@@ -83,8 +82,8 @@ class ScreenFactory {
   }
 
   Widget makeHomePage() {
-    return old_provider.NotifierProvider(
-      create: () => HomePageWidgetModel(),
+    return ChangeNotifierProvider(
+      create: (_) => HomePageWidgetModel(),
       child: const HomePageWidget(),
     );
   }

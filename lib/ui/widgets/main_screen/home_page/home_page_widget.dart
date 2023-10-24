@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../../domain/api_client/network_client.dart';
-import '../../../../library/widgets/inherited/provider.dart';
+
 import '../user_score/user_score.dart';
 import 'home_page_widget_model.dart';
 
@@ -14,7 +15,7 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   void didChangeDependencies() {
-    NotifierProvider.watch<HomePageWidgetModel>(context)?.setupLocale(context);
+    context.watch<HomePageWidgetModel>().setupLocale(context);
     super.didChangeDependencies();
   }
 
@@ -74,8 +75,8 @@ class PopularSeries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<HomePageWidgetModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<HomePageWidgetModel>();
+    // if (model == null) return const SizedBox.shrink();
     // final popularMovieResponse = model.popularMovieResponse;
 
     var series = model.popularSeriesResponse?.series;
@@ -181,8 +182,7 @@ class PopularMovie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<HomePageWidgetModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<HomePageWidgetModel>();
 
     var movies = model.popularMovieResponse?.movies;
     return SizedBox(
