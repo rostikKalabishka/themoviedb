@@ -9,6 +9,8 @@ class MovieDetailsMainRec extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final recData =
+    //     context.select((MovieDetailsModel model) => model.data.recData);
     final model = context.watch<MovieDetailsModel>();
     return IndexedStack(
       children: [
