@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_details_model.dart';
 import '../../../../../domain/api_client/network_client.dart';
-import '../../../../../library/widgets/inherited/provider.dart';
 
 class SeriesDetailMainScreenCastWidget extends StatelessWidget {
   const SeriesDetailMainScreenCastWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    if (model == null) return const SizedBox.shrink();
+    final model = context.watch<SeriesDetailsModel>();
+
     return ColoredBox(
       color: Colors.white,
       child: Column(

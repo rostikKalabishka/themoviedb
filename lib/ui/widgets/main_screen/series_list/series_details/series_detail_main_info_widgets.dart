@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../../domain/api_client/network_client.dart';
 import '../../../../../domain/entity/series/series_details_cast/series_details_cast.dart';
-import '../../../../../library/widgets/inherited/provider.dart';
+
 import '../../user_score/user_score.dart';
 import 'series_details_model.dart';
 
@@ -36,9 +38,9 @@ class _TopPosterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    final backdropPath = model?.seriesDetails?.backdropPath;
-    final posterPath = model?.seriesDetails?.posterPath;
+    final model = context.watch<SeriesDetailsModel>();
+    final backdropPath = model.seriesDetails?.backdropPath;
+    final posterPath = model.seriesDetails?.posterPath;
 
     return AspectRatio(
       aspectRatio: 390 / 219.2,
@@ -63,10 +65,9 @@ class _TopPosterWidget extends StatelessWidget {
             child: IconButton(
               icon: Icon(
                 Icons.favorite,
-                color:
-                    model?.isFavorite == true ? Colors.red : Colors.grey[700],
+                color: model.isFavorite == true ? Colors.red : Colors.grey[700],
               ),
-              onPressed: () => model?.toggleFavorite(),
+              onPressed: () => model.toggleFavorite(),
             ),
           )
         ],
@@ -80,9 +81,9 @@ class _FilmsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    final name = model?.seriesDetails?.name;
-    var yaer = model?.seriesDetails?.firstAirDate?.year.toString();
+    final model = context.watch<SeriesDetailsModel>();
+    final name = model.seriesDetails?.name;
+    var yaer = model.seriesDetails?.firstAirDate?.year.toString();
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
@@ -102,9 +103,9 @@ class _ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    var percent = (model?.seriesDetails?.voteAverage) ?? 0;
-    final videos = model?.seriesDetails?.videos.results
+    final model = context.watch<SeriesDetailsModel>();
+    var percent = (model.seriesDetails?.voteAverage) ?? 0;
+    final videos = model.seriesDetails?.videos.results
         .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
     final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
     return Row(
@@ -148,7 +149,7 @@ class _ButtonWidget extends StatelessWidget {
         trailerKey != null
             ? TextButton(
                 onPressed: () =>
-                    model?.navigateYoutubeVideos(context, trailerKey),
+                    model.navigateYoutubeVideos(context, trailerKey),
                 child: const Row(
                   children: [
                     Icon(
@@ -170,8 +171,8 @@ class _FactsSeries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    if (model == null) return SizedBox.shrink();
+    final model = context.watch<SeriesDetailsModel>();
+
     var texts = <String>[];
     final firstAirDate = (model.seriesDetails?.firstAirDate);
 
@@ -207,13 +208,13 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    if (model == null) const SizedBox.shrink();
-    var crew = model?.seriesDetails?.credits.crew;
+    final model = context.watch<SeriesDetailsModel>();
+
+    var crew = model.seriesDetails?.credits.crew;
     if (crew == null || crew.isEmpty) return const SizedBox.shrink();
     crew = crew.length > 4 ? crew.sublist(0, 4) : crew;
 
-    final overview = model?.seriesDetails?.overview;
+    final overview = model.seriesDetails?.overview;
 
     var crewChanks = <List<Crew>>[];
     for (var i = 0; i < crew.length; i += 2) {

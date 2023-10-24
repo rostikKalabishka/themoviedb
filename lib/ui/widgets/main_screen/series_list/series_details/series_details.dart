@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_detail_main_info_widgets.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_detail_main_rec.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_detail_main_screen_cast_widget.dart';
 import 'package:themoviedb/ui/widgets/main_screen/series_list/series_details/series_detail_main_social_widget.dart';
 
-import '../../../../../library/widgets/inherited/provider.dart';
 import '../../../../Theme/app_bar_style.dart';
 
 import 'series_details_model.dart';
@@ -20,7 +20,9 @@ class _SeriesDetailsState extends State<SeriesDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NotifierProvider.watch<SeriesDetailsModel>(context)?.setupLocale(context);
+    context.watch<SeriesDetailsModel>().setupLocale(context);
+    // Future.microtask(
+    // () => context.watch<SeriesDetailsModel>().setupLocale(context));
   }
 
   @override
@@ -38,10 +40,10 @@ class _TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
+    final model = context.watch<SeriesDetailsModel>();
 
     return Text(
-      model?.seriesDetails?.name ?? 'Loading...',
+      model.seriesDetails?.name ?? 'Loading...',
       style: AppColors.textAppBar,
     );
   }
@@ -52,8 +54,8 @@ class _BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SeriesDetailsModel>(context);
-    final seriesDetails = model?.seriesDetails;
+    final model = context.watch<SeriesDetailsModel>();
+    final seriesDetails = model.seriesDetails;
     if (seriesDetails == null) {
       return const Center(
         child: CircularProgressIndicator(
