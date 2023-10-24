@@ -1,15 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:themoviedb/domain/api_client/account_api_client/account_api_client.dart';
-import 'package:themoviedb/domain/api_client/movie_api_client/movie_api_client.dart';
 import 'package:themoviedb/domain/services/auth_service/auth_service.dart';
-
 import '../../../../../domain/api_client/api_client_exaption.dart';
-import '../../../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../../../../domain/entity/movie/movie_details/movie_details.dart';
 import '../../../../../domain/entity/movie/movie_details_rec/movie_details_rec.dart';
+import '../../../../../domain/services/movie_service/movie_service.dart';
+import '../../../../../library/widgets/locale/locale_strorage_model.dart';
 import '../../../../routes/routes.dart';
 
 class MovieDetailsPosterData {
@@ -67,6 +64,14 @@ class MovieDetailsActorData {
   MovieDetailsActorData({this.name, this.profilePath, this.character});
 }
 
+class MovieDetailsRecData {
+  final String? name;
+  final String? posterPath;
+  final double voteAverage;
+
+  MovieDetailsRecData({this.name = '', this.posterPath, this.voteAverage = 0});
+}
+
 class MovieDetailsData {
   String title = '';
   bool isLoading = true;
@@ -77,20 +82,20 @@ class MovieDetailsData {
   String summary = '';
   List<List<MovieDetailsPeopleData>> peopleData = const [];
   List<MovieDetailsActorData> actorData = const [];
+  // MovieDetailsRecData recData = MovieDetailsRecData();
+  List<MovieDetailsRecData> recData = const [];
 }
 
 class MovieDetailsModel extends ChangeNotifier {
+  final _movieService = MovieService();
   final _authService = AuthService();
-  final _movieApiClient = MovieApiClient();
-  final _accountApiClient = AccountApiClient();
 
+  final LocaleStorageModel _localeStorage = LocaleStorageModel();
   final data = MovieDetailsData();
   final int movieId;
 
   MovieDetailsRec? _movieDetailsRec;
-  String _locale = '';
-  bool _isFavorite = false;
-  final _sessionDataProvide = SessionDataProvider();
+  bool isFavorite = false;
   late DateFormat _dateFormat;
   late String _errorMessage;
 
@@ -104,11 +109,10 @@ class MovieDetailsModel extends ChangeNotifier {
     this.movieId,
   );
 
-  Future<void> setupLocale(BuildContext context) async {
-    final locale = Localizations.localeOf(context).toLanguageTag();
-    if (_locale == locale) return;
-    _locale = locale;
-    _dateFormat = DateFormat.yMMMEd(locale);
+  Future<void> setupLocale(BuildContext context, Locale locale) async {
+    if (!_localeStorage.updateLocale(locale)) return;
+
+    _dateFormat = DateFormat.yMMMEd(_localeStorage.localeTag);
     updateData(null, false);
     await _loadDetails(context);
   }
@@ -121,16 +125,15 @@ class MovieDetailsModel extends ChangeNotifier {
 
   Future<void> _loadDetails(BuildContext context) async {
     try {
-      final sessionId = await _sessionDataProvide.getSessionId();
-      final movieDetails = await _movieApiClient.movieDetails(movieId, _locale);
-      var isFavorite;
-      _movieDetailsRec =
-          await _movieApiClient.movieDetailsRec(movieId, _locale);
-      if (sessionId != null) {
-        isFavorite = await _movieApiClient.isFavorite(movieId, sessionId);
-      }
+      final details = await _movieService.loadDetails(
+          movieId: movieId, locale: _localeStorage.localeTag);
 
-      updateData(movieDetails, isFavorite);
+      _movieDetailsRec = await _movieService.movieRec(
+          movieId: movieId, locale: _localeStorage.localeTag);
+      // _movieDetailsRec =
+      //     await _movieApiClient.movieDetailsRec(movieId, _locale);
+
+      updateData(details.details, details.isFavorite);
     } on ApiClientException catch (e) {
       _handleApiClientException(e, context);
     }
@@ -190,7 +193,7 @@ class MovieDetailsModel extends ChangeNotifier {
       return;
     }
     data.overview = details.overview ?? '';
-    final iconData = data.posterData = MovieDetailsPosterData(
+    data.posterData = MovieDetailsPosterData(
       backdropPath: details.backdropPath,
       posterPath: details.posterPath,
       isFavorite: isFavorite,
@@ -212,8 +215,13 @@ class MovieDetailsModel extends ChangeNotifier {
               name: e.name, profilePath: e.profilePath, character: e.character),
         )
         .toList();
-    // makeListActorData(details);
 
+    // data.recData = MovieDetailsRecData(
+    //     name: details.title,
+    //     posterPath: details.posterPath,
+    //     voteAverage: details.voteAverage);
+
+    // data.recData = details.
     notifyListeners();
   }
 
@@ -223,23 +231,14 @@ class MovieDetailsModel extends ChangeNotifier {
   }
 
   Future<void> toggleFavorite(BuildContext context) async {
-    final accountId = await _sessionDataProvide.getAccountId();
-    final sessionId = await _sessionDataProvide.getSessionId();
-
-    if (accountId == null || sessionId == null) return;
-
     data.posterData =
         data.posterData.copyWith(isFavorite: !data.posterData.isFavorite);
 
     notifyListeners();
 
     try {
-      await _accountApiClient.addFavorite(
-          accountId: accountId,
-          sessionId: sessionId,
-          mediaType: ApiClientMediaType.movie,
-          mediaId: movieId,
-          isFavorite: data.posterData.isFavorite);
+      _movieService.updateFavorite(
+          isFavorite: data.posterData.isFavorite, movieId: movieId);
     } on ApiClientException catch (e) {
       _handleApiClientException(e, context);
     }
