@@ -79,7 +79,7 @@ class _FilmsInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final nameData =
         context.select((SeriesDetailsModel model) => model.data.nameData);
-    // context.watch<SeriesDetailsModel>();
+
     final name = nameData.seriesName;
     var year = nameData.seriesYear;
     return RichText(
@@ -172,7 +172,6 @@ class _FactsSeries extends StatelessWidget {
   Widget build(BuildContext context) {
     final texts =
         context.select((SeriesDetailsModel model) => model.data.summary);
-    //context.watch<SeriesDetailsModel>();
 
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),

@@ -17,7 +17,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
     super.didChangeDependencies();
 
     final locale = Localizations.localeOf(context);
-    // Future.microtask(() => context.read<MovieListModel>().setupLocale(locale));
+
     context.read<MovieListModel>().setupLocale(locale);
   }
 

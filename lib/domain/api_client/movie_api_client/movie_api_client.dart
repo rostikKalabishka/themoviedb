@@ -6,14 +6,9 @@ import '../../entity/movie/popular_movie_response/popular_movie_response.dart';
 
 import '../network_client.dart';
 
-// ignore: constant_identifier_names
-
 class MovieApiClient {
   final _networkClient = NetworkClient();
 
-//account
-
-//MOVIE
   Future<PopularMovieResponse> popularMovie(
       int page, String locale, String apiKey) async {
     parser(dynamic json) {
@@ -137,10 +132,4 @@ class MovieApiClient {
     });
     return result;
   }
-
-//SERIES
-
-//_validateUser
-
-//_validateResponse
 }

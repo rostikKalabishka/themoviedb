@@ -56,7 +56,6 @@ class _BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final model = context.watch<MovieDetailsModel>();
     final isLoading =
         context.select((MovieDetailsModel model) => model.data.isLoading);
     if (isLoading) {

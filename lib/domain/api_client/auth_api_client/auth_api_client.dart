@@ -56,7 +56,6 @@ class AuthApiClient {
     return result;
   }
 
-//_makeSession
   Future<String> _makeSession({
     required String requestToken,
   }) async {

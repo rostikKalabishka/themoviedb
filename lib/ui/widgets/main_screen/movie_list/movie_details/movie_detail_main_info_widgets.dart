@@ -103,10 +103,7 @@ class _ButtonWidget extends StatelessWidget {
     final scoreData =
         context.select((MovieDetailsModel model) => model.data.scoreData);
     final model = context.read<MovieDetailsModel>();
-    // var percent = (model.movieDetails?.voteAverage) ?? 0;
-    // percent = percent * 10;
-    // final videos = model.movieDetails?.videos.results
-    //     .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+
     final trailerKey = scoreData.trailerKey;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

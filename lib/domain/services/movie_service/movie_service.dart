@@ -31,7 +31,6 @@ class MovieService {
     final movieDetails = await _movieApiClient.movieDetails(movieId, locale);
     var isFavorite = false;
 
-    // await _movieApiClient.movieDetailsRec(movieId, locale);
     if (sessionId != null) {
       isFavorite = await _movieApiClient.isFavorite(movieId, sessionId);
     }

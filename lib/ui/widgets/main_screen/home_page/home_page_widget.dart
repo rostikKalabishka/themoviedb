@@ -70,8 +70,6 @@ class PopularSeries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<HomePageWidgetModel>();
-    // if (model == null) return const SizedBox.shrink();
-    // final popularMovieResponse = model.popularMovieResponse;
 
     var series = model.popularSeriesResponse?.series;
     return SizedBox(
@@ -80,12 +78,10 @@ class PopularSeries extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: 20,
         itemExtent: 170,
-        //  popularMovieResponse?.movies.length,
         itemBuilder: (BuildContext context, int index) {
           if (series == null) return const SizedBox.shrink();
           final posterPath = series[index].posterPath;
 
-          // final percent = series[index].voteAverage;
           var percent = (series[index].voteAverage);
           percent = percent * 10;
           final name = series[index].name;
@@ -185,7 +181,6 @@ class PopularMovie extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: 20,
         itemExtent: 170,
-        //  popularMovieResponse?.movies.length,
         itemBuilder: (BuildContext context, int index) {
           if (movies == null) return const SizedBox.shrink();
           final posterPath = movies[index].posterPath;

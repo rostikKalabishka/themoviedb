@@ -11,7 +11,6 @@ class SeriesDetailMainScreenCastWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final seriesDetails =
         context.select((SeriesDetailsModel model) => model.data.actorData);
-    // context.watch<SeriesDetailsModel>();
 
     return ColoredBox(
       color: Colors.white,
