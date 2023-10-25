@@ -37,15 +37,15 @@ class SeriesDetailsMainRec extends StatelessWidget {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
-                            (model.seriesDetailsRec?.seriesRec.isEmpty ?? true)
+                            (model.seriesDetailRec?.seriesRec.isEmpty ?? true)
                                 ? 1
-                                : model.seriesDetailsRec?.seriesRec.length,
+                                : model.seriesDetailRec?.seriesRec.length,
                         itemExtent:
-                            model.seriesDetailsRec?.seriesRec.isEmpty == false
+                            model.seriesDetailRec?.seriesRec.isEmpty == false
                                 ? 270
                                 : 390,
                         itemBuilder: (BuildContext context, int index) {
-                          final seriesRec = model.seriesDetailsRec?.seriesRec;
+                          final seriesRec = model.seriesDetailRec?.seriesRec;
 
                           if (seriesRec != null &&
                               seriesRec.isNotEmpty &&
@@ -63,7 +63,8 @@ class SeriesDetailsMainRec extends StatelessWidget {
                                 color: Colors.transparent,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(10),
-                                  onTap: () => model.onMovieTap(context, index),
+                                  onTap: () =>
+                                      model.onSeriesTap(context, index),
                                   splashColor: Colors.black,
                                   child: DecoratedBox(
                                     decoration: const BoxDecoration(

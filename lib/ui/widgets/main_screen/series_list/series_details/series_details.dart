@@ -20,9 +20,9 @@ class _SeriesDetailsState extends State<SeriesDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.watch<SeriesDetailsModel>().setupLocale(context);
-    // Future.microtask(
-    // () => context.watch<SeriesDetailsModel>().setupLocale(context));
+    final locale = Localizations.localeOf(context);
+    Future.microtask(
+        () => context.read<SeriesDetailsModel>().setupLocale(context, locale));
   }
 
   @override
@@ -43,7 +43,7 @@ class _TitleWidget extends StatelessWidget {
     final model = context.watch<SeriesDetailsModel>();
 
     return Text(
-      model.seriesDetails?.name ?? 'Loading...',
+      model.data.name,
       style: AppColors.textAppBar,
     );
   }
@@ -54,9 +54,11 @@ class _BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
-    final seriesDetails = model.seriesDetails;
-    if (seriesDetails == null) {
+    final isLoading =
+        context.select((SeriesDetailsModel value) => value.data.isLoading);
+    // context.watch<SeriesDetailsModel>();
+
+    if (isLoading) {
       return const Center(
         child: CircularProgressIndicator(
           color: Colors.white,

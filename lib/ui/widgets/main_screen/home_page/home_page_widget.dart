@@ -20,12 +20,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scrollbar(
       child: IndexedStack(children: [
