@@ -81,7 +81,7 @@ class _FilmsInfo extends StatelessWidget {
         context.select((SeriesDetailsModel model) => model.data.nameData);
     // context.watch<SeriesDetailsModel>();
     final name = nameData.seriesName;
-    var yaer = nameData.seriesYear;
+    var year = nameData.seriesYear;
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
@@ -89,7 +89,7 @@ class _FilmsInfo extends StatelessWidget {
             text: name,
             style: const TextStyle(color: Colors.white, fontSize: 20)),
         TextSpan(
-            text: yaer ?? '',
+            text: year ?? '',
             style: TextStyle(color: Colors.grey[300], fontSize: 18))
       ]),
     );
@@ -104,9 +104,7 @@ class _ButtonWidget extends StatelessWidget {
     final model = context.read<SeriesDetailsModel>();
     final scoreData =
         context.select((SeriesDetailsModel model) => model.data.scoreData);
-    // var percent = (model.seriesDetails?.voteAverage) ?? 0;
-    // final videos = model.seriesDetails?.videos.results
-    //     .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+
     final trailerKey = scoreData.trailerKey;
 
     return Row(
@@ -218,7 +216,7 @@ class Overview extends StatelessWidget {
           ),
           Text(
             overview,
-            style: TextStyle(fontSize: 15, color: Colors.white),
+            style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
           const SizedBox(
             height: 10,
