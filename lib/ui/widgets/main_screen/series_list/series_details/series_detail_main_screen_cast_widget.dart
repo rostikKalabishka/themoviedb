@@ -9,7 +9,9 @@ class SeriesDetailMainScreenCastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
+    final seriesDetails =
+        context.select((SeriesDetailsModel model) => model.data.actorData);
+    // context.watch<SeriesDetailsModel>();
 
     return ColoredBox(
       color: Colors.white,
@@ -28,17 +30,14 @@ class SeriesDetailMainScreenCastWidget extends StatelessWidget {
             child: Scrollbar(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: (model.seriesDetails?.credits.cast.length) ?? 0,
+                  itemCount: seriesDetails.length,
                   itemExtent: 170,
                   itemBuilder: (BuildContext context, int index) {
-                    if (model.seriesDetails?.credits != null) {
-                      final name =
-                          model.seriesDetails?.credits.cast[index].name;
+                    if (seriesDetails.isNotEmpty) {
+                      final name = seriesDetails[index].name;
                       if (name == null) return const SizedBox.shrink();
-                      final profilePath =
-                          model.seriesDetails?.credits.cast[index].profilePath;
-                      final character =
-                          model.seriesDetails?.credits.cast[index].character;
+                      final profilePath = seriesDetails[index].profilePath;
+                      final character = seriesDetails[index].character;
                       if (character == null) return const SizedBox.shrink();
                       return Padding(
                         padding: const EdgeInsets.all(8.0),

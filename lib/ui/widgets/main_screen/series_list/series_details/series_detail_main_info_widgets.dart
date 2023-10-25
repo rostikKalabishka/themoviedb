@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../domain/api_client/network_client.dart';
-import '../../../../../domain/entity/series/series_details_cast/series_details_cast.dart';
-
 import '../../user_score/user_score.dart';
 import 'series_details_model.dart';
 
@@ -38,9 +35,11 @@ class _TopPosterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
-    final backdropPath = model.seriesDetails?.backdropPath;
-    final posterPath = model.seriesDetails?.posterPath;
+    final seriesDetails =
+        context.select((SeriesDetailsModel model) => model.data.posterData);
+    final model = context.read<SeriesDetailsModel>();
+    final backdropPath = seriesDetails.backdropPath;
+    final posterPath = seriesDetails.posterPath;
 
     return AspectRatio(
       aspectRatio: 390 / 219.2,
@@ -63,11 +62,8 @@ class _TopPosterWidget extends StatelessWidget {
             top: 5,
             right: 5,
             child: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: model.isFavorite == true ? Colors.red : Colors.grey[700],
-              ),
-              onPressed: () => model.toggleFavorite(),
+              onPressed: () => model.toggleFavorite(context),
+              icon: Icon(seriesDetails.favoriteIcon, color: Colors.red),
             ),
           )
         ],
@@ -81,17 +77,19 @@ class _FilmsInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
-    final name = model.seriesDetails?.name;
-    var yaer = model.seriesDetails?.firstAirDate?.year.toString();
+    final nameData =
+        context.select((SeriesDetailsModel model) => model.data.nameData);
+    // context.watch<SeriesDetailsModel>();
+    final name = nameData.seriesName;
+    var yaer = nameData.seriesYear;
     return RichText(
       maxLines: 3,
       text: TextSpan(children: [
         TextSpan(
-            text: name ?? '321',
+            text: name,
             style: const TextStyle(color: Colors.white, fontSize: 20)),
         TextSpan(
-            text: ' ($yaer)',
+            text: yaer ?? '',
             style: TextStyle(color: Colors.grey[300], fontSize: 18))
       ]),
     );
@@ -103,11 +101,14 @@ class _ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
-    var percent = (model.seriesDetails?.voteAverage) ?? 0;
-    final videos = model.seriesDetails?.videos.results
-        .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
-    final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
+    final model = context.read<SeriesDetailsModel>();
+    final scoreData =
+        context.select((SeriesDetailsModel model) => model.data.scoreData);
+    // var percent = (model.seriesDetails?.voteAverage) ?? 0;
+    // final videos = model.seriesDetails?.videos.results
+    //     .where((video) => video.type == 'Trailer' && video.site == 'YouTube');
+    final trailerKey = scoreData.trailerKey;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,8 +125,8 @@ class _ButtonWidget extends StatelessWidget {
                   lineColor: Colors.green,
                   lineWidth: 3,
                   freeColor: Colors.red,
-                  percent: percent / 10,
-                  child: Text((percent * 10).toStringAsFixed(0)),
+                  percent: scoreData.voteAverage / 100,
+                  child: Text((scoreData.voteAverage).toStringAsFixed(0)),
                 ),
               ),
               const SizedBox(
@@ -139,7 +140,7 @@ class _ButtonWidget extends StatelessWidget {
             ],
           ),
         ),
-        trailerKey != null
+        scoreData.trailerKey != null
             ? Container(
                 color: Colors.white,
                 height: 20,
@@ -171,33 +172,14 @@ class _FactsSeries extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<SeriesDetailsModel>();
-
-    var texts = <String>[];
-    final firstAirDate = (model.seriesDetails?.firstAirDate);
-
-    if (firstAirDate != null) {
-      texts.add(model.stringFromDate(firstAirDate));
-    }
-    final productionCountries = model.seriesDetails?.productionCountries;
-    if (productionCountries != null && productionCountries.isNotEmpty) {
-      final name = '(${productionCountries.first.iso})';
-      texts.add(name);
-    }
-
-    final genres = model.seriesDetails?.genres;
-    if (genres != null && genres.isNotEmpty) {
-      var genresNames = <String>[];
-      for (var genr in genres) {
-        genresNames.add(genr.name);
-      }
-      texts.add(genresNames.join(', '));
-    }
+    final texts =
+        context.select((SeriesDetailsModel model) => model.data.summary);
+    //context.watch<SeriesDetailsModel>();
 
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Center(
-            child: Text(texts.join(' '),
+            child: Text(texts,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.white, fontSize: 16))));
   }
@@ -210,18 +192,11 @@ class Overview extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<SeriesDetailsModel>();
 
-    var crew = model.seriesDetails?.credits.crew;
-    if (crew == null || crew.isEmpty) return const SizedBox.shrink();
-    crew = crew.length > 4 ? crew.sublist(0, 4) : crew;
+    final overview = model.data.overview;
 
-    final overview = model.seriesDetails?.overview;
-
-    var crewChanks = <List<Crew>>[];
-    for (var i = 0; i < crew.length; i += 2) {
-      crewChanks
-          .add(crew.sublist(i, i + 2 > crew.length ? crew.length : i + 2));
-    }
-    var peopleWidgetsRow = crewChanks
+    final crew = model.data.peopleData;
+    if (crew.isEmpty) return const SizedBox.shrink();
+    var peopleWidgetsRow = crew
         .map(
           (chunk) => Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
@@ -241,12 +216,10 @@ class Overview extends StatelessWidget {
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-          overview != null
-              ? Text(
-                  overview,
-                  style: TextStyle(fontSize: 15, color: Colors.white),
-                )
-              : const SizedBox.shrink(),
+          Text(
+            overview,
+            style: TextStyle(fontSize: 15, color: Colors.white),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -258,7 +231,7 @@ class Overview extends StatelessWidget {
 }
 
 class _PeopleWidgetsRow extends StatelessWidget {
-  final List<Crew> crew;
+  final List<SeriesDetailsPeopleData> crew;
   const _PeopleWidgetsRow({super.key, required this.crew});
 
   @override
@@ -270,7 +243,7 @@ class _PeopleWidgetsRow extends StatelessWidget {
 }
 
 class _PeopleWidgetRowItems extends StatelessWidget {
-  final Crew crew;
+  final SeriesDetailsPeopleData crew;
   const _PeopleWidgetRowItems({super.key, required this.crew});
 
   @override
