@@ -20,7 +20,7 @@ class AccountModel extends ChangeNotifier {
 
   late int movieId;
   AccountDetails? _accountDetails;
-// String? sessionId;
+
   MovieFavorite? _favoriteMovie;
   FavoriteSeries? _favoriteSeries;
   String _locale = '';

@@ -107,7 +107,7 @@ class SeriesApiClient {
 
     final result = _networkClient
         .get('${Configuration.host}/tv/$seriesId', parser, <String, dynamic>{
-      'append_to_response': 'videos,credits', //
+      'append_to_response': 'videos,credits',
       'api_key': Configuration.apiKey,
       'language': locale,
     });

@@ -122,7 +122,6 @@ class SeriesListModel extends ChangeNotifier {
 
     Navigator.of(context)
         .pushNamed(MainNavigationRouteName.seriesDetails, arguments: id);
-    // }
   }
 
   void showedSeriesAtIndex(int index) {

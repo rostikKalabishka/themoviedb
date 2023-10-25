@@ -31,7 +31,6 @@ class SeriesService {
         await _seriesApiClient.seriesDetails(seriesId, locale);
     var isFavorite = false;
 
-    // await _seriesApiClient.seriesDetailsRec(seriesId, locale);
     if (sessionId != null) {
       isFavorite = await _seriesApiClient.isFavoriteSeries(seriesId, sessionId);
     }

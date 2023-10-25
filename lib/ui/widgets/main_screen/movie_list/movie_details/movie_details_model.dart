@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:themoviedb/domain/services/auth_service/auth_service.dart';
@@ -82,7 +81,7 @@ class MovieDetailsData {
   String summary = '';
   List<List<MovieDetailsPeopleData>> peopleData = const [];
   List<MovieDetailsActorData> actorData = const [];
-  // MovieDetailsRecData recData = MovieDetailsRecData();
+
   List<MovieDetailsRecData> recData = const [];
 }
 
@@ -130,8 +129,6 @@ class MovieDetailsModel extends ChangeNotifier {
 
       _movieDetailsRec = await _movieService.movieRec(
           movieId: movieId, locale: _localeStorage.localeTag);
-      // _movieDetailsRec =
-      //     await _movieApiClient.movieDetailsRec(movieId, _locale);
 
       updateData(details.details, details.isFavorite);
     } on ApiClientException catch (e) {
@@ -216,12 +213,6 @@ class MovieDetailsModel extends ChangeNotifier {
         )
         .toList();
 
-    // data.recData = MovieDetailsRecData(
-    //     name: details.title,
-    //     posterPath: details.posterPath,
-    //     voteAverage: details.voteAverage);
-
-    // data.recData = details.
     notifyListeners();
   }
 

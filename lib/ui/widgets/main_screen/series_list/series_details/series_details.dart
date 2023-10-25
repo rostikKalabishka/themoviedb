@@ -56,7 +56,6 @@ class _BodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoading =
         context.select((SeriesDetailsModel value) => value.data.isLoading);
-    // context.watch<SeriesDetailsModel>();
 
     if (isLoading) {
       return const Center(

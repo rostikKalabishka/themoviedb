@@ -8,8 +8,8 @@ import '../../../../domain/services/movie_service/movie_service.dart';
 import '../../../routes/routes.dart';
 
 class HomePageWidgetModel extends ChangeNotifier {
-  final _movieApiClient = MovieService();
-  final _seriesApiClient = SeriesService();
+  final _movieService = MovieService();
+  final _seriesService = SeriesService();
 
   String _locale = '';
   late DateFormat _dateFormat;
@@ -21,6 +21,7 @@ class HomePageWidgetModel extends ChangeNotifier {
 
   PopularSeriesResponse? get popularSeriesResponse => _popularSeriesResponse;
   PopularMovieResponse? get popularMovieResponse => _popularMovieResponse;
+
   Future<void> setupLocale(BuildContext context) async {
     final locale = Localizations.localeOf(context).toLanguageTag();
     if (_locale == locale) return;
@@ -44,10 +45,10 @@ class HomePageWidgetModel extends ChangeNotifier {
   }
 
   Future _loadMovies(String locale) async {
-    _popularMovieResponse = await _movieApiClient.popularMovie(1, _locale);
+    _popularMovieResponse = await _movieService.popularMovie(1, _locale);
   }
 
   Future _loadSeries(String locale) async {
-    _popularSeriesResponse = await _seriesApiClient.popularSeries(1, _locale);
+    _popularSeriesResponse = await _seriesService.popularSeries(1, _locale);
   }
 }

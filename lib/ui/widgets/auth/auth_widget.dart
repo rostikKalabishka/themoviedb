@@ -40,7 +40,6 @@ class AuthWidget extends StatelessWidget {
             },
           ),
         ],
-        // backgroundColor: const Color.fromARGB(255, 1, 20, 48),
         title: const Text(
           'Login to your account',
           style: AppColors.textAppBar,

@@ -40,7 +40,6 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
           'TMDB',
           style: AppColors.textAppBar,
         ),
-        //test
         actions: [
           IconButton(
               icon: const Icon(

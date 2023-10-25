@@ -81,7 +81,7 @@ class SeriesDetailsData {
   String summary = '';
   List<List<SeriesDetailsPeopleData>> peopleData = const [];
   List<SeriesDetailsActorData> actorData = const [];
-  // SeriesDetailsRecData recData = SeriesDetailsRecData();
+
   List<SeriesDetailsRecData> recData = const [];
 }
 
@@ -129,8 +129,6 @@ class SeriesDetailsModel extends ChangeNotifier {
 
       _seriesDetailsRec = await _seriesService.seriesRec(
           seriesId: seriesId, locale: _localeStorage.localeTag);
-      // _seriesDetailsRec =
-      //     await _seriesApiClient.seriesDetailsRec(seriesId, _locale);
 
       updateData(details.details, details.isFavorite);
     } on ApiClientException catch (e) {
