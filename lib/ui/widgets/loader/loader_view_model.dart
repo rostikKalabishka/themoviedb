@@ -16,8 +16,8 @@ class LoaderViewModel {
   }
 
   Future<void> checkAuth() async {
-    final _isAuth = await _authService.isAuth();
-    final nextScreen = _isAuth
+    final isAuth = await _authService.isAuth();
+    final nextScreen = isAuth
         ? MainNavigationRouteName.mainScreen
         : MainNavigationRouteName.auth;
 
