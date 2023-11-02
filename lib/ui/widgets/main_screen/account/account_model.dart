@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../domain/api_client/account_api_client/account_api_client.dart';
-import '../../../../domain/api_client/auth_api_client/auth_api_client.dart';
+// import '../../../../domain/api_client/auth_api_client/auth_api_client.dart';
 import '../../../../domain/api_client/data_providers/session_data_provider.dart';
 import '../../../../domain/api_client/movie_api_client/movie_api_client.dart';
 import '../../../../domain/api_client/series_api_client/series_api_client.dart';
@@ -14,7 +14,7 @@ class AccountModel extends ChangeNotifier {
   final _accountClient = AccountApiClient();
   final _movieClient = MovieApiClient();
   final _seriesClient = SeriesApiClient();
-  final _authClient = AuthApiClient();
+  // final _authClient = AuthApiClient();
 
   final _sessionDataProvider = SessionDataProvider();
 
@@ -87,8 +87,8 @@ class AccountModel extends ChangeNotifier {
   Future<void> deleteSession(BuildContext context) async {
     final sessionId = await _sessionDataProvider.getSessionId();
     if (sessionId == null) return;
-    final sessionIdDelete = await _authClient.deleteSession(sessionId);
-    _sessionDataProvider.setSessionId(sessionIdDelete);
+    // final sessionIdDelete = await _authClient.deleteSession(sessionId);
+    _sessionDataProvider.deleteSessionId();
     Navigator.of(context).pushNamed(MainNavigationRouteName.auth);
   }
 }
