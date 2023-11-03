@@ -1,81 +1,94 @@
 import '../../api_client/account_api_client/account_api_client.dart';
 import '../../api_client/auth_api_client/auth_api_client.dart';
 import '../../api_client/data_providers/session_data_provider.dart';
-import 'package:bloc/bloc.dart';
 
-abstract class AuthEvent {}
+// abstract class AuthEvent {}
 
-class AuthLogoutEvent extends AuthEvent {}
+// class AuthLogoutEvent extends AuthEvent {}
 
-class AuthCheckStatusEvent extends AuthEvent {}
+// class AuthCheckStatusEvent extends AuthEvent {}
 
-class AuthLoginEvent extends AuthEvent {
-  final String login;
-  final String password;
+// class AuthLoginEvent extends AuthEvent {
+//   final String login;
+//   final String password;
 
-  AuthLoginEvent({
-    required this.login,
-    required this.password,
-  });
-}
+//   AuthLoginEvent({
+//     required this.login,
+//     required this.password,
+//   });
+// }
 
-enum AuthStateStatus { authorize, notAuthorize, inProgress }
+// enum AuthStateStatus { authorize, notAuthorize, inProgress }
 
-abstract class AuthState {}
+// abstract class AuthState {}
 
-class AuthAuthorizeState extends AuthState {}
+// class AuthAuthorizeState extends AuthState {}
 
-class AuthUnAuthorizeState extends AuthState {}
+// class AuthUnAuthorizeState extends AuthState {}
 
-class AuthFailureState extends AuthState {
-  final Object error;
+// class AuthFailureState extends AuthState {
+//   final Object error;
 
-  AuthFailureState(this.error);
-}
+//   AuthFailureState(this.error);
+// }
 
-class AuthInProgressState extends AuthState {}
+// class AuthInProgressState extends AuthState {}
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final _sessionDataProvider = SessionDataProvider();
-  final _authClient = AuthApiClient();
-  final _accountClient = AccountApiClient();
+// class AuthBloc extends Bloc<AuthEvent, AuthState> {
+//   final _sessionDataProvider = SessionDataProvider();
+//   final _authClient = AuthApiClient();
+//   final _accountClient = AccountApiClient();
 
-  AuthBloc(super.initialState) {
-    on<AuthLogoutEvent>((event, emit) async {
-      final sessionId = await _sessionDataProvider.getSessionId();
-      final newState =
-          sessionId != null ? AuthAuthorizeState() : AuthUnAuthorizeState();
+//   AuthBloc(super.initialState) {
+//     on<AuthEvent>((event, emit) async {
+//       if (event is AuthCheckStatusEvent) {
+//         onAuthCheckStatusEventEvent(event, emit);
+//       } else if (event is AuthLoginEvent) {
+//         onAuthLoginEventEvent(event, emit);
+//       } else if (event is AuthLogoutEvent) {
+//         onAuthLogoutEvent(event, emit);
+//       }
+//     }, transformer: sequential());
 
-      emit(newState);
-    });
+//     add(AuthCheckStatusEvent());
+//   }
 
-    on<AuthLoginEvent>((event, emit) async {
-      try {
-        final sessionId = await _authClient.auth(
-          username: event.login,
-          password: event.password,
-        );
-        final accountId = await _accountClient.getAccountInfo(sessionId);
+//   void onAuthCheckStatusEventEvent(
+//       AuthCheckStatusEvent event, Emitter<AuthState> emit) async {
+//     final sessionId = await _sessionDataProvider.getSessionId();
+//     final newState =
+//         sessionId != null ? AuthAuthorizeState() : AuthUnAuthorizeState();
 
-        await _sessionDataProvider.setSessionId(sessionId);
-        await _sessionDataProvider.setAccountId(accountId);
-        emit(AuthAuthorizeState());
-      } catch (e) {
-        emit(AuthFailureState(e));
-      }
-    });
-    on<AuthLogoutEvent>((event, emit) async {
-      try {
-        await _sessionDataProvider.deleteSessionId();
-        await _sessionDataProvider.deleteAccountId();
-        emit(AuthUnAuthorizeState());
-      } catch (e) {
-        emit(AuthFailureState(e));
-      }
-    });
-    add(AuthCheckStatusEvent());
-  }
-}
+//     emit(newState);
+//   }
+
+//   void onAuthLoginEventEvent(
+//       AuthLoginEvent event, Emitter<AuthState> emit) async {
+//     try {
+//       final sessionId = await _authClient.auth(
+//         username: event.login,
+//         password: event.password,
+//       );
+//       final accountId = await _accountClient.getAccountInfo(sessionId);
+
+//       await _sessionDataProvider.setSessionId(sessionId);
+//       await _sessionDataProvider.setAccountId(accountId);
+//       emit(AuthAuthorizeState());
+//     } catch (e) {
+//       emit(AuthFailureState(e));
+//     }
+//   }
+
+//   void onAuthLogoutEvent(AuthLogoutEvent event, Emitter<AuthState> emit) async {
+//     try {
+//       await _sessionDataProvider.deleteSessionId();
+//       await _sessionDataProvider.deleteAccountId();
+//       emit(AuthUnAuthorizeState());
+//     } catch (e) {
+//       emit(AuthFailureState(e));
+//     }
+//   }
+// }
 
 //old
 class AuthService {
