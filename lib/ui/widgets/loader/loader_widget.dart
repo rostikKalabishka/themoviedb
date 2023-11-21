@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:themoviedb/ui/widgets/loader/loader_view_model.dart';
+import 'package:themoviedb/ui/widgets/loader/loader_view_cubit.dart';
 
 import '../../routes/routes.dart';
 
